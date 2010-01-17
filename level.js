@@ -10,5 +10,8 @@ function Level(){
     [ 10, 10, 10, 10, 10, 10, 10 ] 
   ]);
   var hero = new Character( { map: this.map } );
-  this.active_character = hero;   
+  this.active_character = hero;
+  
+  var enemy = new Enemy( { map: this.map } );
+  this.active_enemy = enemy;
 }

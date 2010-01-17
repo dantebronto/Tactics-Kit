@@ -10,7 +10,7 @@ function Map(terrain_map){
   self.cell_types = cell_types;
   
   for(var i=0; i < cell_types.length; i++)
-    self[cell_types[i] + '_matrix' ] = Matrix.new_zero_matrix(self.rows, self.cols);
+    self[cell_types[i] + '_matrix' ] = Matrix.new_filled_matrix(self.rows, self.cols);
   
   self.terrain_matrix.each(function(x, y){
     self.add_cell(x, y);
@@ -25,27 +25,26 @@ Map.prototype = {
     var map_cell = self.cell_from_template(x, y, 'map');
     
     // underlay (underlay) (filter) e.g. moveable
-    // item layer
-    // enemy layer
-    // player layer
-    // overlay filter e.g. attack range, status effects
-    // stat layer e.g. hit points
-    
     var underlay_cell = self.cell_from_template(x, y, 'underlay');
     underlay_cell.appendTo(map_cell);
     
+    // item layer
     var item_cell = self.cell_from_template(x, y, 'item');
     item_cell.appendTo(underlay_cell);
     
+    // enemy layer
     var enemy_cell = self.cell_from_template(x, y, 'enemy');
     enemy_cell.appendTo(item_cell);
     
+    // player layer
     var player_cell = self.cell_from_template(x, y, 'player');
     player_cell.appendTo(enemy_cell);
     
+    // overlay filter e.g. attack range, status effects
     var overlay_cell = self.cell_from_template(x, y, 'overlay');
     overlay_cell.appendTo(player_cell);
     
+    // stat layer e.g. hit points
     var stat_cell = self.cell_from_template(x, y, 'stat');
     stat_cell.appendTo(overlay_cell);
     

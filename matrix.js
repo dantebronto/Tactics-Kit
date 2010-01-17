@@ -2,14 +2,14 @@ function Matrix(raw){
   this.raw = raw; // 2d array
 }
 
-Matrix.new_zero_matrix = function(rows, cols){
+Matrix.new_filled_matrix = function(rows, cols, val){
   var row, cc;
   var ara = [];
   
   for(rows; rows > 0; rows--){
     row = new Array(cols);
     for(cc=0; cc < cols; cc++)
-      row[cc] = 0;
+      row[cc] = val || 0;
     ara.push(row);
   }
   return new Matrix(ara);
@@ -44,7 +44,9 @@ Matrix.prototype = {
   },
   each: function(func){
     for(var y=0; y < this.rows(); y++)
-      for(var x=0; x < this.cols(); x++)
+      for(var x=0; x < this.cols(); x++){
         func.call(this, x, y);
+      }
+        
   }
 }

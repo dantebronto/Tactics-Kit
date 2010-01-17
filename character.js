@@ -1,8 +1,8 @@
 function Character(opts){
   this.speed = opts.speed || 2;
   this.sprite = opts.sprite || 'pics/bar.gif';
-  this.x = 3;
-  this.y = 3;
+  this.x = 6;
+  this.y = 7;
   this.map = opts.map;
   this.show();
 }
@@ -40,9 +40,7 @@ Character.prototype = {
     var y = self.y;
     var terrain = self.map.terrain_matrix;
     
-    self.map.cell(x, y).removeClass('pointer');
-    
-    matrix = Matrix.new_zero_matrix(self.map.rows, self.map.cols);
+    matrix = Matrix.new_filled_matrix(self.map.rows, self.map.cols);
     matrix = self.find_neighbors({
       x: x, y: y,
       map: terrain,
