@@ -1,5 +1,5 @@
 function Character(opts){
-  this.speed = opts.speed || 2;
+  this.speed = opts.speed || 3;
   this.sprite = opts.sprite || 'pics/bar.gif';
   this.x = 6;
   this.y = 7;
@@ -101,7 +101,7 @@ Character.prototype = {
   },
   animate_movement: function(x, y){
     var self = this;
-    res = astar.search(self.map.terrain_matrix, 
+    res = astar.search(self, self.map.terrain_matrix, 
       { x: self.x, y: self.y }, { x: x, y: y });
     
     self.x = res[0].x;

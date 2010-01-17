@@ -44,7 +44,7 @@ $.extend(Enemy.prototype, {
     var y = level.active_character.y;
     var target;
     
-    res = astar.search(self.map.terrain_matrix, 
+    res = astar.search(self, self.map.terrain_matrix, 
       { x: self.x, y: self.y }, { x: x, y: y });
     
     // all moves within speed range  
@@ -59,7 +59,7 @@ $.extend(Enemy.prototype, {
         return;
       }
     }
-    self.move(self.x, self.y); // move to own space
+    self.show_movement(self.x, self.y); // move to own space
   },
   show_movement: function(x, y){
     var self = this;

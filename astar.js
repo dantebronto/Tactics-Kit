@@ -28,7 +28,7 @@ var astar = {
     });
     return matrix;
   },
-  search: function(terrain_matrix, start, end) {
+  search: function(whos_asking, terrain_matrix, start, end) {
     grid = astar.init(terrain_matrix);
   
     start = grid.e(start.x, start.y);
@@ -63,12 +63,13 @@ var astar = {
       openList.removeGraphNode(currentNode);
       closedList.push(currentNode);
       var neighbors = astar.neighbors(grid, currentNode);
-	
+
       for(var i=0; i<neighbors.length;i++) {
 	      var neighbor = neighbors[i];
-	      if(closedList.findGraphNode(neighbor) || neighbor.terrain > 10)
+	      
+	      if(closedList.findGraphNode(neighbor) || (!whos_asking.can_move_to(neighbor.x, neighbor.y) && neighbor.pos != end.pos))
 		      continue; // not a valid node to process, skip to next neighbor
-	    
+		    
 	      // g score is the shortest distance from start to current node, we need to check if
   	    //   the path we have arrived at this neighbor is the shortest one we have seen yet
   	    var gScore = currentNode.g + 1; // 1 is the distance from a node to it's neighbor
