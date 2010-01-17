@@ -22,3 +22,28 @@ ul { padding-left: 0px; }
 .moveable   { background-image: url('pics/moveable.png');   }
 .attackable { background-image: url('pics/attackable.png'); }
 .pointer { cursor: pointer; }
+
+/* context menu */
+div.hct {
+	background-image: url(pics/greybutton.png);
+	position: absolute;
+	width: 48px;
+	height: 34px;
+	font-size: 10px;
+	text-align: center;
+	padding-top: 14px;
+	display: none;
+	cursor: pointer;
+}	
+div.hct:hover {
+	background-image: url(pics/greyhighlight.png);
+}
+#hpt {
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	display: none;
+	background: 000;
+	opacity: 0;
+}
+/* end context menu */

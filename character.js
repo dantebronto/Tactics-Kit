@@ -38,16 +38,25 @@ Character.prototype = {
     self.map.player_cell(self.x, self.y)
       .css('background', 'url(' + self.sprite + ') no-repeat center')
       .addClass('pointer occupied')
-      .click(function(){
+      .click(function(){        
         self.show_stats();
-        self.calculate_movement();
-      });
+        self.show_options();
+      }).haloContext({ bindings : { 
+          "attack"   : function() { },
+          "guard"    : function() { self.end_turn(); },
+    			"move"     : function() { self.calculate_movement(); },
+    			"end turn" : function() { var sure = confirm('Skip this player?'); if(sure){ self.end_turn(); } },											
+  			} 
+      });  
   },
   calculate_movement: function(){
     var self = this;
     var x = self.x;
     var y = self.y;
     var speed;
+    
+    if( self.is_player && self.ap_left <= 0 )
+      return;
     
     if( self.is_player && self.ap_left < self.speed )
       speed = self.ap_left;
@@ -154,18 +163,38 @@ Character.prototype = {
     return matrix;
   },
   show_stats: function(){
-    var stats = $('<ul></ul>');
+    var stats = $('#info #stats_list');
+    if (!stats.length){
+      stats = $('<ul></ul>').attr('id', 'stats_list');
+      stats.appendTo(level.info_div);
+    }
     var lis = $(
       '<li>AP: ' + this.ap + '</li>' +
       '<li>AP Left: ' + this.ap_left + '</li>'
     );
-    lis.appendTo(stats);
-    stats.appendTo(level.info_div);
+    stats.html(lis);
+  },
+  show_options: function(){
+    var opts = $('#info #opts_list');
+    if (!opts.length){
+      opts = $('<ul></ul>').attr('id', 'opts_list');
+      opts.appendTo(level.info_div);
+    }
+    var lis = $(
+      '<li>Attack: (' + this.speed + ' AP)</li>' +
+      '<li>Rest: (' + this.speed + ' ST)</li>' +
+      '<li>Guard</li>'
+    );
+    opts.html(lis);
   },
   has_gone: function(){
     if(this.ap_left == 0)
       return true;
     
     return false;
+  },
+  end_turn: function(){
+    this.ap_left = 0;
+    level.show_current_turn();
   }
 };
