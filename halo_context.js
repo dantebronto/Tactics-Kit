@@ -24,8 +24,17 @@
 	function display(trigger, binds, e) {
 		active = true; // context active
 		c = 0; // bind count
+		var no_ap;
+		var display_name;
+		
 		for(var name in binds) {
-			$('body').append('<div id="hb'+c+'" class="hct">'+name+'</div>');
+		  if( name.match(/_no_ap/) ){ no_ap = true; } 
+		  else { no_ap = false; }
+		  
+		  if( no_ap )
+  		  $('body').append('<div id="hb'+c+'" class="hct no_ap">'+name.replace('_no_ap', '')+'</div>');
+		  else
+			  $('body').append('<div id="hb'+c+'" class="hct">'+name+'</div>');
 			$('#hb'+c).click(binds[name]);
 			c++;
 		}

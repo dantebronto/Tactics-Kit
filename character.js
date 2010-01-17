@@ -40,14 +40,14 @@ Character.prototype = {
       .addClass('pointer occupied')
       .click(function(){        
         self.show_stats();
-        self.show_options();
-      }).haloContext({ bindings : { 
-          "attack"   : function() { },
-          "guard"    : function() { self.end_turn(); },
-    			"move"     : function() { self.calculate_movement(); },
-    			"end turn" : function() { var sure = confirm('Skip this player?'); if(sure){ self.end_turn(); } },											
-  			} 
-      });  
+        self.map.div
+          .find('.underlay.moveable')
+          .removeClass('moveable pointer')
+          .unbind('click');
+      })
+      .haloContext({ 
+        bindings : self.get_context_menu()
+      });
   },
   calculate_movement: function(){
     var self = this;
@@ -170,22 +170,10 @@ Character.prototype = {
     }
     var lis = $(
       '<li>AP: ' + this.ap + '</li>' +
-      '<li>AP Left: ' + this.ap_left + '</li>'
+      '<li>AP Left: ' + this.ap_left + '</li>' +
+      '<li>SP: ' + this.speed + '</li>'
     );
     stats.html(lis);
-  },
-  show_options: function(){
-    var opts = $('#info #opts_list');
-    if (!opts.length){
-      opts = $('<ul></ul>').attr('id', 'opts_list');
-      opts.appendTo(level.info_div);
-    }
-    var lis = $(
-      '<li>Attack: (' + this.speed + ' AP)</li>' +
-      '<li>Rest: (' + this.speed + ' ST)</li>' +
-      '<li>Guard</li>'
-    );
-    opts.html(lis);
   },
   has_gone: function(){
     if(this.ap_left == 0)
@@ -196,5 +184,26 @@ Character.prototype = {
   end_turn: function(){
     this.ap_left = 0;
     level.show_current_turn();
+  },
+  get_context_menu: function(){
+    var self = this;
+    var menu = {};
+    var no_ap_func = function(){ alert('Not enough AP!'); };
+    
+		if( this.ap_left < this.speed ){
+		  menu['attack_no_ap'] = no_ap_func;
+		  menu['guard_no_ap']  = no_ap_func;
+		} else {
+		  menu['attack'] = function(){ self.ap_left -= self.speed; level.show_current_turn(); };
+		  menu['guard']  = function(){ self.end_turn(); }
+		}
+		
+		menu['move']     = function() { self.calculate_movement(); }
+	  menu['end turn'] = function() { 
+	    var sure = confirm('End your turn with ' + self.ap_left + ' AP remaining?'); 
+	    if(sure) { self.end_turn(); }
+	  }
+		
+		return menu;
   }
 };

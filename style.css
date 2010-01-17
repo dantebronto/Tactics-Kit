@@ -38,6 +38,9 @@ div.hct {
 div.hct:hover {
 	background-image: url(pics/greyhighlight.png);
 }
+div.hct.no_ap {
+  background-image: url(pics/redbutton.png);
+}
 #hpt {
 	position: absolute;
 	width: 10px;
