@@ -21,7 +21,8 @@ Matrix.prototype = {
       return this.raw[y][x];
   },
   set: function(x, y, value){
-    return this.raw[y][x] = value;
+    if( this.raw[y] )
+      return this.raw[y][x] = value;
   },
   rows: function(){
     return this.raw.length;

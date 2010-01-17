@@ -41,13 +41,11 @@ Character.prototype = {
       .click(function(){        
         self.show_stats();
         self.map.div
-          .find('.underlay.moveable')
-          .removeClass('moveable pointer')
+          .find('.underlay.moveable, .underlay.attackable')
+          .removeClass('moveable pointer attackable')
           .unbind('click');
       })
-      .haloContext({ 
-        bindings : self.get_context_menu()
-      });
+      .haloContext(self, self.get_context_menu);
   },
   calculate_movement: function(){
     var self = this;
@@ -91,7 +89,7 @@ Character.prototype = {
     var fill_with = 1;
     if(opts.fill_with == 0)
       fill_with = 0;
-      
+    
     var surrounds = [ 
       [ x, y-1 ], [ x+1, y-1 ], [ x+1, y ], [ x+1, y+1 ],
       [ x, y+1 ], [ x-1, y+1 ], [ x-1, y ], [ x-1, y-1 ] 
@@ -101,7 +99,7 @@ Character.prototype = {
       x = surrounds[i][0];
       y = surrounds[i][1];
       
-      if( this.can_move_to(x, y) ){
+      if( is_attacking || this.can_move_to(x, y) ){
         opts.matrix.set(x, y, fill_with);
         if( speed > 0 ){
           this.find_neighbors({
@@ -149,7 +147,8 @@ Character.prototype = {
     matrix = self.find_neighbors({
       x: x, y: y,
       matrix: matrix,
-      speed: self.weapon.range
+      speed: self.weapon.range,
+      is_attacking: true
     });
     
     if( self.weapon.is_ranged )
@@ -157,7 +156,8 @@ Character.prototype = {
         x: x, y: y,
         matrix: matrix,
         speed: self.weapon.dead_range,
-        fill_with: 0
+        fill_with: 0,
+        is_attacking: true
       });
     
     return matrix;
@@ -194,7 +194,7 @@ Character.prototype = {
 		  menu['attack_no_ap'] = no_ap_func;
 		  menu['guard_no_ap']  = no_ap_func;
 		} else {
-		  menu['attack'] = function(){ self.ap_left -= self.speed; level.show_current_turn(); };
+		  menu['attack'] = function(){ self.calculate_attack(); };
 		  menu['guard']  = function(){ self.end_turn(); }
 		}
 		
@@ -205,5 +205,34 @@ Character.prototype = {
 	  }
 		
 		return menu;
+  },
+  calculate_attack: function(){
+    var self = this;
+    var attack_matrix = self.get_attack_matrix();
+    
+    attack_matrix.each(function(x, y){
+      if( this.e(x, y) == 1 ){
+        self.map.underlay_cell(x, y)
+          .addClass('attackable')
+          .click(function(){
+            self.attack(x, y);
+          })
+          .addClass('pointer');
+      }
+    });
+  },
+  attack: function(x, y){
+    var self = this;
+    
+    if( self.ap_left < self.speed )
+      return;
+    
+    self.map.div
+      .find('.underlay.attackable')
+      .removeClass('attackable pointer')
+      .unbind('click');
+    
+    self.ap_left -= self.speed;
+    level.show_current_turn();
   }
 };

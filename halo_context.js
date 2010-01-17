@@ -12,10 +12,10 @@
 (function($) {
 	var active = false;
 
-	$.fn.haloContext = function(bindings) {
+	$.fn.haloContext = function(player, bindings) {
 		$(this).bind("click", function(e) {
 			if (active) hide();
-			display(this, bindings['bindings'], e);
+			display(this, bindings.call(player), e);
 			return false;
 		}); 
 		return this;
