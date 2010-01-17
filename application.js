@@ -3,7 +3,7 @@ function copy_prototype(descendant, parent) {
   var aMatch = sConstructor.match( /\s*function (.*)\(/ );
   if ( aMatch != null ) { descendant.prototype[aMatch[1]] = parent; }
   for (var m in parent.prototype) {
-      descendant.prototype[m] = parent.prototype[m];
+    descendant.prototype[m] = parent.prototype[m];
   }
 };
 

@@ -1,5 +1,5 @@
 function Enemy(opts){
-  this.speed = opts.speed || 1;
+  this.speed = opts.speed || 3;
   this.sprite = opts.sprite || 'pics/enemy.gif';
   this.x = 0;
   this.y = 0;
@@ -34,18 +34,28 @@ $.extend(Enemy.prototype, {
     
     self.map.enemy_cell(self.x, self.y)
       .css('background', 'url(' + self.sprite + ') no-repeat center')
-      .addClass('pointer occupied')
-      .click(function(){
-        self.calculate_movement();
-      });
+      .addClass('pointer occupied');
   },
   target_player: function(){
     var self = this;
     var x = level.active_character.x;
     var y = level.active_character.y;
+    var target;
+    
     res = astar.search(self.map.terrain_matrix, 
       { x: self.x, y: self.y }, { x: x, y: y });
-    var target = res[this.speed-1] || res[res.length-1];
-    this.move(target.x, target.y);
+      
+    // all moves within speed range  
+    res = res.splice(0, this.speed);
+    
+    // move as close as possible to player
+    for( var i = res.length - 1; i >= 0; i--){
+      target = res[i];
+      
+      if(self.can_move_to(target.x, target.y)){
+        self.move(target.x, target.y);
+        return;
+      }
+    }
   }
 })

@@ -6,20 +6,20 @@ function Character(opts){
   this.has_gone = false;
   this.map = opts.map;
   this.show();
-}
+};
 
 Character.prototype = {
   move: function(x, y){
     this.map.div
       .find('.underlay.moveable')
       .removeClass('moveable')
-      .removeClass('pointer occupied')
+      .removeClass('pointer')
       .unbind('click');
     
     this.map.player_cell(this.x, this.y)
       .css('background', 'transparent')
       .unbind('click')
-      .removeClass('pointer');
+      .removeClass('pointer occupied');
     
     this.x = x;
     this.y = y;
@@ -92,14 +92,12 @@ Character.prototype = {
     var enemy   = this.map.enemy_matrix.e(x, y);
     var player  = this.map.player_matrix.e(x, y);
     
-    if( !terrain ) // not on the map or invalid
+    if( !terrain ) // not on the map
       return false;
     
-    if( enemy.hasClass )
-    
-    if( terrain <= 10 )
-      return true;
-    else
+    if( terrain > 10 || enemy.hasClass('occupied') || player.hasClass('occupied') )
       return false;
+      
+    return true;
   }
-}
+};
