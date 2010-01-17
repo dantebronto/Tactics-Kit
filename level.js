@@ -19,7 +19,7 @@ function Level(){
   this.active_enemy = enemy;
   
   this.show_current_turn();
-}
+};
 
 Level.prototype = {
   show_current_turn: function(){
@@ -49,4 +49,4 @@ Level.prototype = {
     enemy.has_gone = 0;
     enemy.target_player();
   }
-}
+};

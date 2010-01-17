@@ -10,22 +10,24 @@ function Character(opts){
 
 Character.prototype = {
   move: function(x, y){
-    this.map.div
-      .find('.underlay.moveable')
-      .removeClass('moveable')
-      .removeClass('pointer')
-      .unbind('click');
     
     this.map.player_cell(this.x, this.y)
       .css('background', 'transparent')
       .unbind('click')
       .removeClass('pointer occupied');
     
-    this.x = x;
-    this.y = y;
-    this.has_gone = true;
-    this.show();
-    level.show_current_turn();
+    if( this.x == x && this.y == y){
+      this.map.div
+        .find('.underlay.moveable')
+        .removeClass('moveable pointer')
+        .unbind('click');
+      
+      this.has_gone = true;
+      this.show();
+      level.show_current_turn();
+    } else {
+      this.animate_movement(x, y);
+    }
   },
   show: function(){
     var self = this;
@@ -69,7 +71,7 @@ Character.prototype = {
       [ x, y-1 ], [ x+1, y-1 ], [ x+1, y ], [ x+1, y+1 ],
       [ x, y+1 ], [ x-1, y+1 ], [ x-1, y ], [ x-1, y-1 ] 
     ];
-    
+
     for(var i=0; i<8; i++){
       x = surrounds[i][0];
       y = surrounds[i][1];
@@ -92,12 +94,20 @@ Character.prototype = {
     var enemy   = this.map.enemy_matrix.e(x, y);
     var player  = this.map.player_matrix.e(x, y);
     
-    if( !terrain ) // not on the map
+    if( !terrain || terrain > 10 || enemy.hasClass('occupied') || player.hasClass('occupied') )
       return false;
     
-    if( terrain > 10 || enemy.hasClass('occupied') || player.hasClass('occupied') )
-      return false;
-      
     return true;
+  },
+  animate_movement: function(x, y){
+    var self = this;
+    res = astar.search(self.map.terrain_matrix, 
+      { x: self.x, y: self.y }, { x: x, y: y });
+    
+    self.x = res[0].x;
+    self.y = res[0].y;
+    
+    self.show();
+    setTimeout(function(){ self.move(x, y); }, 500);
   }
 };

@@ -3,14 +3,14 @@ Array.prototype.removeGraphNode = function(obj) {
 		if(this[i].pos == obj.pos) { this.splice(i,1); }
 	}
 	return false;
-}
+};
 
 Array.prototype.findGraphNode = function(obj) {
 	for(var i=0;i<this.length;i++) {
 		if(this[i].pos == obj.pos) { return this[i]; }
 	}
 	return false;
-}
+};
 
 var astar = {
   init: function(terrain_matrix) {
