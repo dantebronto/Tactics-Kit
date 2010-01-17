@@ -1,6 +1,7 @@
 function Enemy(opts){
   this.speed = opts.speed || 2;
   this.sprite = opts.sprite || 'pics/enemy.gif';
+  this.weapon = new Weapon({ attack_range: 1, attack: 1, name: 'Bronze Sword' });
   this.x = 0;
   this.y = 0;
   this.has_gone = false;
@@ -18,7 +19,7 @@ $.extend(Enemy.prototype, {
       .unbind('click')
       .removeClass('pointer occupied');
     
-    if( this.x == x && this.y == y){
+    if( this.x == x && this.y == y){ // at destination
       this.map.div
         .find('.underlay.moveable')
         .removeClass('moveable pointer')

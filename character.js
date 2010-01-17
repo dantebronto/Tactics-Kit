@@ -1,6 +1,7 @@
 function Character(opts){
   this.speed = opts.speed || 3;
   this.sprite = opts.sprite || 'pics/bar.gif';
+  this.weapon = new Weapon({ attack_range: 1, attack: 1, name: 'Bronze Sword' });
   this.x = 6;
   this.y = 7;
   this.has_gone = false;
@@ -67,6 +68,11 @@ Character.prototype = {
   },
   find_neighbors: function(opts){
     var x = opts.x, y = opts.y, speed = opts.speed - 1;
+    
+    var fill_with = 1;
+    if(opts.fill_with == 0)
+      fill_with = 0;
+      
     var surrounds = [ 
       [ x, y-1 ], [ x+1, y-1 ], [ x+1, y ], [ x+1, y+1 ],
       [ x, y+1 ], [ x-1, y+1 ], [ x-1, y ], [ x-1, y-1 ] 
@@ -77,12 +83,13 @@ Character.prototype = {
       y = surrounds[i][1];
       
       if( this.can_move_to(x, y) ){
-        opts.matrix.set(x, y, 1);
+        opts.matrix.set(x, y, fill_with);
         if( speed > 0 ){
           this.find_neighbors({
             x: x, y: y,
             matrix: opts.matrix,
-            speed: speed
+            speed: speed,
+            fill_with: fill_with
           });
         } 
       }        
@@ -109,5 +116,27 @@ Character.prototype = {
     
     self.show();
     setTimeout(function(){ self.move(x, y); }, 500);
+  },
+  get_attack_matrix: function(opts){
+    var self = this;
+    var x = self.x;
+    var y = self.y;
+    
+    matrix = Matrix.new_filled_matrix(self.map.rows, self.map.cols);
+    matrix = self.find_neighbors({
+      x: x, y: y,
+      matrix: matrix,
+      speed: self.weapon.range
+    });
+    
+    if( self.weapon.is_ranged )
+      matrix = self.find_neighbors({
+        x: x, y: y,
+        matrix: matrix,
+        speed: self.weapon.dead_range,
+        fill_with: 0
+      });
+    
+    return matrix;
   }
 };
