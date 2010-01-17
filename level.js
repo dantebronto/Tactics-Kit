@@ -24,29 +24,30 @@ function Level(){
 Level.prototype = {
   show_current_turn: function(){
     
-    if ( this.active_character.has_gone && this.active_enemy.has_gone ){
-      this.active_character.has_gone = false;
-      this.active_enemy.has_gone = false;
+    if ( this.active_character.has_gone() && this.active_enemy.has_gone() ){
+      //this.active_character.has_gone = false;
+      this.active_character.ap_left = this.active_character.ap;
+      this.active_enemy.has_moved = false;
+      this.active_enemy.has_attacked = true;
       this.player_turn = true;
       // next turn
     }
     
-    if( this.active_character.has_gone )
+    if( this.active_character.has_gone() )
       this.player_turn = false;
     
-    if( this.active_enemy.has_gone )
+    if( this.active_enemy.has_gone() )
       this.player_turn = true;
     
     if( this.player_turn ){
-      this.info_div.html('player turn');
+      this.info_div.html('Player Turn');
     } else {
-      this.info_div.html('enemy turn');
+      this.info_div.html('Enemy Turn');
       this.move_enemy();
     }
   },
   move_enemy: function(){
     var enemy = this.active_enemy;
-    enemy.has_gone = 0;
     enemy.target_player();
   }
 };

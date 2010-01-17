@@ -1,5 +1,21 @@
-#map { border-top: thin solid #666; border-left: thin solid #666; width: 387px; height:417px; background-image: url(pics/map.png); }
+/* resets */
+html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code,del, dfn, em, font, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td {margin: 0;padding: 0;border: 0;outline: 0;font-size: 100%;vertical-align: baseline;background: transparent;}
+body {line-height: 1;}
+ol, ul {list-style: none;}
+blockquote, q {quotes: none;}
+blockquote:before, blockquote:after,q:before, q:after {content: '';content: none;}
+:focus {outline: 0;}
+ins {text-decoration: none;}
+del {text-decoration: line-through;}
+table {border-collapse: collapse;border-spacing: 0;}
+/* end resets */
 
+body { padding: 15px; font-family: arial; font-size: 0.8em; }
+li { list-style: none; }
+ul { padding-left: 0px; }
+
+#map { border-top: thin solid #666; border-left: thin solid #666; width: 387px; height:417px; background-image: url(pics/map.png); float:left;}
+#info { float:left; padding-left: 20px; }
 .cell { background-color:transparent; width: 50px; height: 50px; display:inline; float:left; border-right: thin solid #666; border-bottom: thin solid #666; text-align:center; }
 .cell.stat p { color:white;font-family:arial;font-size:1.5em;padding-top:5px; }
 

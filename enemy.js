@@ -1,11 +1,16 @@
 function Enemy(opts){
   this.speed = opts.speed || 2;
-  this.sprite = opts.sprite || 'pics/enemy.gif';
+  this.ap = 0;
+  this.ap_left = 0;
+  this.has_moved = false;
+  this.has_attacked = true;
   this.weapon = new Weapon({ attack_range: 1, attack: 1, name: 'Bronze Sword' });
+  this.sprite = opts.sprite || 'pics/enemy.gif';
   this.x = 0;
   this.y = 0;
-  this.has_gone = false;
   this.map = opts.map;
+  this.is_player = false;
+  this.is_enemy = true;
   this.show();
 };
 
@@ -25,8 +30,8 @@ $.extend(Enemy.prototype, {
         .removeClass('moveable pointer')
         .unbind('click');
       
-      this.has_gone = true;
       this.show();
+      this.has_moved = true;
       level.show_current_turn();
     } else {
       this.animate_movement(x, y);
@@ -66,5 +71,8 @@ $.extend(Enemy.prototype, {
     var self = this;
     self.calculate_movement();
     setTimeout(function(){ self.move(x, y); }, 1000);
+  },
+  has_gone: function(){
+    return this.has_moved && this.has_attacked;
   }
 });
