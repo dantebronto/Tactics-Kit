@@ -3,6 +3,7 @@ function Character(opts){
   this.sprite = opts.sprite || 'pics/bar.gif';
   this.x = 6;
   this.y = 7;
+  this.has_gone = false;
   this.map = opts.map;
   this.show();
 }
@@ -22,7 +23,9 @@ Character.prototype = {
     
     this.x = x;
     this.y = y;
+    this.has_gone = true;
     this.show();
+    level.show_current_turn();
   },
   show: function(){
     var self = this;
@@ -56,7 +59,7 @@ Character.prototype = {
         self.map.underlay_cell(x, y)
           .addClass('moveable')
           .click(function(){
-            self.move(x,y);
+            self.move(x, y);
           })
           .addClass('pointer');
       }

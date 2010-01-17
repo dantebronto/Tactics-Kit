@@ -3,6 +3,7 @@ function Enemy(opts){
   this.sprite = opts.sprite || 'pics/enemy.gif';
   this.x = 0;
   this.y = 0;
+  this.has_gone = false;
   this.map = opts.map;
   this.show();
 }
@@ -24,7 +25,9 @@ $.extend(Enemy.prototype, {
     
     this.x = x;
     this.y = y;
+    this.has_gone = true;
     this.show();
+    level.show_current_turn();
   },
   show: function(){
     var self = this;
@@ -35,5 +38,18 @@ $.extend(Enemy.prototype, {
       .click(function(){
         self.calculate_movement();
       });
+  },
+  target_player: function(){
+    var self = this;
+    var x = level.active_character.x;
+    var y = level.active_character.y;
+    res = astar.search(self.map.terrain_matrix, 
+      { x: self.x, y: self.y }, { x: x, y: y });
+    var target = res[this.speed-1] || res[res.length-1];
+    this.move(target.x, target.y);
+
+    // $.each(res, function(){
+    //   $('#map_cell_' + this.x + '_' + this.y).addClass('moveable');
+    // })
   }
 })
