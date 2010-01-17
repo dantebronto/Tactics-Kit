@@ -13,7 +13,7 @@ Character.prototype = {
     this.map.div
       .find('.underlay.moveable')
       .removeClass('moveable')
-      .removeClass('pointer')
+      .removeClass('pointer occupied')
       .unbind('click');
     
     this.map.player_cell(this.x, this.y)
@@ -32,7 +32,7 @@ Character.prototype = {
     
     self.map.player_cell(self.x, self.y)
       .css('background', 'url(' + self.sprite + ') no-repeat center')
-      .addClass('pointer')
+      .addClass('pointer occupied')
       .click(function(){
         self.calculate_movement();
       });
@@ -41,12 +41,10 @@ Character.prototype = {
     var self = this;
     var x = self.x;
     var y = self.y;
-    var terrain = self.map.terrain_matrix;
     
     matrix = Matrix.new_filled_matrix(self.map.rows, self.map.cols);
     matrix = self.find_neighbors({
       x: x, y: y,
-      map: terrain,
       matrix: matrix,
       speed: self.speed
     });
@@ -76,12 +74,11 @@ Character.prototype = {
       x = surrounds[i][0];
       y = surrounds[i][1];
       
-      if( opts.map.e(x, y) <= 10 ){
+      if( this.can_move_to(x, y) ){
         opts.matrix.set(x, y, 1);
         if( speed > 0 ){
           this.find_neighbors({
             x: x, y: y,
-            map: opts.map,
             matrix: opts.matrix,
             speed: speed
           });
@@ -89,5 +86,20 @@ Character.prototype = {
       }        
     }
     return matrix;
+  },
+  can_move_to: function(x, y){
+    var terrain = this.map.terrain_matrix.e(x, y);
+    var enemy   = this.map.enemy_matrix.e(x, y);
+    var player  = this.map.player_matrix.e(x, y);
+    
+    if( !terrain ) // not on the map or invalid
+      return false;
+    
+    if( enemy.hasClass )
+    
+    if( terrain <= 10 )
+      return true;
+    else
+      return false;
   }
 }

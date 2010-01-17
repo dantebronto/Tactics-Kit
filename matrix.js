@@ -17,7 +17,7 @@ Matrix.new_filled_matrix = function(rows, cols, val){
 
 Matrix.prototype = {
   e: function(x, y){
-    if( this.raw[y]) //&& typeof(this.raw[y][x]) == "number"
+    if( this.raw[y] )
       return this.raw[y][x];
   },
   set: function(x, y, value){

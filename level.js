@@ -37,9 +37,9 @@ Level.prototype = {
     if( this.active_enemy.has_gone )
       this.player_turn = true;
     
-    if( this.player_turn )
+    if( this.player_turn ){
       this.info_div.html('player turn');
-    else {
+    } else {
       this.info_div.html('enemy turn');
       this.move_enemy();
     }

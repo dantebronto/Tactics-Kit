@@ -1,5 +1,5 @@
 function Enemy(opts){
-  this.speed = opts.speed || 2;
+  this.speed = opts.speed || 1;
   this.sprite = opts.sprite || 'pics/enemy.gif';
   this.x = 0;
   this.y = 0;
@@ -8,7 +8,7 @@ function Enemy(opts){
   this.show();
 }
 
-Enemy.prototype = Character.prototype;
+copy_prototype(Enemy, Character);
 
 $.extend(Enemy.prototype, {
   move: function(x, y){
@@ -21,7 +21,7 @@ $.extend(Enemy.prototype, {
     this.map.enemy_cell(this.x, this.y)
       .css('background', 'transparent')
       .unbind('click')
-      .removeClass('pointer');
+      .removeClass('pointer occupied');
     
     this.x = x;
     this.y = y;
@@ -34,7 +34,7 @@ $.extend(Enemy.prototype, {
     
     self.map.enemy_cell(self.x, self.y)
       .css('background', 'url(' + self.sprite + ') no-repeat center')
-      .addClass('pointer')
+      .addClass('pointer occupied')
       .click(function(){
         self.calculate_movement();
       });
@@ -47,9 +47,5 @@ $.extend(Enemy.prototype, {
       { x: self.x, y: self.y }, { x: x, y: y });
     var target = res[this.speed-1] || res[res.length-1];
     this.move(target.x, target.y);
-
-    // $.each(res, function(){
-    //   $('#map_cell_' + this.x + '_' + this.y).addClass('moveable');
-    // })
   }
 })
