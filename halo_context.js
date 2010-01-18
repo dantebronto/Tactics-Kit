@@ -15,12 +15,13 @@
 	$.fn.haloContext = function(player, bindings) {
 		$(this).bind("click", function(e) {
 			if (active) hide();
-			display(this, bindings.call(player), e);
+			if ( player.ap_left > 0 )
+  			display(this, bindings.call(player), e);
 			return false;
 		}); 
 		return this;
 	};
-
+	
 	function display(trigger, binds, e) {
 		active = true; // context active
 		c = 0; // bind count

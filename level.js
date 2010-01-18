@@ -13,21 +13,13 @@ function Level(){
   
   this.players_have_gone = false;
   this.enemies_have_gone = false;
-  
-  var hero = new Character( { map: this.map } );
-  this.active_player = hero;
-  
-  var enemy = new Enemy( { map: this.map } );
-  this.active_enemy = enemy;
-  
-  this.show_current_turn();
 };
 
 Level.prototype = {
   show_current_turn: function(){
     this.players_have_gone = this.active_player.has_gone();
     this.enemies_have_gone = this.active_enemy.has_gone();
-
+    
     if ( this.players_have_gone && this.enemies_have_gone ) {
       this.reset_turn();
     } else if ( this.players_have_gone ) {
@@ -37,7 +29,7 @@ Level.prototype = {
   },
   activate_enemy: function(){
     var enemy = this.active_enemy;
-    enemy.calculate_turn();
+    setTimeout(function(){ enemy.calculate_turn(), 1000 } )
   },
   reset_turn: function(){
     this.active_player.ap_left = this.active_player.ap;

@@ -17,27 +17,32 @@ function Character(opts){
 Character.prototype = {
   animate_movement: function(x, y){
     var self = this;
+    
+    this.map.remove_clickables();
+    
     res = astar.search(self, self.map.terrain_matrix, 
       { x: self.x, y: self.y }, { x: x, y: y });
-    
-    if( self.is_player )
-      self.ap_left -= 1;
     
     self.x = res[0].x;
     self.y = res[0].y;
     
     self.show();
-    setTimeout(function(){ self.move(x, y); }, 500);
+    setTimeout(function(){
+      
+      if( self.is_player )
+        self.subtract_ap(1);
+      
+      self.move(x, y); }, 500);
   },
   attack: function(x, y){
     var self = this;
     
     if( self.ap_left < self.speed )
-      return;
+      return; // not enough ap
     
+    self.deal_damage(x, y);  
     self.map.remove_clickables();
-    self.ap_left -= self.speed;
-    level.show_current_turn();
+    self.subtract_ap(self.speed);
   },
   bind_events: function(elem){
     var self = this;
@@ -112,9 +117,14 @@ Character.prototype = {
     
     return true;
   },
+  deal_damage: function(x, y){
+    var hits = $('<h1>' + 500 + '</h1>')
+    hits.appendTo(this.map.stat_cell(x, y))
+      .shake(3, 3, 180)
+      .fadeOut(1500);
+  },
   end_turn: function(){
-    this.ap_left = 0;
-    level.show_current_turn();
+    this.subtract_ap(this.ap_left);
   },
   find_neighbors: function(opts){
     var x = opts.x, y = opts.y, speed = opts.speed - 1;
@@ -195,28 +205,22 @@ Character.prototype = {
     return matrix;
   },
   has_gone: function(){
-    if( this.ap_left == 0 ){
-      this.map.player_matrix
-        .e(this.x, this.y)
-        .unbind();
+    if( this.ap_left == 0 )
       return true; 
-    }
+
     return false;
   },
   move: function(x, y){
     
     this.map.player_cell(this.x, this.y)
       .css('background', 'transparent')
-      .unbind('click')
-      .removeClass('pointer occupied');
+      .removeClass('pointer occupied')
+      .unbind('click');
     
-    if( this.x == x && this.y == y){
-      this.map.remove_clickables();
-      level.show_current_turn();
+    if( this.x == x && this.y == y)
       this.show();
-    } else {
+    else
       this.animate_movement(x, y);
-    }
   },
   show: function(){
     var self = this;
@@ -239,5 +243,19 @@ Character.prototype = {
       '<li>SP: ' + this.speed   + '</li>'
     );
     stats.html(lis);
+  },
+  subtract_ap: function(amt){
+    if( !amt ) { amt = 0; }
+    this.ap_left -= amt;
+    if( this.ap_left <= 0 ){
+      this.ap_left = 0;
+      this.unbind_events();
+    }
+    level.show_current_turn();
+  },
+  unbind_events: function(){
+    this.map.player_matrix 
+      .e(this.x, this.y)
+      .unbind();
   }
 };
