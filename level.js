@@ -29,7 +29,7 @@ Level.prototype = {
   },
   activate_enemy: function(){
     var enemy = this.active_enemy;
-    setTimeout(function(){ enemy.calculate_turn(), 1000 } )
+    setTimeout(function(){ enemy.calculate_turn(), 2000 } )
   },
   reset_turn: function(){
     this.active_player.ap_left = this.active_player.ap;

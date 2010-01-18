@@ -5,9 +5,11 @@ function Character(opts){
   this.hp = opts.hp || 100;
   this.hp_left = this.hp;
   this.sprite = opts.sprite || 'pics/bar.gif';
-  this.weapon = new Weapon({ range: 1, attack: 1, is_ranged: false, dead_range: 2, name: 'Bronze Sword' });
-  this.x = 6;
-  this.y = 6;
+  this.accuracy = opts.accuracy || 80;
+  this.strength = opts.strength || 2;
+  this.weapon = new Weapon({ range: 3, attack: 1, is_ranged: false, dead_range: 0, name: 'Bronze Sword' });
+  this.x = 3;
+  this.y = 3;
   this.is_player = true;
   this.is_enemy = false;
   this.map = opts.map;
@@ -119,15 +121,23 @@ Character.prototype = {
   },
   deal_damage: function(x, y){
     var hits;
-    var dmg = Math.floor((Math.random() * 110));
-    var stg = Number(dmg).toString();
+    var dmg = 0;
+    var miss = Math.floor((Math.random() * 100 + 1));
     
-    if( stg.length == 1 )
-      hits = $('<h3>' + stg + '</h3>');
-    else if ( stg.length == 2 )
-      hits = $('<h2>' + stg + '</h2>');
-    else if ( stg.length == 3 )
-      hits = $('<h1>' + stg + '</h1>');
+    if ( !this.accuracy < miss && this.map.enemy_cell(x, y).hasClass('occupied') ){
+      for(var i=0; i < this.strength + this.weapon.attack; i++)
+        dmg += this.roll_dice();
+    else
+      dmg = 'miss';
+    
+    dmg = String(dmg);
+    
+    if( dmg.length == 1 || dmg == 'miss' )
+      hits = $('<h3>' + dmg + '</h3>');
+    else if ( dmg.length == 2 )
+      hits = $('<h2>' + dmg + '</h2>');
+    else if ( dmg.length == 3 )
+      hits = $('<h1>' + dmg + '</h1>');
     
     hits.appendTo(this.map.stat_cell(x, y))
       .shake(3, 3, 180)
@@ -153,7 +163,8 @@ Character.prototype = {
       y = surrounds[i][1];
       
       if( is_attacking || this.can_move_to(x, y) ){
-        opts.matrix.set(x, y, fill_with);
+        if( opts.matrix.e(x, y) != fill_with)
+          opts.matrix.set(x, y, fill_with);
         if( speed > 0 ){
           this.find_neighbors({
             x: x, y: y,
@@ -231,6 +242,9 @@ Character.prototype = {
       this.show();
     else
       this.animate_movement(x, y);
+  },
+  roll_dice: function(){
+    return Math.floor((Math.random() * 3 + 1));
   },
   show: function(){
     var self = this;

@@ -8,6 +8,8 @@ function Enemy(opts){
   this.has_attacked = false;
   this.weapon = new Weapon({ attack_range: 1, attack: 1, name: 'Bronze Sword' });
   this.sprite = opts.sprite || 'pics/enemy.gif';
+  this.accuracy = opts.accuracy || 80;
+  this.strength = opts.strength || 2;
   this.x = 0;
   this.y = 0;
   this.map = opts.map;
