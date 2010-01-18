@@ -25,7 +25,6 @@ Level.prototype = {
   show_current_turn: function(){
     
     if ( this.active_character.has_gone() && this.active_enemy.has_gone() ){
-      //this.active_character.has_gone = false;
       this.active_character.ap_left = this.active_character.ap;
       this.active_enemy.has_moved = false;
       this.active_enemy.has_attacked = true;

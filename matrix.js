@@ -17,11 +17,11 @@ Matrix.new_filled_matrix = function(rows, cols, val){
 
 Matrix.prototype = {
   e: function(x, y){
-    if( this.raw[y] )
+    if( this.raw[y] != undefined && this.raw[y][x] != undefined)
       return this.raw[y][x];
   },
   set: function(x, y, value){
-    if( this.raw[y] )
+    if( this.raw[y] != undefined && this.raw[y][x] != undefined)
       return this.raw[y][x] = value;
   },
   rows: function(){

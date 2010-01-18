@@ -3,7 +3,7 @@ function Character(opts){
   this.ap = opts.ap || 4;
   this.ap_left = this.ap;
   this.sprite = opts.sprite || 'pics/bar.gif';
-  this.weapon = new Weapon({ attack_range: 1, attack: 1, name: 'Bronze Sword' });
+  this.weapon = new Weapon({ range: 1, attack: 1, is_ranged: false, dead_range: 2, name: 'Bronze Sword' });
   this.x = 6;
   this.y = 7;
   this.is_player = true;
@@ -159,6 +159,8 @@ Character.prototype = {
         fill_with: 0,
         is_attacking: true
       });
+    
+    matrix.set(x, y, 0);
     
     return matrix;
   },
