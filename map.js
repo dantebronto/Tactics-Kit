@@ -89,5 +89,17 @@ Map.prototype = {
       .find('.underlay.attackable, .underlay.moveable')
       .removeClass(types.join(' '))
       .unbind('click');
+  },
+  find_by_position: function(type, x, y){
+    var chars = []; 
+    
+    if( type == 'character' )
+      chars = level.characters;
+    else
+      chars = level.enemies;
+    
+    for (var i = chars.length - 1; i >= 0; i--)
+      if( chars[i].x == x && chars[i].y == y )
+        return chars[i];
   }
 }

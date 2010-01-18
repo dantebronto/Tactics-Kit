@@ -1,4 +1,5 @@
 function Enemy(opts){
+  this.name = opts.name || 'Battle Mage';
   this.speed = opts.speed || 2;
   this.ap = 0;
   this.ap_left = 0;
@@ -10,6 +11,7 @@ function Enemy(opts){
   this.sprite = opts.sprite || 'pics/enemy.gif';
   this.accuracy = opts.accuracy || 80;
   this.strength = opts.strength || 2;
+  this.exp = opts.exp || 100;
   this.x = 0;
   this.y = 0;
   this.map = opts.map;

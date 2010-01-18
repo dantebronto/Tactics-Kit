@@ -1,9 +1,12 @@
 function Character(opts){
+  this.name = opts.name || 'd00d';
   this.speed = opts.speed || 2;
   this.ap = opts.ap || 4;
   this.ap_left = this.ap;
   this.hp = opts.hp || 100;
   this.hp_left = this.hp;
+  this.exp = opts.exp || 0;
+  this.exp_next = opts.exp_next || 100;
   this.sprite = opts.sprite || 'pics/bar.gif';
   this.accuracy = opts.accuracy || 80;
   this.strength = opts.strength || 2;
@@ -123,12 +126,15 @@ Character.prototype = {
     var hits;
     var dmg = 0;
     var miss = Math.floor((Math.random() * 100 + 1));
+    var enemy = this.map.find_by_position('enemy', x, y);
     
-    if ( !this.accuracy < miss && this.map.enemy_cell(x, y).hasClass('occupied') ){
+    if ( !this.accuracy < miss && enemy ){
       for(var i=0; i < this.strength + this.weapon.attack; i++)
         dmg += this.roll_dice();
-    else
+      console.log(enemy.hp_left);      
+    } else {
       dmg = 'miss';
+    }
     
     dmg = String(dmg);
     
@@ -262,9 +268,10 @@ Character.prototype = {
       stats.appendTo(level.info_div);
     }
     var lis = $(
-      '<li>HP: ' + this.hp_left + '/' + this.hp + '</li>' +
-      '<li>AP: ' + this.ap_left + '/' + this.ap + '</li>' +
-      '<li>SP: ' + this.speed   + '</li>'
+      '<li>Name: ' + this.name    + '</li>' +
+      '<li>HP: '   + this.hp_left + '/' + this.hp + '</li>' +
+      '<li>AP: '   + this.ap_left + '/' + this.ap + '</li>' +
+      '<li>SP: '   + this.speed   + '</li>'
     );
     stats.html(lis);
   },
