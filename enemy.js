@@ -2,6 +2,8 @@ function Enemy(opts){
   this.speed = opts.speed || 2;
   this.ap = 0;
   this.ap_left = 0;
+  this.hp = opts.hp || 100;
+  this.hp_left = this.hp;
   this.has_moved = false;
   this.has_attacked = true;
   this.weapon = new Weapon({ attack_range: 1, attack: 1, name: 'Bronze Sword' });

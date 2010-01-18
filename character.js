@@ -2,6 +2,8 @@ function Character(opts){
   this.speed = opts.speed || 2;
   this.ap = opts.ap || 4;
   this.ap_left = this.ap;
+  this.hp = opts.hp || 100;
+  this.hp_left = this.hp;
   this.sprite = opts.sprite || 'pics/bar.gif';
   this.weapon = new Weapon({ range: 1, attack: 1, is_ranged: false, dead_range: 2, name: 'Bronze Sword' });
   this.x = 6;
@@ -171,8 +173,8 @@ Character.prototype = {
       stats.appendTo(level.info_div);
     }
     var lis = $(
-      '<li>AP: ' + this.ap + '</li>' +
-      '<li>AP Left: ' + this.ap_left + '</li>' +
+      '<li>HP: ' + this.hp_left + '/' + this.hp + '</li>' +
+      '<li>AP: ' + this.ap_left + '/' + this.ap + '</li>' +
       '<li>SP: ' + this.speed + '</li>'
     );
     stats.html(lis);
