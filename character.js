@@ -118,10 +118,20 @@ Character.prototype = {
     return true;
   },
   deal_damage: function(x, y){
-    var hits = $('<h1>' + 500 + '</h1>')
+    var hits;
+    var dmg = Math.floor((Math.random() * 110));
+    var stg = Number(dmg).toString();
+    
+    if( stg.length == 1 )
+      hits = $('<h3>' + stg + '</h3>');
+    else if ( stg.length == 2 )
+      hits = $('<h2>' + stg + '</h2>');
+    else if ( stg.length == 3 )
+      hits = $('<h1>' + stg + '</h1>');
+    
     hits.appendTo(this.map.stat_cell(x, y))
       .shake(3, 3, 180)
-      .fadeOut(1500);
+      .fadeOut(1500, function(){ $(this).remove(); } );
   },
   end_turn: function(){
     this.subtract_ap(this.ap_left);
