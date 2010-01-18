@@ -10,10 +10,12 @@ function Level(){
     [ 10, 10, 10, 10, 10, 10, 10 ] 
   ]);
   this.info_div = $('#info');
-  this.player_turn = true;
+  
+  this.players_have_gone = false;
+  this.enemies_have_gone = false;
   
   var hero = new Character( { map: this.map } );
-  this.active_character = hero;
+  this.active_player = hero;
   
   var enemy = new Enemy( { map: this.map } );
   this.active_enemy = enemy;
@@ -23,30 +25,27 @@ function Level(){
 
 Level.prototype = {
   show_current_turn: function(){
-    
-    if ( this.active_character.has_gone() && this.active_enemy.has_gone() ){
-      this.active_character.ap_left = this.active_character.ap;
-      this.active_enemy.has_moved = false;
-      this.active_enemy.has_attacked = true;
-      this.player_turn = true;
-      // next turn
-    }
-    
-    if( this.active_character.has_gone() )
-      this.player_turn = false;
-    
-    if( this.active_enemy.has_gone() )
-      this.player_turn = true;
-    
-    if( this.player_turn ){
-      this.info_div.html('<p>Player Turn</p>');
-    } else {
+    this.players_have_gone = this.active_player.has_gone();
+    this.enemies_have_gone = this.active_enemy.has_gone();
+
+    if ( this.players_have_gone && this.enemies_have_gone ) {
+      this.reset_turn();
+    } else if ( this.players_have_gone ) {
       this.info_div.html('<p>Enemy Turn</p>');
-      this.move_enemy();
+      this.activate_enemy();
     }
   },
-  move_enemy: function(){
+  activate_enemy: function(){
     var enemy = this.active_enemy;
-    enemy.target_player();
+    enemy.calculate_turn();
+  },
+  reset_turn: function(){
+    this.active_player.ap_left = this.active_player.ap;
+    this.active_enemy.has_moved = false;
+    this.active_enemy.has_attacked = false;
+    this.players_have_gone = false;
+    this.enemies_have_gone = false;
+    this.info_div.html('<p>Player Turn</p>');
+    this.active_player.bind_events();
   }
 };

@@ -7,7 +7,7 @@ function Character(opts){
   this.sprite = opts.sprite || 'pics/bar.gif';
   this.weapon = new Weapon({ range: 1, attack: 1, is_ranged: false, dead_range: 2, name: 'Bronze Sword' });
   this.x = 6;
-  this.y = 7;
+  this.y = 6;
   this.is_player = true;
   this.is_enemy = false;
   this.map = opts.map;
@@ -23,31 +23,21 @@ Character.prototype = {
       .removeClass('pointer occupied');
     
     if( this.x == x && this.y == y){
-      this.map.div
-        .find('.underlay.moveable')
-        .removeClass('moveable pointer')
-        .unbind('click');
-      
-      this.show();
+      this.map.remove_clickables();
       level.show_current_turn();
+      this.show();
     } else {
       this.animate_movement(x, y);
     }
   },
   show: function(){
     var self = this;
+    var elem = self.map.player_cell(self.x, self.y);
     
-    self.map.player_cell(self.x, self.y)
-      .css('background', 'url(' + self.sprite + ') no-repeat center')
-      .addClass('pointer occupied')
-      .click(function(){        
-        self.show_stats();
-        self.map.div
-          .find('.underlay.moveable, .underlay.attackable')
-          .removeClass('moveable pointer attackable')
-          .unbind('click');
-      })
-      .haloContext(self, self.get_context_menu);
+    elem.addClass('pointer occupied')
+      .css('background', 'url(' + self.sprite + ') no-repeat center');
+    
+    self.bind_events(elem);
   },
   calculate_movement: function(){
     var self = this;
@@ -73,23 +63,20 @@ Character.prototype = {
     matrix.set(x, y, 0);
     
     matrix.each(function(x, y){ 
-      if( this.e(x, y) == 1 ){
-        
+      if( this.e(x, y) == 1 ){        
         self.map.underlay_cell(x, y)
-          .addClass('moveable')
+          .addClass('moveable pointer')
           .click(function(){
             self.move(x, y);
-          })
-          .addClass('pointer');
+          });
       }
     });
   },
   find_neighbors: function(opts){
     var x = opts.x, y = opts.y, speed = opts.speed - 1;
     var is_attacking = opts.is_attacking || false;
-    
     var fill_with = 1;
-    if(opts.fill_with == 0)
+    if( opts.fill_with == 0 )
       fill_with = 0;
     
     var surrounds = [ 
@@ -121,7 +108,9 @@ Character.prototype = {
     var enemy   = this.map.enemy_matrix.e(x, y);
     var player  = this.map.player_matrix.e(x, y);
     
-    if( !terrain || terrain > 10 || enemy.hasClass('occupied') || player.hasClass('occupied') )
+    if( !terrain || terrain > 10 || 
+      enemy.hasClass('occupied') || 
+      player.hasClass('occupied') )
       return false;
     
     return true;
@@ -168,26 +157,29 @@ Character.prototype = {
   },
   show_stats: function(){
     var stats = $('#info #stats_list');
-    if (!stats.length){
+    if( !stats.length ){
       stats = $('<ul></ul>').attr('id', 'stats_list');
       stats.appendTo(level.info_div);
     }
     var lis = $(
       '<li>HP: ' + this.hp_left + '/' + this.hp + '</li>' +
       '<li>AP: ' + this.ap_left + '/' + this.ap + '</li>' +
-      '<li>SP: ' + this.speed + '</li>'
+      '<li>SP: ' + this.speed   + '</li>'
     );
     stats.html(lis);
-  },
-  has_gone: function(){
-    if(this.ap_left == 0)
-      return true;
-    
-    return false;
   },
   end_turn: function(){
     this.ap_left = 0;
     level.show_current_turn();
+  },
+  has_gone: function(){
+    if( this.ap_left == 0 ){
+      this.map.player_matrix
+        .e(this.x, this.y)
+        .unbind();
+      return true; 
+    }
+    return false;
   },
   get_context_menu: function(){
     var self = this;
@@ -217,11 +209,10 @@ Character.prototype = {
     attack_matrix.each(function(x, y){
       if( this.e(x, y) == 1 ){
         self.map.underlay_cell(x, y)
-          .addClass('attackable')
+          .addClass('attackable pointer')
           .click(function(){
             self.attack(x, y);
-          })
-          .addClass('pointer');
+          });
       }
     });
   },
@@ -231,12 +222,20 @@ Character.prototype = {
     if( self.ap_left < self.speed )
       return;
     
-    self.map.div
-      .find('.underlay.attackable')
-      .removeClass('attackable pointer')
-      .unbind('click');
-    
+    self.map.remove_clickables();
     self.ap_left -= self.speed;
     level.show_current_turn();
+  },
+  bind_events: function(elem){
+    var self = this;
+    if( !elem )
+      elem = self.map.player_cell(self.x, self.y)
+    
+    elem
+      .haloContext(self, self.get_context_menu)
+      .click(function(){        
+        self.show_stats();
+        self.map.remove_clickables();
+      });
   }
 };

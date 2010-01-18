@@ -5,7 +5,7 @@ function Enemy(opts){
   this.hp = opts.hp || 100;
   this.hp_left = this.hp;
   this.has_moved = false;
-  this.has_attacked = true;
+  this.has_attacked = false;
   this.weapon = new Weapon({ attack_range: 1, attack: 1, name: 'Bronze Sword' });
   this.sprite = opts.sprite || 'pics/enemy.gif';
   this.x = 0;
@@ -26,30 +26,32 @@ $.extend(Enemy.prototype, {
       .unbind('click')
       .removeClass('pointer occupied');
     
+    this.attack_if_possible();
+    
     if( this.x == x && this.y == y){ // at destination
-      this.map.div
-        .find('.underlay.moveable')
-        .removeClass('moveable pointer')
-        .unbind('click');
-      
-      this.show();
       this.has_moved = true;
+      this.has_attacked = true; // should've done it by now
+      this.show();
+      this.map.remove_clickables( ['pointer', 'moveable'] );
       level.show_current_turn();
     } else {
       this.animate_movement(x, y);
     }
   },
+  attack: function(x, y){
+    this.has_moved = true;
+    this.map.remove_clickables();
+    level.show_current_turn();
+  },
   show: function(){
-    var self = this;
-    
-    self.map.enemy_cell(self.x, self.y)
-      .css('background', 'url(' + self.sprite + ') no-repeat center')
+    this.map.enemy_cell(this.x, this.y)
+      .css('background', 'url(' + this.sprite + ') no-repeat center')
       .addClass('pointer occupied');
   },
-  target_player: function(){
+  move_to_player: function(){
     var self = this;
-    var x = level.active_character.x;
-    var y = level.active_character.y;
+    var x = level.active_player.x;
+    var y = level.active_player.y;
     var target;
     
     res = astar.search(self, self.map.terrain_matrix, 
@@ -62,7 +64,7 @@ $.extend(Enemy.prototype, {
     for( var i = res.length - 1; i >= 0; i--){
       target = res[i];
       
-      if(self.can_move_to(target.x, target.y)){
+      if( self.can_move_to(target.x, target.y) ){
         self.show_movement(target.x, target.y);
         return;
       }
@@ -74,7 +76,36 @@ $.extend(Enemy.prototype, {
     self.calculate_movement();
     setTimeout(function(){ self.move(x, y); }, 1000);
   },
+  animate_attack: function(x, y){
+    var self = this;
+    self.calculate_attack();
+    self.has_attacked = true;
+    setTimeout(function(){ self.attack_specific_square(x, y); }, 1000);
+  },
+  attack_specific_square: function(x, y){
+    var self = this;
+    self.map.remove_clickables();
+    self.map.underlay_cell(x, y).addClass('attackable');
+    setTimeout(function(){ self.attack(x, y); }, 1000);
+  },
   has_gone: function(){
     return this.has_moved && this.has_attacked;
+  },
+  calculate_turn: function(){
+    this.attack_if_possible();
+    
+    if( !this.has_attacked )
+      this.move_to_player();
+  },
+  attack_if_possible: function(){
+    var self = this;
+    var attack_matrix = this.get_attack_matrix();
+    
+    attack_matrix.each(function(x, y){
+      if( attack_matrix.e(x, y) == 1 && 
+        self.map.player_cell(x, y).hasClass('occupied') ){
+        self.animate_attack(x, y);
+      }  
+    });
   }
 });

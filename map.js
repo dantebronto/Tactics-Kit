@@ -80,5 +80,14 @@ Map.prototype = {
     cell.attr('id', type + '_' + cell_id);
     this[type + '_matrix'].set(x, y, cell);
     return cell;
+  },
+  remove_clickables: function( types ){ // array of types to remove
+    if ( !types )
+      types = ['attackable pointer moveable'];
+    
+    this.div
+      .find('.underlay.attackable, .underlay.moveable')
+      .removeClass(types.join(' '))
+      .unbind('click');
   }
 }
