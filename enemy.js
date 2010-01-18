@@ -19,6 +19,43 @@ function Enemy(opts){
 copy_prototype(Enemy, Character);
 
 $.extend(Enemy.prototype, {
+  animate_attack: function(x, y){
+    var self = this;
+    self.calculate_attack();
+    self.has_attacked = true;
+    setTimeout(function(){ self.attack_specific_square(x, y); }, 1000);
+  },
+  attack: function(x, y){
+    this.has_moved = true;
+    this.map.remove_clickables();
+    level.show_current_turn();
+  },
+  attack_if_possible: function(){
+    var self = this;
+    var attack_matrix = this.get_attack_matrix();
+    
+    attack_matrix.each(function(x, y){
+      if( attack_matrix.e(x, y) == 1 && 
+        self.map.player_cell(x, y).hasClass('occupied') ){
+        self.animate_attack(x, y);
+      }  
+    });
+  },
+  attack_specific_square: function(x, y){
+    var self = this;
+    self.map.remove_clickables();
+    self.map.underlay_cell(x, y).addClass('attackable');
+    setTimeout(function(){ self.attack(x, y); }, 1000);
+  },
+  calculate_turn: function(){
+    this.attack_if_possible();
+    
+    if( !this.has_attacked )
+      this.move_to_player();
+  },
+  has_gone: function(){
+    return this.has_moved && this.has_attacked;
+  },
   move: function(x, y){
     
     this.map.enemy_cell(this.x, this.y)
@@ -37,16 +74,6 @@ $.extend(Enemy.prototype, {
     } else {
       this.animate_movement(x, y);
     }
-  },
-  attack: function(x, y){
-    this.has_moved = true;
-    this.map.remove_clickables();
-    level.show_current_turn();
-  },
-  show: function(){
-    this.map.enemy_cell(this.x, this.y)
-      .css('background', 'url(' + this.sprite + ') no-repeat center')
-      .addClass('pointer occupied');
   },
   move_to_player: function(){
     var self = this;
@@ -71,41 +98,14 @@ $.extend(Enemy.prototype, {
     }
     self.show_movement(self.x, self.y); // move to own space
   },
+  show: function(){
+    this.map.enemy_cell(this.x, this.y)
+      .css('background', 'url(' + this.sprite + ') no-repeat center')
+      .addClass('pointer occupied');
+  },
   show_movement: function(x, y){
     var self = this;
     self.calculate_movement();
     setTimeout(function(){ self.move(x, y); }, 1000);
-  },
-  animate_attack: function(x, y){
-    var self = this;
-    self.calculate_attack();
-    self.has_attacked = true;
-    setTimeout(function(){ self.attack_specific_square(x, y); }, 1000);
-  },
-  attack_specific_square: function(x, y){
-    var self = this;
-    self.map.remove_clickables();
-    self.map.underlay_cell(x, y).addClass('attackable');
-    setTimeout(function(){ self.attack(x, y); }, 1000);
-  },
-  has_gone: function(){
-    return this.has_moved && this.has_attacked;
-  },
-  calculate_turn: function(){
-    this.attack_if_possible();
-    
-    if( !this.has_attacked )
-      this.move_to_player();
-  },
-  attack_if_possible: function(){
-    var self = this;
-    var attack_matrix = this.get_attack_matrix();
-    
-    attack_matrix.each(function(x, y){
-      if( attack_matrix.e(x, y) == 1 && 
-        self.map.player_cell(x, y).hasClass('occupied') ){
-        self.animate_attack(x, y);
-      }  
-    });
   }
 });

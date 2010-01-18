@@ -15,29 +15,56 @@ function Character(opts){
 };
 
 Character.prototype = {
-  move: function(x, y){
-    
-    this.map.player_cell(this.x, this.y)
-      .css('background', 'transparent')
-      .unbind('click')
-      .removeClass('pointer occupied');
-    
-    if( this.x == x && this.y == y){
-      this.map.remove_clickables();
-      level.show_current_turn();
-      this.show();
-    } else {
-      this.animate_movement(x, y);
-    }
-  },
-  show: function(){
+  animate_movement: function(x, y){
     var self = this;
-    var elem = self.map.player_cell(self.x, self.y);
+    res = astar.search(self, self.map.terrain_matrix, 
+      { x: self.x, y: self.y }, { x: x, y: y });
     
-    elem.addClass('pointer occupied')
-      .css('background', 'url(' + self.sprite + ') no-repeat center');
+    if( self.is_player )
+      self.ap_left -= 1;
     
-    self.bind_events(elem);
+    self.x = res[0].x;
+    self.y = res[0].y;
+    
+    self.show();
+    setTimeout(function(){ self.move(x, y); }, 500);
+  },
+  attack: function(x, y){
+    var self = this;
+    
+    if( self.ap_left < self.speed )
+      return;
+    
+    self.map.remove_clickables();
+    self.ap_left -= self.speed;
+    level.show_current_turn();
+  },
+  bind_events: function(elem){
+    var self = this;
+    if( !elem )
+      elem = self.map.player_cell(self.x, self.y)
+    
+    elem
+      .haloContext(self, self.get_context_menu)
+      .click(function(){        
+        self.show_stats();
+        self.map.remove_clickables();
+      });
+  },
+  calculate_attack: function(){
+    var self = this;
+    var attack_matrix = self.get_attack_matrix();
+    
+    attack_matrix.each(function(x, y){
+      if( this.e(x, y) == 1 ){
+        self.map.underlay_cell(x, y)
+          .addClass('attackable pointer')
+          .click(function(){
+            if ( self.is_player )
+              self.attack(x, y);
+          });
+      }
+    });
   },
   calculate_movement: function(){
     var self = this;
@@ -67,10 +94,27 @@ Character.prototype = {
         self.map.underlay_cell(x, y)
           .addClass('moveable pointer')
           .click(function(){
-            self.move(x, y);
+            if ( self.is_player )
+              self.move(x, y);
           });
       }
     });
+  },
+  can_move_to: function(x, y){
+    var terrain = this.map.terrain_matrix.e(x, y);
+    var enemy   = this.map.enemy_matrix.e(x, y);
+    var player  = this.map.player_matrix.e(x, y);
+    
+    if( !terrain || terrain > 10 || 
+      enemy.hasClass('occupied') || 
+      player.hasClass('occupied') )
+      return false;
+    
+    return true;
+  },
+  end_turn: function(){
+    this.ap_left = 0;
+    level.show_current_turn();
   },
   find_neighbors: function(opts){
     var x = opts.x, y = opts.y, speed = opts.speed - 1;
@@ -103,31 +147,26 @@ Character.prototype = {
     }
     return matrix;
   },
-  can_move_to: function(x, y){
-    var terrain = this.map.terrain_matrix.e(x, y);
-    var enemy   = this.map.enemy_matrix.e(x, y);
-    var player  = this.map.player_matrix.e(x, y);
-    
-    if( !terrain || terrain > 10 || 
-      enemy.hasClass('occupied') || 
-      player.hasClass('occupied') )
-      return false;
-    
-    return true;
-  },
-  animate_movement: function(x, y){
+  get_context_menu: function(){
     var self = this;
-    res = astar.search(self, self.map.terrain_matrix, 
-      { x: self.x, y: self.y }, { x: x, y: y });
+    var menu = {};
+    var no_ap_func = function(){ alert('Not enough AP!'); };
     
-    if( self.is_player )
-      self.ap_left -= 1;
-    
-    self.x = res[0].x;
-    self.y = res[0].y;
-    
-    self.show();
-    setTimeout(function(){ self.move(x, y); }, 500);
+		if( this.ap_left < this.speed ){
+		  menu['attack_no_ap'] = no_ap_func;
+		  menu['guard_no_ap']  = no_ap_func;
+		} else {
+		  menu['attack'] = function(){ self.calculate_attack(); };
+		  menu['guard']  = function(){ self.end_turn(); }
+		}
+		
+		menu['move']     = function() { self.calculate_movement(); }
+	  menu['end turn'] = function() { 
+	    var sure = confirm('End your turn with ' + self.ap_left + ' AP remaining?'); 
+	    if(sure) { self.end_turn(); }
+	  }
+		
+		return menu;
   },
   get_attack_matrix: function(opts){
     var self = this;
@@ -155,6 +194,39 @@ Character.prototype = {
     
     return matrix;
   },
+  has_gone: function(){
+    if( this.ap_left == 0 ){
+      this.map.player_matrix
+        .e(this.x, this.y)
+        .unbind();
+      return true; 
+    }
+    return false;
+  },
+  move: function(x, y){
+    
+    this.map.player_cell(this.x, this.y)
+      .css('background', 'transparent')
+      .unbind('click')
+      .removeClass('pointer occupied');
+    
+    if( this.x == x && this.y == y){
+      this.map.remove_clickables();
+      level.show_current_turn();
+      this.show();
+    } else {
+      this.animate_movement(x, y);
+    }
+  },
+  show: function(){
+    var self = this;
+    var elem = self.map.player_cell(self.x, self.y);
+    
+    elem.addClass('pointer occupied')
+      .css('background', 'url(' + self.sprite + ') no-repeat center');
+    
+    self.bind_events(elem);
+  },
   show_stats: function(){
     var stats = $('#info #stats_list');
     if( !stats.length ){
@@ -167,75 +239,5 @@ Character.prototype = {
       '<li>SP: ' + this.speed   + '</li>'
     );
     stats.html(lis);
-  },
-  end_turn: function(){
-    this.ap_left = 0;
-    level.show_current_turn();
-  },
-  has_gone: function(){
-    if( this.ap_left == 0 ){
-      this.map.player_matrix
-        .e(this.x, this.y)
-        .unbind();
-      return true; 
-    }
-    return false;
-  },
-  get_context_menu: function(){
-    var self = this;
-    var menu = {};
-    var no_ap_func = function(){ alert('Not enough AP!'); };
-    
-		if( this.ap_left < this.speed ){
-		  menu['attack_no_ap'] = no_ap_func;
-		  menu['guard_no_ap']  = no_ap_func;
-		} else {
-		  menu['attack'] = function(){ self.calculate_attack(); };
-		  menu['guard']  = function(){ self.end_turn(); }
-		}
-		
-		menu['move']     = function() { self.calculate_movement(); }
-	  menu['end turn'] = function() { 
-	    var sure = confirm('End your turn with ' + self.ap_left + ' AP remaining?'); 
-	    if(sure) { self.end_turn(); }
-	  }
-		
-		return menu;
-  },
-  calculate_attack: function(){
-    var self = this;
-    var attack_matrix = self.get_attack_matrix();
-    
-    attack_matrix.each(function(x, y){
-      if( this.e(x, y) == 1 ){
-        self.map.underlay_cell(x, y)
-          .addClass('attackable pointer')
-          .click(function(){
-            self.attack(x, y);
-          });
-      }
-    });
-  },
-  attack: function(x, y){
-    var self = this;
-    
-    if( self.ap_left < self.speed )
-      return;
-    
-    self.map.remove_clickables();
-    self.ap_left -= self.speed;
-    level.show_current_turn();
-  },
-  bind_events: function(elem){
-    var self = this;
-    if( !elem )
-      elem = self.map.player_cell(self.x, self.y)
-    
-    elem
-      .haloContext(self, self.get_context_menu)
-      .click(function(){        
-        self.show_stats();
-        self.map.remove_clickables();
-      });
   }
 };
