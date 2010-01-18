@@ -1,5 +1,6 @@
 function Enemy(opts){
-  this.name = opts.name || 'Battle Mage';
+  this.level = opts.level || 1;
+  this.name = opts.name || 'Level ' + this.level + ' Battle Mage';
   this.speed = opts.speed || 2;
   this.ap = 0;
   this.ap_left = 0;
@@ -11,9 +12,10 @@ function Enemy(opts){
   this.sprite = opts.sprite || 'pics/enemy.gif';
   this.accuracy = opts.accuracy || 80;
   this.strength = opts.strength || 2;
+  this.strength = this.strength + this.weapon.attack;
   this.exp = opts.exp || 100;
-  this.x = 0;
-  this.y = 0;
+  this.x = opts.x || 0;
+  this.y = opts.y || 0;
   this.map = opts.map;
   this.is_player = false;
   this.is_enemy = true;
@@ -31,6 +33,7 @@ $.extend(Enemy.prototype, {
   },
   attack: function(x, y){
     this.has_moved = true;
+    this.deal_damage(x, y);  
     this.map.remove_clickables();
     level.show_current_turn();
   },
@@ -39,9 +42,9 @@ $.extend(Enemy.prototype, {
     var attack_matrix = this.get_attack_matrix();
     
     attack_matrix.each(function(x, y){
-      if( attack_matrix.e(x, y) == 1 && 
-        self.map.player_cell(x, y).hasClass('occupied') ){
-        self.animate_attack(x, y);
+      if( attack_matrix.e(x, y) == 1 && self.map.player_cell(x, y).hasClass('occupied') ){
+        if( !self.has_attacked ) // don't check this for area of effect
+          self.animate_attack(x, y);
       }  
     });
   },
@@ -57,6 +60,36 @@ $.extend(Enemy.prototype, {
     if( !this.has_attacked )
       this.move_to_player();
   },
+  deal_damage: function(x, y){
+    var hits;
+    var dmg = 0;
+    var miss_pct = Math.floor((Math.random() * 100 + 1));
+    var player = this.map.find_by_position('player', x, y);
+    
+    if ( miss_pct < this.accuracy && player ){
+      for(var i=0; i < this.strength; i++)
+        dmg += this.roll_dice();
+      player.subtract_hp(dmg);      
+    } else {
+      dmg = 'miss';
+    }
+    
+    dmg = String(dmg);
+    
+    if( dmg.length == 1 || dmg == 'miss' )
+      hits = $('<h3>' + dmg + '</h3>');
+    else if ( dmg.length == 2 )
+      hits = $('<h2>' + dmg + '</h2>');
+    else if ( dmg.length == 3 )
+      hits = $('<h1>' + dmg + '</h1>');
+    
+    hits.appendTo(this.map.stat_cell(x, y))
+      .shake(3, 3, 180)
+      .fadeOut(1500, function(){ $(this).remove(); } );
+  },
+  die: function(){
+    alert('dead!');
+  },
   has_gone: function(){
     return this.has_moved && this.has_attacked;
   },
@@ -64,8 +97,8 @@ $.extend(Enemy.prototype, {
     
     this.map.enemy_cell(this.x, this.y)
       .css('background', 'transparent')
-      .unbind('click')
-      .removeClass('pointer occupied');
+      .removeClass('pointer occupied')
+      .unbind();
     
     this.attack_if_possible();
     
@@ -103,9 +136,11 @@ $.extend(Enemy.prototype, {
     self.show_movement(self.x, self.y); // move to own space
   },
   show: function(){
+    var self = this;
     this.map.enemy_cell(this.x, this.y)
       .css('background', 'url(' + this.sprite + ') no-repeat center')
-      .addClass('pointer occupied');
+      .addClass('pointer occupied')
+      .click( function(){ self.show_stats(); });
   },
   show_movement: function(x, y){
     var self = this;

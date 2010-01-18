@@ -1,6 +1,7 @@
 function Character(opts){
   this.name = opts.name || 'd00d';
   this.speed = opts.speed || 2;
+  this.level = opts.level || 1;
   this.ap = opts.ap || 4;
   this.ap_left = this.ap;
   this.hp = opts.hp || 100;
@@ -8,11 +9,12 @@ function Character(opts){
   this.exp = opts.exp || 0;
   this.exp_next = opts.exp_next || 100;
   this.sprite = opts.sprite || 'pics/bar.gif';
+  this.weapon = new Weapon({ range: 3, attack: 1, is_ranged: false, dead_range: 0, name: 'Bronze Sword' });
   this.accuracy = opts.accuracy || 80;
   this.strength = opts.strength || 2;
-  this.weapon = new Weapon({ range: 3, attack: 1, is_ranged: false, dead_range: 0, name: 'Bronze Sword' });
-  this.x = 3;
-  this.y = 3;
+  this.strength = this.strength + this.weapon.attack;
+  this.x = opts.x || 3;
+  this.y = opts.x || 3;
   this.is_player = true;
   this.is_enemy = false;
   this.map = opts.map;
@@ -125,13 +127,13 @@ Character.prototype = {
   deal_damage: function(x, y){
     var hits;
     var dmg = 0;
-    var miss = Math.floor((Math.random() * 100 + 1));
+    var miss_pct = Math.floor((Math.random() * 100 + 1));
     var enemy = this.map.find_by_position('enemy', x, y);
-    
-    if ( !this.accuracy < miss && enemy ){
-      for(var i=0; i < this.strength + this.weapon.attack; i++)
+
+    if ( miss_pct < this.accuracy && enemy ){
+      for(var i=0; i < this.strength; i++)
         dmg += this.roll_dice();
-      console.log(enemy.hp_left);      
+      enemy.subtract_hp(dmg);      
     } else {
       dmg = 'miss';
     }
@@ -148,6 +150,9 @@ Character.prototype = {
     hits.appendTo(this.map.stat_cell(x, y))
       .shake(3, 3, 180)
       .fadeOut(1500, function(){ $(this).remove(); } );
+  },
+  die: function(){
+    alert('player dead! game ova man!!');
   },
   end_turn: function(){
     this.subtract_ap(this.ap_left);
@@ -267,12 +272,16 @@ Character.prototype = {
       stats = $('<ul></ul>').attr('id', 'stats_list');
       stats.appendTo(level.info_div);
     }
-    var lis = $(
-      '<li>Name: ' + this.name    + '</li>' +
-      '<li>HP: '   + this.hp_left + '/' + this.hp + '</li>' +
-      '<li>AP: '   + this.ap_left + '/' + this.ap + '</li>' +
-      '<li>SP: '   + this.speed   + '</li>'
-    );
+    var li_stg = '';
+    
+    li_stg += '<li>Name: ' + this.name     + '</li>';
+    li_stg += '<li>HP: '   + this.hp_left  + '/' + this.hp + '</li>';
+    if ( this.is_player )
+      li_stg += '<li>AP: '   + this.ap_left  + '/' + this.ap + '</li>';
+    li_stg += '<li>ST: '   + this.strength + '</li>';
+    li_stg += '<li>SP: '   + this.speed    + '</li>';
+    
+    var lis = $(li_stg);
     stats.html(lis);
   },
   subtract_ap: function(amt){
@@ -283,6 +292,11 @@ Character.prototype = {
       this.unbind_events();
     }
     level.show_current_turn();
+  },
+  subtract_hp: function(amt){
+    this.hp_left -= amt;
+    if( this.hp_left <= 0 )
+      this.die();
   },
   unbind_events: function(){
     this.map.player_matrix 

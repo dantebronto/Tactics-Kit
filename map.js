@@ -93,7 +93,7 @@ Map.prototype = {
   find_by_position: function(type, x, y){
     var chars = []; 
     
-    if( type == 'character' )
+    if( type == 'player' )
       chars = level.characters;
     else
       chars = level.enemies;
