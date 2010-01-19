@@ -1,0 +1,17 @@
+keep search the same or everything should use onesearch
+foreclosures -- find out about feed - where, who, etc.
+rss feeds? helps with seo, want to keep
+popular searches - popular u.s. housing markets, static or dynamic?
+mortgage tab - bankrate feeds - relationship w/ bankrate?
+rapid request - single lead or multiple
+map search - find out about flash map object
+  port logic from allhomes?
+home builder search - improve or keep the same?
+sitemap -> find an agent -> ??? really old search results, email this agent, does it generate a lead?
+resale homes link in sub-footer (next to house icon) also links to agents
+homebuying_tips.html - use seo_fusion
+search refinements - standardize with other projects or keep the same
+  select a city => nearby cities
+community directions on detail page, from endeca or gmaps code?
+free real estate content in footer. how is this provided? just pull from rss? need permission? 
+blog.americanhomeguides.com - wordpress? 

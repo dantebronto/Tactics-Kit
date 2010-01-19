@@ -7,7 +7,7 @@ function Character(opts){
   this.hp = opts.hp || 100;
   this.hp_left = this.hp;
   this.exp = opts.exp || 0;
-  this.exp_next = opts.exp_next || 100;
+  this.exp_next = opts.exp_next || this.level * 100;
   this.sprite = opts.sprite || 'pics/bar.gif';
   this.weapon = new Weapon({ range: 3, attack: 1, is_ranged: false, dead_range: 0, name: 'Bronze Sword' });
   this.accuracy = opts.accuracy || 80;
@@ -22,16 +22,17 @@ function Character(opts){
 };
 
 Character.prototype = {
-  
   add_exp: function(amt){
-    this.exp += amt;
-    this.exp_next -= this.exp_next;
-    
-    if( this.exp_next <= 0 ){
-      this.level += 1;
-      this.exp_next = 100;
-      alert('Level up! ' + this.name + ' is now level ' + this.level + '!')
-    }    
+    for( var i=0; i < amt; i++ ){
+      this.exp += 1;
+      this.exp_next -= 1;
+      
+      if( this.exp_next <= 0 ){
+        this.level += 1;
+        this.exp_next = this.level * 100;
+        alert('Level up! ' + this.name + ' is now level ' + this.level + '!');
+      }
+    }
   },
   animate_movement: function(x, y){
     var self = this;

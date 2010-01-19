@@ -13,9 +13,9 @@ function Enemy(opts){
   this.accuracy = opts.accuracy || 80;
   this.strength = opts.strength || 2;
   this.strength = this.strength + this.weapon.attack;
-  this.exp = opts.exp || 100;
-  this.x = opts.x || 0;
-  this.y = opts.y || 0;
+  this.exp = opts.exp || this.level * 12;
+  this.x = opts.x || 3;
+  this.y = opts.y || 14;
   this.map = opts.map;
   this.is_player = false;
   this.is_enemy = true;

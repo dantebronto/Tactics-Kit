@@ -12,7 +12,7 @@ table {border-collapse: collapse;border-spacing: 0;}
 
 body { padding: 15px; font-family: arial; font-size: 0.8em; }
 
-#map { border-top: thin solid #666; border-left: thin solid #666; width: 387px; height:417px; background-image: url(pics/map.png); float:left;}
+#map { border-top: thin solid #666; border-left: thin solid #666; width: 410px; height:816px; background-image: url(pics/test_map.jpg); float:left;}
 #info { float:left; padding-left: 20px; }
 #info p { font-size: 1.2em; }
 .cell { background-color:transparent; width: 50px; height: 50px; display:inline; float:left; border-right: thin solid #666; border-bottom: thin solid #666; text-align:center; }
