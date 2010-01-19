@@ -4,7 +4,7 @@ function Enemy(opts){
   this.speed = opts.speed || 2;
   this.ap = 0;
   this.ap_left = 0;
-  this.hp = opts.hp || 100;
+  this.hp = opts.hp || 25;
   this.hp_left = this.hp;
   this.has_moved = false;
   this.has_attacked = false;
@@ -88,18 +88,16 @@ $.extend(Enemy.prototype, {
       .fadeOut(1500, function(){ $(this).remove(); } );
   },
   die: function(){
-    alert('dead!');
+    this.remove_from_map();
+    level.distribute_exp(this.exp);
+    level.remove_enemy(this);
   },
   has_gone: function(){
     return this.has_moved && this.has_attacked;
   },
   move: function(x, y){
     
-    this.map.enemy_cell(this.x, this.y)
-      .css('background', 'transparent')
-      .removeClass('pointer occupied')
-      .unbind();
-    
+    this.remove_from_map();
     this.attack_if_possible();
     
     if( this.x == x && this.y == y){ // at destination
@@ -134,6 +132,12 @@ $.extend(Enemy.prototype, {
       }
     }
     self.show_movement(self.x, self.y); // move to own space
+  },
+  remove_from_map: function(){
+    this.map.enemy_cell(this.x, this.y)
+      .css('background', 'transparent')
+      .removeClass('pointer occupied')
+      .unbind();
   },
   show: function(){
     var self = this;

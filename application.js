@@ -29,11 +29,11 @@ $(document).ready(function(){
     var hero = new Character( { map: level.map } );
     level.active_player = hero;
     level.characters = [hero];
-
+    
     var enemy = new Enemy( { map: level.map } );
     level.active_enemy = enemy;
     level.enemies = [enemy];
-
+    
     level.reset_turn(); 
   });
 });

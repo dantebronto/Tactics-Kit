@@ -22,6 +22,17 @@ function Character(opts){
 };
 
 Character.prototype = {
+  
+  add_exp: function(amt){
+    this.exp += amt;
+    this.exp_next -= this.exp_next;
+    
+    if( this.exp_next <= 0 ){
+      this.level += 1;
+      this.exp_next = 100;
+      alert('Level up! ' + this.name + ' is now level ' + this.level + '!')
+    }    
+  },
   animate_movement: function(x, y){
     var self = this;
     
@@ -152,7 +163,8 @@ Character.prototype = {
       .fadeOut(1500, function(){ $(this).remove(); } );
   },
   die: function(){
-    alert('player dead! game ova man!!');
+    this.remove_from_map();
+    level.remove_player(this);
   },
   end_turn: function(){
     this.subtract_ap(this.ap_left);
@@ -244,15 +256,18 @@ Character.prototype = {
   },
   move: function(x, y){
     
-    this.map.player_cell(this.x, this.y)
-      .css('background', 'transparent')
-      .removeClass('pointer occupied')
-      .unbind('click');
+    this.remove_from_map();
     
     if( this.x == x && this.y == y)
       this.show();
     else
       this.animate_movement(x, y);
+  },
+  remove_from_map: function(){
+    this.map.player_cell(this.x, this.y)
+      .css('background', 'transparent')
+      .removeClass('pointer occupied')
+      .unbind();
   },
   roll_dice: function(){
     return Math.floor((Math.random() * 3 + 1));
