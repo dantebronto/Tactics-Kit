@@ -112,13 +112,9 @@ $.extend(Enemy.prototype, {
   },
   move_to_player: function(){
     var self = this;
-    
-    // target weakest/nearest player
-    // var x = level.active_player.x;
-    // var y = level.active_player.y;
-    
-    var x = level.players[0].x;
-    var y = level.players[0].y;
+    var weakest_player = self.target_player();
+    var x = weakest_player.x;
+    var y = weakest_player.y;
     var target;
     
     res = astar.search(self, self.map.terrain_matrix, 
@@ -155,5 +151,12 @@ $.extend(Enemy.prototype, {
     var self = this;
     self.calculate_movement();
     setTimeout(function(){ self.move(x, y); }, 1000);
+  },
+  target_player: function(){
+    var weakest_player = level.players[0];
+    for( var i=level.players.length - 1; i >= 0; i-- )
+      if ( level.players[i].hp_left < weakest_player.hp_left )
+        weakest_player = level.players[i];
+    return weakest_player;
   }
 });
