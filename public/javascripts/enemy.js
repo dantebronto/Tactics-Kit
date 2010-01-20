@@ -9,7 +9,7 @@ function Enemy(opts){
   this.has_moved = false;
   this.has_attacked = false;
   this.weapon = new Weapon({ attack_range: 1, attack: 1, name: 'Bronze Sword' });
-  this.sprite = opts.sprite || 'pics/enemy.gif';
+  this.sprite = opts.sprite || '/images/enemy.gif';
   this.accuracy = opts.accuracy || 80;
   this.strength = opts.strength || 2;
   this.strength = this.strength + this.weapon.attack;

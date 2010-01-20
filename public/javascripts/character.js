@@ -8,7 +8,7 @@ function Character(opts){
   this.hp_left = this.hp;
   this.exp = opts.exp || 0;
   this.exp_next = opts.exp_next || this.level * 100;
-  this.sprite = opts.sprite || 'pics/bar.gif';
+  this.sprite = opts.sprite || '/images/bar.gif';
   this.weapon = new Weapon({ range: 3, attack: 1, is_ranged: false, dead_range: 0, name: 'Bronze Sword' });
   this.accuracy = opts.accuracy || 80;
   this.strength = opts.strength || 2;

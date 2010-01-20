@@ -12,13 +12,13 @@ table {border-collapse: collapse;border-spacing: 0;}
 
 body { padding: 15px; font-family: arial; font-size: 0.8em; }
 
-#map { border-top: thin solid #666; border-left: thin solid #666; width: 410px; height:816px; background-image: url(pics/test_map.jpg); float:left;}
+#map { border-top: thin solid #666; border-left: thin solid #666; width: 410px; height:816px; background-image: url(/images/test_map.jpg); float:left;}
 #info { float:left; padding-left: 20px; }
 #info p { font-size: 1.2em; }
 .cell { background-color:transparent; width: 50px; height: 50px; display:inline; float:left; border-right: thin solid #666; border-bottom: thin solid #666; text-align:center; }
 
-.moveable   { background-image: url('pics/moveable.png');   }
-.attackable { background-image: url('pics/attackable.png'); }
+.moveable   { background-image: url(/images/moveable.png);   }
+.attackable { background-image: url(/images/attackable.png); }
 .pointer { cursor: pointer; }
 
 ul#stats_list { padding-top: 10px; }
@@ -32,8 +32,8 @@ ul#stats_list li { padding-top:3px; }
 /* end hit points */
 
 /* context menu */
-div.hct {background-image: url(pics/greybutton.png);position: absolute;width: 48px;height: 34px;font-size: 10px;text-align: center;padding-top: 14px;display: none;cursor: pointer;}	
-div.hct:hover {background-image: url(pics/greyhighlight.png);}
-div.hct.no_ap {background-image: url(pics/redbutton.png);}
+div.hct {background-image: url(/images/greybutton.png);position: absolute;width: 48px;height: 34px;font-size: 10px;text-align: center;padding-top: 14px;display: none;cursor: pointer;}	
+div.hct:hover {background-image: url(/images/greyhighlight.png);}
+div.hct.no_ap {background-image: url(/images/redbutton.png);}
 #hpt {position: absolute;width: 10px;height: 10px;display: none;background: 000;opacity: 0;}
 /* end context menu */
