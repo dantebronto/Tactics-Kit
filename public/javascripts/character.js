@@ -210,9 +210,11 @@ Character.prototype = {
 		if( this.ap_left < this.speed ){
 		  menu['attack_no_ap'] = no_ap_func;
 		  menu['guard_no_ap']  = no_ap_func;
+		  menu['item_no_ap'] = no_ap_func;
 		} else {
 		  menu['attack'] = function(){ self.calculate_attack(); };
 		  menu['guard']  = function(){ self.end_turn(); }
+		  menu['item'] = function(){ $.facebox('<h1>No items in inventory</h1>'); }
 		}
 		
 		menu['move']     = function() { self.calculate_movement(); }

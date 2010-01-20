@@ -112,8 +112,13 @@ $.extend(Enemy.prototype, {
   },
   move_to_player: function(){
     var self = this;
-    var x = level.active_player.x;
-    var y = level.active_player.y;
+    
+    // target weakest/nearest player
+    // var x = level.active_player.x;
+    // var y = level.active_player.y;
+    
+    var x = level.players[0].x;
+    var y = level.players[0].y;
     var target;
     
     res = astar.search(self, self.map.terrain_matrix, 

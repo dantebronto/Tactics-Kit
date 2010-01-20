@@ -46,3 +46,96 @@ Processing Rails::InfoController#properties (for 127.0.0.1 at 2010-01-19 21:58:2
  WHERE type = 'table' AND NOT name = 'sqlite_sequence'
 [0m
 Completed in 42ms (View: 2, DB: 0) | 200 OK [http://localhost/rails/info/properties]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-01-19 22:18:15) [GET]
+
+ActionController::RoutingError (No route matches "/facebox/closelabel.gif" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-01-19 22:18:15) [GET]
+
+ActionController::RoutingError (No route matches "/facebox/tl.png" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-01-19 22:18:15) [GET]
+
+ActionController::RoutingError (No route matches "/facebox/loading.gif" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-01-19 22:18:15) [GET]
+
+ActionController::RoutingError (No route matches "/facebox/b.png" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-01-19 22:18:15) [GET]
+
+ActionController::RoutingError (No route matches "/facebox/tr.png" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-01-19 22:18:15) [GET]
+
+ActionController::RoutingError (No route matches "/facebox/bl.png" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-01-19 22:18:15) [GET]
+
+ActionController::RoutingError (No route matches "/facebox/br.png" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-01-19 22:19:02) [GET]
+
+ActionController::RoutingError (No route matches "/facebox/closelabel.gif" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-01-19 22:19:03) [GET]
+
+ActionController::RoutingError (No route matches "/facebox/loading.gif" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+  [4;36;1mSQL (0.5ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.4ms)[0m   [0mselect sqlite_version(*)[0m
+  [4;36;1mSQL (1.6ms)[0m   [0;1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [4;35;1mSQL (2.1ms)[0m   [0mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT version FROM schema_migrations[0m
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-01-19 23:01:31) [GET]
+  Parameters: {"key"=>"0.8338203363886817"}
+
+ActionController::RoutingError (No route matches "/seo_fusion/javascripts/seo_fusion_full.js" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)

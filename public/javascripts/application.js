@@ -28,11 +28,13 @@ $(document).ready(function(){
     
     var hero = new Character( { map: level.map } );
     level.active_player = hero;
-    level.characters = [hero];
+    level.players = [hero];
     
-    var enemy = new Enemy( { map: level.map } );
-    level.active_enemy = enemy;
-    level.enemies = [enemy];
+    var foo = new Enemy( { map: level.map } );
+    var bar = new Enemy( { map: level.map, x: 4, y: 14 } );
+    
+    level.active_enemy = foo;
+    level.enemies = [foo, bar];
     
     level.reset_turn(); 
   });

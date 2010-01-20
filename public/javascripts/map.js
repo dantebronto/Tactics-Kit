@@ -94,7 +94,7 @@ Map.prototype = {
     var chars = []; 
     
     if( type == 'player' )
-      chars = level.characters;
+      chars = level.players;
     else
       chars = level.enemies;
     

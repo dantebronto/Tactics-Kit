@@ -18,26 +18,18 @@ function Level(){
     [ 15, 15, 15, 15, 15, 15, 15, 15 ]
   ]);
   this.info_div = $('#info');
-  
-  this.players_have_gone = false;
-  this.enemies_have_gone = false;
 };
 
 Level.prototype = {
   show_current_turn: function(){
-    if ( this.active_player )
-      this.players_have_gone = this.active_player.has_gone();
+    this.active_enemy = this.next_active_enemy();
+    this.active_player = this.next_active_player();
     
-    if ( this.active_enemy )
-      this.enemies_have_gone = this.active_enemy.has_gone();
-    else
-      this.enemies_have_gone = true;
-    
-    if ( this.players_have_gone && this.enemies_have_gone && this.active_player ) {
+    if ( !this.active_player && !this.active_enemy ) {
       this.reset_turn();
-    } else if ( this.players_have_gone ) {
-      this.info_div.html('<p>Enemy Turn</p>');
+    } else if ( !this.active_player ) {
       this.activate_enemy();
+      this.info_div.html('<p>Enemy Turn</p>');
     }
   },
   activate_enemy: function(){
@@ -45,22 +37,13 @@ Level.prototype = {
     setTimeout(function(){ enemy.calculate_turn(), 2000 } )
   },
   reset_turn: function(){
-    this.active_player.ap_left = this.active_player.ap;
-    
-    if( level.active_enemy ){
-      this.active_enemy.has_moved = false;
-      this.active_enemy.has_attacked = false;
-      this.enemies_have_gone = false;
-    } else {
-      this.enemies_have_gone = true;
-    }
-    
-    this.players_have_gone = false;
+    this.restore_players();    
+    this.restore_enemies();
+    this.activate_players();
     this.info_div.html('<p>Player Turn</p>');
-    this.active_player.bind_events();
   },
   distribute_exp: function(amt){
-    var chars = this.characters;
+    var chars = this.players;
     for(var i = chars.length - 1; i >= 0; i--)
       chars[i].add_exp(amt);
   },
@@ -75,7 +58,7 @@ Level.prototype = {
       }
   },
   remove_player: function(player){
-    var chars = level.characters;
+    var chars = level.players;
     var to_remove;
 
     for (var i = chars.length - 1; i >= 0; i--)
@@ -92,5 +75,29 @@ Level.prototype = {
     $('#map, #info').fadeOut(6000, function(){
       location.reload(true);
     });
+  },
+  next_active_enemy: function(){
+    for( var i=this.enemies.length - 1; i >= 0; i-- )
+      if ( !this.enemies[i].has_gone() )
+        return this.enemies[i];
+  },
+  next_active_player: function(){
+    for( var i=this.players.length - 1; i >= 0; i-- )
+      if ( !this.players[i].has_gone() )
+        return this.players[i];
+  },
+  restore_enemies: function(){
+    for( var i=this.enemies.length - 1; i >= 0; i-- ){
+      this.enemies[i].has_moved = false;
+      this.enemies[i].has_attacked = false;
+    }
+  },
+  restore_players: function(){
+    for( var i=this.players.length - 1; i >= 0; i-- )
+      this.players[i].ap_left = this.players[i].ap;
+  },
+  activate_players: function(){
+    for( var i=this.players.length - 1; i >= 0; i-- )
+      this.players[i].bind_events();
   }
 };
