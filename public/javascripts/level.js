@@ -34,7 +34,8 @@ Level.prototype = {
   },
   activate_enemy: function(){
     var enemy = this.active_enemy;
-    setTimeout(function(){ enemy.calculate_turn(), 2000 } )
+    var timeout = 500 + (level.enemies.indexOf(enemy) * 500);
+    setTimeout(function(){ enemy.calculate_turn(); }, timeout);
   },
   reset_turn: function(){
     this.restore_players();    
@@ -77,12 +78,12 @@ Level.prototype = {
     });
   },
   next_active_enemy: function(){
-    for( var i=this.enemies.length - 1; i >= 0; i-- )
+    for( var i=0; i < this.enemies.length; i++ )
       if ( !this.enemies[i].has_gone() )
         return this.enemies[i];
   },
   next_active_player: function(){
-    for( var i=this.players.length - 1; i >= 0; i-- )
+    for( var i=0; i < this.players.length; i++ )
       if ( !this.players[i].has_gone() )
         return this.players[i];
   },

@@ -49,7 +49,7 @@ Character.prototype = {
     
     setTimeout(function(){
       if( self.is_player ){ self.subtract_ap(1); }
-      self.move(x, y); }, 500);
+      self.move(x, y); }, 250);
   },
   attack: function(x, y){
     var self = this;

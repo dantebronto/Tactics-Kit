@@ -29,7 +29,7 @@ $.extend(Enemy.prototype, {
     var self = this;
     self.has_attacked = true;
     self.calculate_attack();
-    setTimeout(function(){ self.attack_specific_square(x, y); }, 250);
+    setTimeout(function(){ self.attack_specific_square(x, y); }, 500);
   },
   attack: function(x, y){
     this.has_moved = true;
@@ -51,7 +51,7 @@ $.extend(Enemy.prototype, {
     var self = this;
     self.map.remove_clickables();
     self.map.underlay_cell(x, y).addClass('attackable');
-    setTimeout(function(){ self.attack(x, y); level.show_current_turn(); }, 100);
+    setTimeout(function(){ self.attack(x, y); level.show_current_turn(); }, 250);
   },
   calculate_turn: function(){
     this.attack_if_possible();
@@ -147,7 +147,7 @@ $.extend(Enemy.prototype, {
   show_movement: function(x, y){
     var self = this;
     self.calculate_movement();
-    setTimeout(function(){ self.move(x, y); }, 500);
+    setTimeout(function(){ self.move(x, y); }, 750);
   },
   target_player: function(){
     var weakest_player = level.players[0];
