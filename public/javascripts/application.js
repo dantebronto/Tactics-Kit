@@ -38,6 +38,7 @@ $(document).ready(function(){
     level.active_enemy = foo;
     level.enemies = [foo, bar];
     
-    level.reset_turn(); 
+    level.assign_ids();
+    level.reset_turn();
   });
 });

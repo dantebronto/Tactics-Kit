@@ -1,4 +1,5 @@
 function Enemy(opts){
+  this.level_id = 0;
   this.level = opts.level || 1;
   this.name = opts.name || 'Level ' + this.level + ' Battle Mage';
   this.speed = opts.speed || 2;
@@ -140,9 +141,11 @@ $.extend(Enemy.prototype, {
   show: function(){
     var self = this;
     this.map.enemy_cell(this.x, this.y)
-      .css('background', 'url(' + this.sprite + ') no-repeat center')
       .addClass('pointer occupied')
-      .click( function(){ self.show_stats(); });
+      .css('background', 'url(' + this.sprite + ') no-repeat center')
+      .mouseover(function(){ level.show_stats('enemies', self.level_id)})
+      .mouseout(function(){  level.show_stats('players'); })
+      .click( function(){ level.show_stats('enemies'); });
   },
   show_movement: function(x, y){
     var self = this;

@@ -1,4 +1,5 @@
 function Character(opts){
+  this.level_id = 0;
   this.name = opts.name || 'd00d';
   this.speed = opts.speed || 2;
   this.level = opts.level || 1;
@@ -68,8 +69,10 @@ Character.prototype = {
     
     elem
       .haloContext(self, self.get_context_menu)
+      .mouseover(function(){ level.show_stats('players', self.level_id)})
+      .mouseout(function(){  level.show_stats('players'); })
       .click(function(){        
-        self.show_stats();
+        level.show_stats('players');
         self.map.remove_clickables();
       });
   },
@@ -282,24 +285,6 @@ Character.prototype = {
     
     self.bind_events(elem);
   },
-  show_stats: function(){
-    var stats = $('#info #stats_list');
-    if( !stats.length ){
-      stats = $('<ul></ul>').attr('id', 'stats_list');
-      stats.appendTo(level.info_div);
-    }
-    var li_stg = '';
-    
-    li_stg += '<li>Name: ' + this.name     + '</li>';
-    li_stg += '<li>HP: '   + this.hp_left  + '/' + this.hp + '</li>';
-    if ( this.is_player )
-      li_stg += '<li>AP: '   + this.ap_left  + '/' + this.ap + '</li>';
-    li_stg += '<li>ST: '   + this.strength + '</li>';
-    li_stg += '<li>SP: '   + this.speed    + '</li>';
-    
-    var lis = $(li_stg);
-    stats.html(lis);
-  },
   subtract_ap: function(amt){
     if( !amt ) { amt = 0; }
     this.ap_left -= amt;
@@ -307,10 +292,12 @@ Character.prototype = {
       this.ap_left = 0;
       this.unbind_events();
     }
+    level.show_stats('players');
     level.show_current_turn();
   },
   subtract_hp: function(amt){
     this.hp_left -= amt;
+    level.show_stats('players');
     if( this.hp_left <= 0 )
       this.die();
   },

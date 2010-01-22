@@ -18,7 +18,8 @@ function Level(){
     [ 15, 15, 15, 15, 15, 15, 15, 15 ]
   ]);
   this.info_div = $('#info');
-  this.animation_speed = 1.2;
+  this.info_div.css('left', this.map.div.width() + 15);
+  this.animation_speed = 0.5;
 };
 
 Level.prototype = {
@@ -31,6 +32,7 @@ Level.prototype = {
     } else if ( !this.active_player ) {
       this.activate_enemy();
       this.info_div.html('<p>Enemy Turn</p>');
+      this.show_stats('players');
     }
   },
   activate_enemy: function(){
@@ -43,6 +45,7 @@ Level.prototype = {
     this.restore_enemies();
     this.activate_players();
     this.info_div.html('<p>Player Turn</p>');
+    this.show_stats('players');
   },
   distribute_exp: function(amt){
     var chars = this.players;
@@ -101,5 +104,41 @@ Level.prototype = {
   activate_players: function(){
     for( var i=this.players.length - 1; i >= 0; i-- )
       this.players[i].bind_events();
-  }
+  },
+  assign_ids: function(){
+    var chars = this.enemies.concat(this.players);
+    for( var i=0; i < chars.length; i++ )
+      chars[i].level_id = i;
+  },
+  show_stats: function(type, the_id){
+    var chars = type == 'players' ? this.players : this.enemies;
+    var stats = $('#info #stats_list');
+    
+    if( !stats.length ){
+      stats = $('<div></div>').attr('id', 'stats_list');
+      stats.appendTo(level.info_div);
+    }
+    
+    var ul, they;
+    stats.html('');
+    
+    for( var i=0; i < chars.length; i++ ){
+      they = chars[i];
+      
+      ul = '<ul id=stats_' + they.level_id + '>';
+      ul += '<li>Name: ' + they.name     + '</li>';
+      ul += '<li>HP: '   + they.hp_left  + '/' + they.hp + '</li>';
+      if ( they.is_player )
+        ul += '<li>AP: '   + they.ap_left  + '/' + they.ap + '</li>';
+      ul += '<li>ST: '   + they.strength + '</li>';
+      ul += '<li>SP: '   + they.speed    + '</li>';
+      ul += '</ul>';
+      
+      ul = $(ul);
+      if ( the_id == they.level_id )
+        ul.addClass('selected');
+        
+      stats.append(ul);
+    }
+  },
 };
