@@ -18,6 +18,7 @@ function Level(){
     [ 15, 15, 15, 15, 15, 15, 15, 15 ]
   ]);
   this.info_div = $('#info');
+  this.animation_speed = 1.2;
 };
 
 Level.prototype = {
@@ -34,7 +35,7 @@ Level.prototype = {
   },
   activate_enemy: function(){
     var enemy = this.active_enemy;
-    var timeout = 500 + (level.enemies.indexOf(enemy) * 500);
+    var timeout = 500 + (level.enemies.indexOf(enemy) * 750 * level.animation_speed);
     setTimeout(function(){ enemy.calculate_turn(); }, timeout);
   },
   reset_turn: function(){
