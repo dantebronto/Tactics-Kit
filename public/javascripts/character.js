@@ -71,7 +71,8 @@ Character.prototype = {
       .haloContext(self, self.get_context_menu)
       .mouseover(function(){ level.show_stats('players', self.level_id)})
       .mouseout(function(){  level.show_stats('players'); })
-      .click(function(){        
+      .click(function(){
+        elem.unbind('mouseover');
         level.show_stats('players');
         self.map.remove_clickables();
       });
@@ -292,12 +293,17 @@ Character.prototype = {
       this.ap_left = 0;
       this.unbind_events();
     }
-    level.show_stats('players');
+    if ( this.is_player )
+      level.show_stats('players');
+    
     level.show_current_turn();
   },
   subtract_hp: function(amt){
     this.hp_left -= amt;
-    level.show_stats('players');
+    
+    if ( this.is_player )
+      level.show_stats('players');
+    
     if( this.hp_left <= 0 )
       this.die();
   },

@@ -19,7 +19,7 @@ function Level(){
   ]);
   this.info_div = $('#info');
   this.info_div.css('left', this.map.div.width() + 15);
-  this.animation_speed = 0.5;
+  this.animation_speed = 1;
 };
 
 Level.prototype = {
@@ -112,12 +112,11 @@ Level.prototype = {
   },
   show_stats: function(type, the_id){
     var chars = type == 'players' ? this.players : this.enemies;
+    
     var stats = $('#info #stats_list');
     
-    if( !stats.length ){
-      stats = $('<div></div>').attr('id', 'stats_list');
-      stats.appendTo(level.info_div);
-    }
+    if( !stats.length )
+      stats = $('<div></div>').attr('id', 'stats_list').appendTo(level.info_div);
     
     var ul, they;
     stats.html('');

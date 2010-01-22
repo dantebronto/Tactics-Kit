@@ -16,21 +16,20 @@
 		$(this).bind("click", function(e) {
 			if (active) hide();
 			if ( player.ap_left > 0 )
-  			display(this, bindings.call(player), e);
+  			display(this, bindings.call(player), e, player);
 			return false;
 		}); 
 		return this;
 	};
 	
-	function display(trigger, binds, e) {
+	function display(trigger, binds, e, player) {
 		active = true; // context active
 		c = 0; // bind count
 		var no_ap;
 		var display_name;
 		
 		for(var name in binds) {
-		  if( name.match(/_no_ap/) ){ no_ap = true; } 
-		  else { no_ap = false; }
+		  no_ap = name.match(/_no_ap/) ? true : false;
 		  
 		  if( no_ap )
   		  $('body').append('<div id="hb'+c+'" class="hct no_ap">'+name.replace('_no_ap', '')+'</div>');
@@ -54,8 +53,13 @@
 			temp.css("top", y+Math.sin(((ang*i*Math.PI)/180))*r);
 			temp.fadeIn("fast");
 		}
-		$(document).one("click", hide);
-		$('#hpt').one("contextmenu", hide);
+		$(document).one("click", function(){ 
+		  hide(); 
+		  $(trigger).mouseover(function(){ 
+		    level.show_stats('players', player.level_id);
+		  });
+		});
+		//$('#hpt').one("contextmenu", hide);
 	}
 
 	function hide() {

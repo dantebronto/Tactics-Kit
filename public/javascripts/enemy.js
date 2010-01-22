@@ -144,7 +144,7 @@ $.extend(Enemy.prototype, {
       .addClass('pointer occupied')
       .css('background', 'url(' + this.sprite + ') no-repeat center')
       .mouseover(function(){ level.show_stats('enemies', self.level_id)})
-      .mouseout(function(){  level.show_stats('players'); })
+      //.mouseout(function(){  level.show_stats('players'); })
       .click( function(){ level.show_stats('enemies'); });
   },
   show_movement: function(x, y){
