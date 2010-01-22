@@ -27,15 +27,14 @@ copy_prototype(Enemy, Character);
 $.extend(Enemy.prototype, {
   animate_attack: function(x, y){
     var self = this;
-    self.calculate_attack();
     self.has_attacked = true;
-    setTimeout(function(){ self.attack_specific_square(x, y); }, 1000);
+    self.calculate_attack();
+    setTimeout(function(){ self.attack_specific_square(x, y); }, 250);
   },
   attack: function(x, y){
     this.has_moved = true;
     this.deal_damage(x, y);  
     this.map.remove_clickables();
-    level.show_current_turn();
   },
   attack_if_possible: function(){
     var self = this;
@@ -52,7 +51,7 @@ $.extend(Enemy.prototype, {
     var self = this;
     self.map.remove_clickables();
     self.map.underlay_cell(x, y).addClass('attackable');
-    setTimeout(function(){ self.attack(x, y); }, 1000);
+    setTimeout(function(){ self.attack(x, y); level.show_current_turn(); }, 100);
   },
   calculate_turn: function(){
     this.attack_if_possible();
@@ -82,10 +81,8 @@ $.extend(Enemy.prototype, {
       hits = $('<h2>' + dmg + '</h2>');
     else if ( dmg.length == 3 )
       hits = $('<h1>' + dmg + '</h1>');
-    
-    hits.appendTo(this.map.stat_cell(x, y))
-      .shake(3, 3, 180)
-      .fadeOut(1500, function(){ $(this).remove(); } );
+
+    level.map.stat_cell(x, y).html(hits).show().shake(3, 3, 180).fadeOut(500);
   },
   die: function(){
     this.remove_from_map();
@@ -150,7 +147,7 @@ $.extend(Enemy.prototype, {
   show_movement: function(x, y){
     var self = this;
     self.calculate_movement();
-    setTimeout(function(){ self.move(x, y); }, 1000);
+    setTimeout(function(){ self.move(x, y); }, 500);
   },
   target_player: function(){
     var weakest_player = level.players[0];

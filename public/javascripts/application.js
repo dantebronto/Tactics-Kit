@@ -26,11 +26,11 @@ $(document).ready(function(){
   $('#stage').hide().fadeIn(2000, function(){ 
     level.info_div.hide().fadeIn(500); 
     
-    var hero = new Character( { map: level.map, x:3, y: 3 } );
+    var hero = new Character( { map: level.map, x:4, y: 12 } );
     level.active_player = hero;
     
-    var bob = new Character( { map: level.map, x: 4, y: 3 })
-    level.players = [hero, bob];
+    //var bob = new Character( { map: level.map, x: 4, y: 3 })
+    level.players = [hero]; //, bob];
     
     var foo = new Enemy( { map: level.map } );
     var bar = new Enemy( { map: level.map, x: 4, y: 14 } );

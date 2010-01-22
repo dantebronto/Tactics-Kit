@@ -46,11 +46,9 @@ Character.prototype = {
     self.y = res[0].y;
     
     self.show();
+    
     setTimeout(function(){
-      
-      if( self.is_player )
-        self.subtract_ap(1);
-      
+      if( self.is_player ){ self.subtract_ap(1); }
       self.move(x, y); }, 500);
   },
   attack: function(x, y){
