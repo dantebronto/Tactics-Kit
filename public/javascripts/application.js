@@ -21,28 +21,5 @@ jQuery.fn.shake = function(intShakes, intDistance, intDuration) {
 };
 
 $(document).ready(function(){
-  window['level'] = new Level();
-  
-  $('#stage').hide().fadeIn(2000, function(){ 
-    level.info_div.hide().fadeIn(500); 
-    
-    var inventory = new Inventory([
-      ['Potion', 3]
-    ]);
-    
-    var hero = new Character( { map: level.map, x:4, y: 12, inventory: inventory } );
-    level.active_player = hero;
-    
-    //var bob = new Character( { map: level.map, x: 4, y: 3 })
-    level.players = [hero]; //, bob];
-    
-    var foo = new Enemy( { map: level.map } );
-    var bar = new Enemy( { map: level.map, x: 4, y: 14 } );
-    
-    level.active_enemy = foo;
-    level.enemies = [foo, bar];
-    
-    level.assign_ids();
-    level.reset_turn();
-  });
+  init_level();
 });

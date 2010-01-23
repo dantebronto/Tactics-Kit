@@ -139,3 +139,227 @@ ActionController::RoutingError (No route matches "/seo_fusion/javascripts/seo_fu
   
 
 Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-01-23 16:10:36) [GET]
+
+ActionController::RoutingError (No route matches "/levels/1" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:11:01) [GET]
+  Parameters: {"id"=>"1"}
+
+ActionView::MissingTemplate (Missing template levels/show.erb in view path app/views):
+  
+
+Rendering rescues/layout (internal_server_error)
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:11:24) [GET]
+  Parameters: {"id"=>"1"}
+
+ActionView::MissingTemplate (Missing template levels/show.erb in view path app/views):
+  
+
+Rendering rescues/layout (internal_server_error)
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:11:25) [GET]
+  Parameters: {"id"=>"1"}
+
+ActionView::MissingTemplate (Missing template levels/show.erb in view path app/views):
+  
+
+Rendering rescues/layout (internal_server_error)
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:11:26) [GET]
+  Parameters: {"id"=>"1"}
+
+ActionView::MissingTemplate (Missing template levels/show.erb in view path app/views):
+  
+
+Rendering rescues/layout (internal_server_error)
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:11:26) [GET]
+  Parameters: {"id"=>"1"}
+
+ActionView::MissingTemplate (Missing template levels/show.erb in view path app/views):
+  
+
+Rendering rescues/layout (internal_server_error)
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:11:27) [GET]
+  Parameters: {"id"=>"1"}
+
+ActionView::MissingTemplate (Missing template levels/show.erb in view path app/views):
+  
+
+Rendering rescues/layout (internal_server_error)
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:11:37) [GET]
+  Parameters: {"id"=>"1"}
+Completed in 9ms (View: 1, DB: 0) | 200 OK [http://localhost/levels/1]
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:11:58) [GET]
+  Parameters: {"id"=>"1"}
+Completed in 9ms (View: 1, DB: 0) | 200 OK [http://localhost/levels/1]
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:12:20) [GET]
+  Parameters: {"id"=>"1"}
+Completed in 8ms (View: 1, DB: 0) | 200 OK [http://localhost/levels/1]
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:15:38) [GET]
+  Parameters: {"id"=>"1"}
+
+ActionView::MissingTemplate (Missing template levels/show.erb in view path app/views):
+  
+
+Rendering rescues/layout (internal_server_error)
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:18:13) [GET]
+  Parameters: {"id"=>"1"}
+
+ActionView::MissingTemplate (Missing template levels/show.erb in view path app/views):
+  
+
+Rendering rescues/layout (internal_server_error)
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:18:15) [GET]
+  Parameters: {"id"=>"1"}
+
+ActionView::MissingTemplate (Missing template levels/show.erb in view path app/views):
+  
+
+Rendering rescues/layout (internal_server_error)
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:18:31) [GET]
+  Parameters: {"id"=>"1"}
+
+ActionView::MissingTemplate (Missing template levels/show.erb in view path app/views):
+  
+
+Rendering rescues/layout (internal_server_error)
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:18:32) [GET]
+  Parameters: {"id"=>"1"}
+
+ActionView::MissingTemplate (Missing template levels/show.erb in view path app/views):
+  
+
+Rendering rescues/layout (internal_server_error)
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:21:30) [GET]
+  Parameters: {"id"=>"1"}
+Rendering template within layouts/application
+Rendering levels/show
+
+ActionView::TemplateError (Illegal nesting: nesting within plain text is illegal.) on line #4 of app/views/levels/show.html.haml:
+1: =content_for :head_scripts do
+2:   :plain
+3:   <script type="text/javascript">
+4:     var init_level = function(){
+5:     var map = new Map([
+6:     [ 15, 15, 15, 15, 15, 15, 15, 15 ],
+7:     [ 15, 15, 15, 15, 15, 15, 15, 15 ],
+
+    app/views/levels/show.html.haml:4
+    haml (2.2.8) lib/haml/precompiler.rb:328:in `push_plain'
+    haml (2.2.8) lib/haml/precompiler.rb:261:in `process_line'
+    haml (2.2.8) lib/haml/precompiler.rb:168:in `precompile'
+    haml (2.2.8) lib/haml/engine.rb:113:in `initialize'
+    haml (2.2.8) rails/./lib/haml/template/plugin.rb:21:in `new'
+    haml (2.2.8) rails/./lib/haml/template/plugin.rb:21:in `compile'
+    haml (2.2.8) lib/haml/helpers/action_view_mods.rb:13:in `render'
+    haml (2.2.8) lib/haml/helpers/action_view_mods.rb:13:in `render'
+    haml (2.2.8) rails/./lib/sass/plugin/rails.rb:19:in `process'
+
+Rendered rescues/_trace (187.4ms)
+Rendered rescues/_request_and_response (3.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:21:30) [GET]
+  Parameters: {"id"=>"1"}
+Rendering template within layouts/application
+Rendering levels/show
+
+ActionView::TemplateError (Illegal nesting: nesting within plain text is illegal.) on line #4 of app/views/levels/show.html.haml:
+1: =content_for :head_scripts do
+2:   :plain
+3:   <script type="text/javascript">
+4:     var init_level = function(){
+5:     var map = new Map([
+6:     [ 15, 15, 15, 15, 15, 15, 15, 15 ],
+7:     [ 15, 15, 15, 15, 15, 15, 15, 15 ],
+
+    app/views/levels/show.html.haml:4
+    haml (2.2.8) lib/haml/precompiler.rb:328:in `push_plain'
+    haml (2.2.8) lib/haml/precompiler.rb:261:in `process_line'
+    haml (2.2.8) lib/haml/precompiler.rb:168:in `precompile'
+    haml (2.2.8) lib/haml/engine.rb:113:in `initialize'
+    haml (2.2.8) rails/./lib/haml/template/plugin.rb:21:in `new'
+    haml (2.2.8) rails/./lib/haml/template/plugin.rb:21:in `compile'
+    haml (2.2.8) lib/haml/helpers/action_view_mods.rb:13:in `render'
+    haml (2.2.8) lib/haml/helpers/action_view_mods.rb:13:in `render'
+    haml (2.2.8) rails/./lib/sass/plugin/rails.rb:19:in `process'
+
+Rendered rescues/_trace (117.7ms)
+Rendered rescues/_request_and_response (0.7ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:21:44) [GET]
+  Parameters: {"id"=>"1"}
+Rendering template within layouts/application
+Rendering levels/show
+Completed in 41ms (View: 33, DB: 0) | 200 OK [http://localhost/levels/1]
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:21:52) [GET]
+  Parameters: {"id"=>"1"}
+Rendering template within layouts/application
+Rendering levels/show
+Completed in 12ms (View: 3, DB: 0) | 200 OK [http://localhost/levels/1]
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:21:59) [GET]
+  Parameters: {"id"=>"1"}
+Rendering template within layouts/application
+Rendering levels/show
+Completed in 11ms (View: 4, DB: 0) | 200 OK [http://localhost/levels/1]
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:22:04) [GET]
+  Parameters: {"id"=>"1"}
+Rendering template within layouts/application
+Rendering levels/show
+Completed in 11ms (View: 3, DB: 0) | 200 OK [http://localhost/levels/1]
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:22:29) [GET]
+  Parameters: {"id"=>"1"}
+Rendering template within layouts/application
+Rendering levels/show
+Completed in 11ms (View: 3, DB: 0) | 200 OK [http://localhost/levels/1]
+
+
+Processing LevelsController#show (for 127.0.0.1 at 2010-01-23 16:22:56) [GET]
+  Parameters: {"id"=>"1"}
+Rendering template within layouts/application
+Rendering levels/show
+Completed in 27ms (View: 20, DB: 0) | 200 OK [http://localhost/levels/1]
