@@ -149,15 +149,22 @@ Character.prototype = {
     } else {
       dmg = 'miss';
     }
-    
+
     dmg = String(dmg);
     
     if( dmg.length == 1 || dmg == 'miss' )
-      hits = $('<h3>' + dmg + '</h3>');
-    else if ( dmg.length == 2 )
-      hits = $('<h2>' + dmg + '</h2>');
-    else if ( dmg.length == 3 )
-      hits = $('<h1>' + dmg + '</h1>');
+      hits = $('<h6>' + dmg + '</h6>');
+    else if( dmg.length == 2 )
+      hits = $('<h5>' + dmg + '</h5>');  
+    else if ( dmg.length >= 3 )
+      if ( Number(dmg) >= 750 )
+        hits = $('<h1>' + dmg + '</h1>');
+      else if ( Number(dmg) >= 500 )
+        hits = $('<h2>' + dmg + '</h2>');
+      else if ( Number(dmg) >= 250 )
+        hits = $('<h3>' + dmg + '</h3>');
+      else
+        hits = $('<h4>' + dmg + '</h4>');
     
     this.map.stat_cell(x, y).html(hits);
     hits.shake(3, 3, 180);

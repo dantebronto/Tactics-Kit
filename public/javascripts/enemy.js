@@ -14,7 +14,7 @@ function Enemy(opts){
   this.accuracy = opts.accuracy || 80 + Math.floor(this.level * 0.19);
   this.strength = opts.strength || this.level;
   this.strength = this.strength + this.weapon.attack;
-  this.exp = opts.exp || this.level * 12;
+  this.exp = opts.exp || this.level * 15;
   this.x = opts.x || 3;
   this.y = opts.y || 14;
   this.map = opts.map;

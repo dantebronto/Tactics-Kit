@@ -28,9 +28,12 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; }
 
 /* hit points */
 .cell.stat { color:white; font-family:arial; text-shadow: 2px 2px 0 #333333; }
-.cell.stat h3 { font-size: 1.5em; padding-top: 30px; }
-.cell.stat h2 { font-size: 2em; padding-top: 25px; }
-.cell.stat h1 { font-size: 2.5em; padding-top: 20px; margin-left: -2px; }
+.cell.stat h6 { font-size: 1.5em; padding-top: 30px; }
+.cell.stat h5 { font-size: 2em; padding-top: 30px; }
+.cell.stat h4 { font-size: 2.5em; padding-top: 25px; margin-left: -3px; }
+.cell.stat h3 { font-size: 3em; padding-top: 25px; margin-left: -6px; }
+.cell.stat h2 { font-size: 3.5em; padding-top: 20px; margin-left: -12px; }
+.cell.stat h1 { font-size: 4em; padding-top: 20px; margin-left: -16px; }
 /* end hit points */
 
 /* context menu */
