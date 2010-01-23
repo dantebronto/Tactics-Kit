@@ -166,7 +166,7 @@ Character.prototype = {
       .html(hits)
       .shake(3, 3, 180)
     
-    hits.fadeOut(1500);
+    hits.fadeOut(2000);
   },
   die: function(){
     this.remove_from_map();
@@ -294,35 +294,32 @@ Character.prototype = {
     var faceout = $('<h1></h1>');
     var link_template = $('<a href="javascript:void(0)"></a>');
     var link;
-
-    for( item in self.inventory){
-      if( self.inventory[item].qty <= 0 )
+    var there_are_items = false;
+    
+    for( item in self.inventory.items){
+      if( self.inventory.get(item).qty <= 0 )
         continue;
       
+      there_are_items = true;
       use_link = link_template.clone();
       throw_link = link_template.clone();
       
-      use_link
-        .html('Use ' + item)
-        .click(function(){
-          self.inventory[item].qty -= 1;
-          self.inventory[item].use(self);
-          $(document).trigger('close.facebox')
-        });
+      use_link.html('Use ' + item)
+        .click(function(){ self.inventory.use(item, self); });
+        
       faceout.append(use_link);
       
       faceout.append('<span> | </span>');
       
-      throw_link
-        .html('Throw ' + item)
-        .click(function(){
-          self.inventory[item].qty -= 1;
-          self.inventory[item].toss(self);
-          $(document).trigger('close.facebox')
-        });  
+      throw_link.html('Throw ' + item)
+        .click(function(){ self.inventory.toss(item, self); });
+          
       faceout.append(throw_link)
-        .append('<span> x ' + self.inventory[item].qty + '</span>');
+        .append('<span> x ' + self.inventory.get(item).qty + '</span>');
     }
+    if ( !there_are_items )
+      faceout.html('<h1>No items in inventory!</h1>')
+    
     $.facebox(faceout); 
   },
   subtract_ap: function(amt){
