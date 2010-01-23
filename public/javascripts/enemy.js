@@ -140,12 +140,14 @@ $.extend(Enemy.prototype, {
   },
   show: function(){
     var self = this;
-    this.map.enemy_cell(this.x, this.y)
+    self.map.enemy_cell(self.x, self.y)
       .addClass('pointer occupied')
-      .css('background', 'url(' + this.sprite + ') no-repeat center')
-      .mouseover(function(){ level.show_stats('enemies', self.level_id)})
-      //.mouseout(function(){  level.show_stats('players'); })
-      .click( function(){ level.show_stats('enemies'); });
+      .css('background', 'url(' + self.sprite + ') no-repeat center')
+      .mouseout(function(){  level.show_stats('players'); })
+      .mouseover(function(){ 
+        if ( self.map.underlay_cell(self.x, self.y).hasClass('attackable') )
+          level.show_stats('enemies', self.level_id)
+      });
   },
   show_movement: function(x, y){
     var self = this;
