@@ -11,7 +11,7 @@ function Character(opts){
   this.exp = opts.exp || 0;
   this.exp_next = opts.exp_next || this.level * 100;
   this.sprite = opts.sprite || '/images/bar.gif';
-  this.weapon = new Weapon({ range: 3, attack: 2, is_ranged: false, dead_range: 0, name: 'Bronze Sword' });
+  this.weapon = opts.weapon || new Weapon({ range: 1, attack: 2, is_ranged: false, dead_range: 0, name: 'Bronze Sword' });
   this.accuracy = opts.accuracy || 80 + Math.floor(this.level * 0.19);
   this.strength = opts.strength || this.level;
   this.strength = this.strength + this.weapon.attack;

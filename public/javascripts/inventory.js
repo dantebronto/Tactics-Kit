@@ -41,12 +41,20 @@ Inventory.prototype = {
       if( this.e(x, y) == 1 ){        
         used_by.map.underlay_cell(x, y)
           .addClass('healable pointer')
-          .click(function(){ 
+        
+        used_by.map.overlay_cell(x, y)
+          .click(function(){
             self.get(item).qty -= 1;
             used_by.subtract_ap(2);
             self.items[item].toss(x, y, used_by); 
+            used_by.map.remove_clickables();
+            $('#map .cell.overlay').unbind();
+            return false;
           });
       }
+      used_by.map.player_cell(used_by.x, used_by.y).one('click', function(e){
+        $('#map .cell.overlay').unbind();
+      });
     })
     $(document).trigger('close.facebox');
   },
@@ -66,7 +74,10 @@ Inventory.prototype = {
         toss: function(x, y, used_by){
           var used_on = used_by.map.find_by_position('player', x, y);
           used_on = used_on || used_by.map.find_by_position('enemy', x, y);
-
+          
+          if ( !used_on )
+            return;
+          
           used_on.hp_left += 25
           if ( used_on.hp_left > used_on.hp )
             used_on.hp_left = used_on.hp;
@@ -75,10 +86,6 @@ Inventory.prototype = {
             level.show_stats('players', used_on.level_id);
           else
             level.show_stats('enemies', used_on.level_id);
-
-          used_by.map.find_by_position('enemy', x, y);
-          used_by.subtract_ap(2);
-          used_by.map.remove_clickables();
         } 
       } //, end potion
       // add items here
