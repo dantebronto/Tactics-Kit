@@ -17,6 +17,11 @@ function Map(terrain_map){
   });
 }
 
+// jQuery.fn.cell_to_xy = function(){
+//   var ara = $(this).attr('id').split('_');
+//   return
+// }
+
 Map.prototype = {
   add_cell: function(x, y){
     var self = this;
@@ -83,10 +88,10 @@ Map.prototype = {
   },
   remove_clickables: function( types ){ // array of types to remove
     if ( !types )
-      types = ['attackable pointer moveable'];
+      types = ['attackable pointer moveable healable'];
     
     this.div
-      .find('.underlay.attackable, .underlay.moveable')
+      .find('.underlay.attackable, .underlay.moveable, .underlay.healable')
       .removeClass(types.join(' '))
       .unbind('click');
   },

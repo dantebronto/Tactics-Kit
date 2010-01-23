@@ -30,6 +30,7 @@ $(document).ready(function(){
       Potion: { 
         qty: 3, 
         use: function(used_by){
+          used_by.subtract_ap(2);
           used_by.hp_left += 25
           if ( used_by.hp_left > used_by.hp )
             used_by.hp_left = used_by.hp;
@@ -42,15 +43,34 @@ $(document).ready(function(){
           matrix = used_by.find_neighbors({
             x: used_by.x, y: used_by.y,
             matrix: matrix,
-            speed: speed
+            speed: speed,
+            is_attacking: true // apply to all in range
           });
-
+          
+          matrix.set(used_by.x, used_by.y, 0);
+          
           matrix.each(function(x, y){ 
             if( this.e(x, y) == 1 ){        
               used_by.map.underlay_cell(x, y)
                 .addClass('healable pointer')
                 .click(function(){
-                  alert('throwing')
+                  var used_on = used_by.map.find_by_position('player', x, y);
+                  used_on = used_on || used_by.map.find_by_position('enemy', x, y);
+                  
+                  used_by.subtract_ap(2);
+                  
+                  used_on.hp_left += 25
+                  if ( used_on.hp_left > used_on.hp )
+                    used_on.hp_left = used_on.hp;
+                  
+                  if ( used_on.is_player )
+                    level.show_stats('players', used_on.level_id);
+                  else
+                    level.show_stats('enemies', used_on.level_id);
+                  
+                  used_by.map.find_by_position('enemy', x, y);
+                  used_by.subtract_ap(2);
+                  used_by.map.remove_clickables();
                 });
             }
           });

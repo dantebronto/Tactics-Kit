@@ -219,41 +219,7 @@ Character.prototype = {
 		} else {
 		  menu['attack'] = function(){ self.calculate_attack(); };
 		  menu['guard']  = function(){ self.end_turn(); }
-		  menu['item'] = function(){ 
-        var faceout = $('<h1></h1>');
-        var link_template = $('<a href="javascript:void(0)"></a>');
-        var link;
-
-        for( item in self.inventory){
-          if( self.inventory[item].qty <= 0 )
-            continue;
-          
-          use_link = link_template.clone();
-          throw_link = link_template.clone();
-          
-          use_link
-            .html('Use ' + item)
-            .click(function(){
-              self.inventory[item].qty -= 1;
-              self.inventory[item].use(self);
-              $(document).trigger('close.facebox')
-            });
-          faceout.append(use_link);
-          
-          faceout.append('<span> | </span>');
-          
-          throw_link
-            .html('Throw ' + item)
-            .click(function(){
-              self.inventory[item].qty -= 1;
-              self.inventory[item].toss(self);
-              $(document).trigger('close.facebox')
-            });  
-          faceout.append(throw_link)
-            .append('<span> x ' + self.inventory[item].qty + '</span>');
-        }
-		    $.facebox(faceout); 
-		  }
+		  menu['item'] = function(){ self.show_inventory(); }
 		}
 		
 		menu['move']     = function() { self.calculate_movement(); }
@@ -322,6 +288,42 @@ Character.prototype = {
       .css('background', 'url(' + self.sprite + ') no-repeat center');
     
     self.bind_events(elem);
+  },
+  show_inventory: function(){ 
+    var self = this;
+    var faceout = $('<h1></h1>');
+    var link_template = $('<a href="javascript:void(0)"></a>');
+    var link;
+
+    for( item in self.inventory){
+      if( self.inventory[item].qty <= 0 )
+        continue;
+      
+      use_link = link_template.clone();
+      throw_link = link_template.clone();
+      
+      use_link
+        .html('Use ' + item)
+        .click(function(){
+          self.inventory[item].qty -= 1;
+          self.inventory[item].use(self);
+          $(document).trigger('close.facebox')
+        });
+      faceout.append(use_link);
+      
+      faceout.append('<span> | </span>');
+      
+      throw_link
+        .html('Throw ' + item)
+        .click(function(){
+          self.inventory[item].qty -= 1;
+          self.inventory[item].toss(self);
+          $(document).trigger('close.facebox')
+        });  
+      faceout.append(throw_link)
+        .append('<span> x ' + self.inventory[item].qty + '</span>');
+    }
+    $.facebox(faceout); 
   },
   subtract_ap: function(amt){
     if( !amt ) { amt = 0; }
