@@ -26,7 +26,39 @@ $(document).ready(function(){
   $('#stage').hide().fadeIn(2000, function(){ 
     level.info_div.hide().fadeIn(500); 
     
-    var hero = new Character( { map: level.map, x:4, y: 12 } );
+    var inventory = { 
+      Potion: { 
+        qty: 3, 
+        use: function(used_by){
+          used_by.hp_left += 25
+          if ( used_by.hp_left > used_by.hp )
+            used_by.hp_left = used_by.hp;
+          level.show_stats('players', used_by.level_id);
+        },
+        toss: function(used_by){
+          var speed = 3;
+          
+          matrix = Matrix.new_filled_matrix(used_by.map.rows, used_by.map.cols);
+          matrix = used_by.find_neighbors({
+            x: used_by.x, y: used_by.y,
+            matrix: matrix,
+            speed: speed
+          });
+
+          matrix.each(function(x, y){ 
+            if( this.e(x, y) == 1 ){        
+              used_by.map.underlay_cell(x, y)
+                .addClass('healable pointer')
+                .click(function(){
+                  alert('throwing')
+                });
+            }
+          });
+        } 
+      } 
+    }
+    
+    var hero = new Character( { map: level.map, x:4, y: 12, inventory: inventory } );
     level.active_player = hero;
     
     //var bob = new Character( { map: level.map, x: 4, y: 3 })

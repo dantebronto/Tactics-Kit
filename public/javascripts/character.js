@@ -4,6 +4,7 @@ function Character(opts){
   this.speed = opts.speed || 2;
   this.level = opts.level || 1;
   this.ap = opts.ap || 4;
+  this.inventory = opts.inventory;
   this.ap_left = this.ap;
   this.hp = opts.hp || 100;
   this.hp_left = this.hp;
@@ -161,9 +162,11 @@ Character.prototype = {
     else if ( dmg.length == 3 )
       hits = $('<h1>' + dmg + '</h1>');
     
-    hits.appendTo(this.map.stat_cell(x, y))
+    this.map.stat_cell(x, y)
+      .html(hits)
       .shake(3, 3, 180)
-      .fadeOut(1500, function(){ $(this).remove(); } );
+    
+    hits.fadeOut(1500);
   },
   die: function(){
     this.remove_from_map();
@@ -216,7 +219,41 @@ Character.prototype = {
 		} else {
 		  menu['attack'] = function(){ self.calculate_attack(); };
 		  menu['guard']  = function(){ self.end_turn(); }
-		  menu['item'] = function(){ $.facebox('<h1>No items in inventory</h1>'); }
+		  menu['item'] = function(){ 
+        var faceout = $('<h1></h1>');
+        var link_template = $('<a href="javascript:void(0)"></a>');
+        var link;
+
+        for( item in self.inventory){
+          if( self.inventory[item].qty <= 0 )
+            continue;
+          
+          use_link = link_template.clone();
+          throw_link = link_template.clone();
+          
+          use_link
+            .html('Use ' + item)
+            .click(function(){
+              self.inventory[item].qty -= 1;
+              self.inventory[item].use(self);
+              $(document).trigger('close.facebox')
+            });
+          faceout.append(use_link);
+          
+          faceout.append('<span> | </span>');
+          
+          throw_link
+            .html('Throw ' + item)
+            .click(function(){
+              self.inventory[item].qty -= 1;
+              self.inventory[item].toss(self);
+              $(document).trigger('close.facebox')
+            });  
+          faceout.append(throw_link)
+            .append('<span> x ' + self.inventory[item].qty + '</span>');
+        }
+		    $.facebox(faceout); 
+		  }
 		}
 		
 		menu['move']     = function() { self.calculate_movement(); }
