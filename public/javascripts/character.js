@@ -1,19 +1,19 @@
 function Character(opts){
   this.level_id = 0;
   this.name = opts.name || 'd00d';
-  this.speed = opts.speed || 2;
   this.level = opts.level || 1;
-  this.ap = opts.ap || 4;
   this.inventory = opts.inventory;
+  this.ap = opts.ap || Math.floor(4 + this.level * 0.07);
+  this.speed = opts.speed || Math.floor(this.ap / 2);
   this.ap_left = this.ap;
-  this.hp = opts.hp || 100;
+  this.hp = opts.hp || Math.floor(50.1 + this.level * 29.65);
   this.hp_left = this.hp;
   this.exp = opts.exp || 0;
   this.exp_next = opts.exp_next || this.level * 100;
   this.sprite = opts.sprite || '/images/bar.gif';
-  this.weapon = new Weapon({ range: 3, attack: 1, is_ranged: false, dead_range: 0, name: 'Bronze Sword' });
-  this.accuracy = opts.accuracy || 80;
-  this.strength = opts.strength || 2;
+  this.weapon = new Weapon({ range: 3, attack: 2, is_ranged: false, dead_range: 0, name: 'Bronze Sword' });
+  this.accuracy = opts.accuracy || 80 + Math.floor(this.level * 0.19);
+  this.strength = opts.strength || this.level;
   this.strength = this.strength + this.weapon.attack;
   this.x = opts.x || 3;
   this.y = opts.y || 3;
@@ -29,11 +29,8 @@ Character.prototype = {
       this.exp += 1;
       this.exp_next -= 1;
       
-      if( this.exp_next <= 0 ){
-        this.level += 1;
-        this.exp_next = this.level * 100;
-        alert('Level up! ' + this.name + ' is now level ' + this.level + '!');
-      }
+      if( this.exp_next <= 0 )
+        this.level_up();
     }
   },
   animate_movement: function(x, y){
@@ -162,10 +159,8 @@ Character.prototype = {
     else if ( dmg.length == 3 )
       hits = $('<h1>' + dmg + '</h1>');
     
-    this.map.stat_cell(x, y)
-      .html(hits)
-      .shake(3, 3, 180)
-    
+    this.map.stat_cell(x, y).html(hits);
+    hits.shake(3, 3, 180);
     hits.fadeOut(2000);
   },
   die: function(){
@@ -261,6 +256,16 @@ Character.prototype = {
       return true; 
 
     return false;
+  },
+  level_up: function(){
+    this.level += 1;
+    this.exp_next = this.level * 100;
+    this.speed = Math.floor(this.ap / 2);
+    this.ap = Math.floor(4 + this.level * 0.07);
+    this.hp = Math.floor(71.1 + this.level * 29.65);
+    this.accuracy = 80 + Math.floor(this.level * 0.19);
+    this.strength = this.level;
+    alert('Level up! ' + this.name + ' is now level ' + this.level + '!');
   },
   move: function(x, y){
     
