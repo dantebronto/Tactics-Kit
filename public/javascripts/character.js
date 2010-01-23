@@ -271,7 +271,7 @@ Character.prototype = {
     this.ap = Math.floor(4 + this.level * 0.07);
     this.hp = Math.floor(71.1 + this.level * 29.65);
     this.accuracy = 80 + Math.floor(this.level * 0.19);
-    this.strength = this.level;
+    this.strength = this.level + this.weapon.attack;
     alert('Level up! ' + this.name + ' is now level ' + this.level + '!');
   },
   move: function(x, y){
