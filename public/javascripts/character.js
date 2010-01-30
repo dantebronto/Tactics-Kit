@@ -355,6 +355,24 @@ Character.prototype = {
     if( this.hp_left <= 0 )
       this.die();
   },
+  to_json: function(){
+    return {
+      name: this.name,
+      level: this.level,
+      inventory: this.inventory,
+      ap: this.ap,
+      speed:  this.speed,
+      hp: this.hp,
+      exp: this.exp,
+      exp_next: this.exp_next,
+      sprite: this.sprite,
+      weapon: this.weapon,
+      accuracy: this.accuracy,
+      strength: this.strength,
+      is_player: this.is_player,
+      is_enemy: this.is_enemy
+    }
+  },
   unbind_events: function(){
     this.map.player_matrix 
       .e(this.x, this.y)
