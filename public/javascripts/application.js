@@ -20,6 +20,18 @@ jQuery.fn.shake = function(intShakes, intDistance, intDuration) {
   return this;
 };
 
+function run_func_from_doc(uri, prop){
+  $.getJSON(uri, function(res){
+    var func = res[prop] ? res[prop] : res['rows'][0]['value'][prop];
+    eval('(' + func +')()') });
+};
+  
+function view(val, query){
+  if( !query ){ query = ''; }
+  val = val.split("/");
+  return '/couchdb/rpg/_design/' + val[0] + '/_view/' + val[1] + query
+};
+  
 $(document).ready(function(){
   init_level();
 });

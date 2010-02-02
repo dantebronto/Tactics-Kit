@@ -1,6 +1,3 @@
-require 'curb'
-require 'yajl'
-
 class CouchdbController < ApplicationController
   
   def query

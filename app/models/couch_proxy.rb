@@ -1,11 +1,14 @@
 class CouchProxy
-  def self.perform(query_ara)
-    uri = "http://localhost:5984/#{query_ara.join('/')}"
+  
+  def self.perform(query)
+    query = query.join('/') if query.is_a?(Array)
+    uri = "http://localhost:5984/#{query}"
     res = Curl::Easy.perform(uri)
-    json = Yajl::Parser.new.parse(res.body_str)
+    Yajl::Parser.new.parse(res.body_str) # returns if success
   rescue => e
-    puts "CouchDB query encountered: \"#{e.message}\" (is Couch down?)"
-    puts e.backtrace
+    Rails.logger.error "CouchDB query encountered: \"#{e.message}\" (is Couch down?)"
+    Rails.logger.error e.backtrace
     "{}"
   end
+  
 end
