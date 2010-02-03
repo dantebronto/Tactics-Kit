@@ -25,7 +25,7 @@ function run_func_from_doc(uri, prop){
     var func = res[prop] ? res[prop] : res['rows'][0]['value'][prop];
     eval('(' + func +')()') });
 };
-  
+
 function view(val, query){
   if( !query ){ query = ''; }
   val = val.split("/");
