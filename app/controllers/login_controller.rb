@@ -8,7 +8,7 @@ class LoginController < ApplicationController
   end
   
   def logout
-    request.env['warden'].logout
+    warden.logout
     redirect_to '/'
   end
   

@@ -12,11 +12,16 @@ class Couch
       query
     end
     
+    def get(uri)
+      uri = "#{Couch.db}/#{uri}" unless uri.include?("http://")
+      Rails.logger.info("CouchDB request: #{uri}")
+      res = Curl::Easy.perform(uri)
+      Yajl::Parser.new.parse(res.body_str)
+    end
+    
     def perform(query)
       query = query.join('/') if query.is_a?(Array)
-      uri = "#{Couch.db}/#{query}"
-      res = Curl::Easy.perform(uri)
-      Yajl::Parser.new.parse(res.body_str) # returns if success
+      get(query)
     rescue => e
       Rails.logger.error "CouchDB query encountered: \"#{e.message}\" (is Couch down?)"
       Rails.logger.error e.backtrace
