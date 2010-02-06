@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   
   def require_user
     unless user
-      #flash[:notice] = "You must be logged in to access that page"
+      flash[:notice] = "Please login"
       redirect_to '/login/new/'
       return false
     end

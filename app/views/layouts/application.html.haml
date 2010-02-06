@@ -20,6 +20,9 @@
     %script{ :src => "/javascripts/level.js", :type => "text/javascript" }
     = yield :head_scripts
   %body
-    #stage
-      #map
-      #info
+    #flashes
+      - [:notice, :warning, :error].each do |type|
+        - if flash[type]
+          %div{:id => type}=flash[type]
+          
+    = yield

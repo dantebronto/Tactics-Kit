@@ -12,6 +12,11 @@ table {border-collapse: collapse;border-spacing: 0;}
 
 body { padding: 15px; font-family: arial; font-size: 0.8em; }
 
+/* flashes */
+#flashes { font:monospace; font-size: 2em; text-align:center;  }
+#flashes #notice { color:#CF1515; background-color:#333; display:block; padding:10px; border-radius: 5px; -moz-border:radius: 5px; }
+/* end flashes */
+
 #map { border-top: thin solid #666; border-left: thin solid #666; width: 410px; height:816px; background-image: url(/images/test_map.jpg); float:left;}
 #info { padding-left: 20px; position:fixed; }
 #info p { font-size: 1.2em; }

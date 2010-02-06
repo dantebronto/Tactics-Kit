@@ -1,0 +1,16 @@
+%form{:action => '/players', :method => 'post'}
+  %input{:name => 'authenticity_token', :type => 'hidden', :value => form_authenticity_token }
+  .form_row
+    .label
+      %label
+        Desired Login
+    .field
+      %input{:type => 'text', :name => 'login'}
+  .form_row
+    .label
+      Password
+    .field
+      %input{:type => 'password', :name => 'password'}
+  .form_row
+    .input
+      %input{:type => 'submit', :value => 'Submit'}

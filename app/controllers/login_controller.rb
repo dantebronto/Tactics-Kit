@@ -1,8 +1,6 @@
 class LoginController < ApplicationController
   
-  skip_before_filter :require_user, :only => [:login, :new]
-  
-  layout "html"
+  skip_before_filter :require_user, :only => [:login, :new, :unauthenticated]
   
   def login
     authenticate!(:my_strategy)
@@ -15,14 +13,14 @@ class LoginController < ApplicationController
   end
   
   def new
-    render :action => 'unauthenticated', :layout => !request.xhr?
+    render :action => 'new', :layout => !request.xhr?
   end
   
-  # def unauthenticated
-  #   flash[:error] = "Incorrect email/password combination"
-  # 
-  #   redirect_to new_user_session_url
-  #   return false
-  # end
+  def unauthenticated
+    flash[:notice] = "Incorrect login/password combination"
+  
+    redirect_to '/login/new/'
+    return false
+  end
   
 end

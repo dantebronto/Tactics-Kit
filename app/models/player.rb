@@ -12,4 +12,17 @@ class Player
     res['error'] ? nil : res
   end
   
+  def self.create(hsh)
+    return "not unique" unless Player.login_unique?(hsh[:login])
+    player = Curl::Easy.new(Couch.db)
+    hsh.merge!(:type => 'player')
+    player.http_post(hsh.to_json)
+  end
+  
+  def self.login_unique?(login)
+    req = Couch.view('player/authenticate', { :startkey => "[\"#{login}\"]", :endkey => "[\"#{login}\", {}]" } )
+    stg = Curl::Easy.perform(req).body_str
+    JSON.parse(stg)['rows'].blank?
+  end
+  
 end

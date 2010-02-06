@@ -38,5 +38,14 @@ $(document).ready(function(){
     });
     return false;
   });
+
+  $('.signup_link').click(function(){
+    $.facebox(function() { 
+      $.get('/players/new/', function(data) {
+        $.facebox(data)
+      });
+    });
+    return false;
+  });
   
 });
