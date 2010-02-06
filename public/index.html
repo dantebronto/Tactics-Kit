@@ -7,70 +7,13 @@
     <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" media="screen" charset="utf-8" />
     <link rel="stylesheet" href="/stylesheets/facebox.css" type="text/css" media="screen" charset="utf-8" />
     <script type="text/javascript" src="/javascripts/jquery.min.js"></script>
-    <script type="text/javascript" src="/javascripts/application.js"></script>
+     <script type="text/javascript" src="/javascripts/application.js"></script>
     <script type="text/javascript" src="/javascripts/facebox.js"></script>
-    <script type="text/javascript" src="/javascripts/halo_context.js"></script>
-    <script type="text/javascript" src="/javascripts/inventory.js"></script>
-    <script type="text/javascript" src="/javascripts/matrix.js"></script>
-    <script type="text/javascript" src="/javascripts/map.js"></script>
-    <script type="text/javascript" src="/javascripts/weapon.js"></script>
-    <script type="text/javascript" src="/javascripts/character.js"></script>
-    <script type="text/javascript" src="/javascripts/enemy.js"></script>
-    <script type="text/javascript" src="/javascripts/astar.js"></script>
-    <script type="text/javascript" src="/javascripts/level.js"></script>
-    
-    <script type="text/javascript">
-      var init_level = function(){
-        var map = new Map([ 
-          [ 15, 15, 15, 15, 15, 15, 15, 15 ], 
-          [ 15, 15, 15, 15, 15, 15, 15, 15 ],
-          [ 15, 15, 15, 15, 15, 15, 15, 15 ], 
-          [ 15, 15, 15, 10, 10, 15, 15, 15 ], 
-          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
-          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
-          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
-          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
-          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
-          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
-          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
-          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
-          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
-          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
-          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
-          [ 15, 15, 15, 15, 15, 15, 15, 15 ]
-        ]);
-
-        window['level'] = new Level({ map: map });
-
-        $('#stage').hide().fadeIn(2000, function(){ 
-          level.info_div.hide().fadeIn(500); 
-
-          var inventory = new Inventory([
-            ['Potion', 3]
-          ]);
-
-          var hero = new Character( { map: level.map, x:4, y: 12, inventory: inventory } );
-          level.active_player = hero;
-
-          //var bob = new Character( { map: level.map, x: 4, y: 3 })
-          level.players = [hero]; //, bob];
-
-          var foo = new Enemy( { map: level.map } );
-          var bar = new Enemy( { map: level.map, x: 4, y: 14 } );
-
-          level.active_enemy = foo;
-          level.enemies = [foo, bar];
-
-          level.assign_ids();
-          level.reset_turn();
-        });
-      }
-    </script>
   </head>  
   <body>
-    <div id="stage">
-      <div id="map"></div>
-      <div id="info"></div>
+    <div id='welcome'>
+      Welcome!
+      <a class='login_link' href='/login/new'>login here</a>
     </div>
   </body>  
 </html>

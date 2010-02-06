@@ -4,12 +4,16 @@ class LoginController < ApplicationController
   
   def login
     authenticate!
-    redirect_to '/foo'
+    redirect_to '/levels/1'
   end
   
   def logout
     request.env['warden'].logout
-    redirect_to '/login/new'
+    redirect_to '/'
+  end
+  
+  def new
+    render :action => 'unauthenticated', :layout => false
   end
   
 end

@@ -45,5 +45,5 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/login/new', :controller => 'login', :action => 'new'
   map.connect '/logout', :controller => 'login', :action => 'logout'
   
-  map.connect '/couchdb/*query', :controller => 'couchdb', :action => 'query'
+  map.connect '/couch/*query', :controller => 'couch', :action => 'query'
 end

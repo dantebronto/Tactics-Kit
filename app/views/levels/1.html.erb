@@ -39,8 +39,6 @@
       
       $.getJSON(view('character/by_name'), function(r){  
         
-        //run_func_from_doc(view('level/by_number', '?key=<%= params[:id] %>'), 'setup');
-        
         var json = $.extend({ name: 'Atom', map: level.map, x: 3, y: 3 }, r['rows'][0]['value']);
         
         var hero = new Character(json);
