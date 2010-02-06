@@ -2,9 +2,17 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  helper :all # include all helpers, all the time
-  protect_from_forgery # See ActionController::RequestForgeryProtection for details
-
-  # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
+  helper :all
+  protect_from_forgery
+  filter_parameter_logging :password
+  before_filter :require_user
+  
+  def require_user
+    unless user
+      #flash[:notice] = "You must be logged in to access that page"
+      redirect_to '/login/new/'
+      return false
+    end
+  end
+  
 end

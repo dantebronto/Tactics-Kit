@@ -7,8 +7,8 @@ class Player
     ( hsh['rows'] && hsh['rows'].first && hsh['rows'].first ) ? hsh['rows'].first : nil
   end
   
-  def find(id)
-    res = JSON.parse(Curl::Easy.perform("#{Couch.db}/#{id}"))
+  def self.find(id)
+    res = JSON.parse(Curl::Easy.perform("#{Couch.db}/#{id}").body_str)
     res['error'] ? nil : res
   end
   
