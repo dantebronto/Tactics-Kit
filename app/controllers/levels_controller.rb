@@ -1,6 +1,8 @@
 class LevelsController < ApplicationController
+  
+  before_filter :authenticate!
+  
   def show
-    #@level = params[:id] # use find
     render :template => "levels/#{params[:id]}"
   end
 end

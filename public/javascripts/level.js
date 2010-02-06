@@ -2,7 +2,7 @@ function Level(opts){
   this.map = opts.map;
   this.info_div = $('#info');
   this.info_div.css('left', this.map.div.width() + 15);
-  this.animation_speed = 0.4;
+  this.animation_speed = 1;
 };
 
 Level.prototype = {

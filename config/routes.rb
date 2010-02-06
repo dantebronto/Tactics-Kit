@@ -41,5 +41,9 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/levels/post', :controller => 'levels', :action => 'post'
   map.connect '/levels/:id', :controller => 'levels', :action => 'show'
   
+  map.connect '/login', :controller => 'login', :action => 'login'
+  map.connect '/login/new', :controller => 'login', :action => 'new'
+  map.connect '/logout', :controller => 'login', :action => 'logout'
+  
   map.connect '/couchdb/*query', :controller => 'couchdb', :action => 'query'
 end
