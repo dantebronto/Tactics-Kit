@@ -1,31 +1,28 @@
-function Enemy(opts){
-  this.level_id = 0;
-  this.level = opts.level || 1;
-  this.name = opts.name || 'Level ' + this.level + ' Battle Mage';
-  this.speed = opts.speed || 2;
-  this.ap = 0;
-  this.ap_left = 0;
-  this.hp = Math.floor(22.3 + this.level * 13.65);
-  this.hp_left = this.hp;
-  this.has_moved = false;
-  this.has_attacked = false;
-  this.weapon = new Weapon({ attack_range: 1, attack: 1, name: 'Bronze Sword' });
-  this.sprite = opts.sprite || '/images/enemy.gif';
-  this.accuracy = opts.accuracy || 80 + Math.floor(this.level * 0.19);
-  this.strength = opts.strength || this.level;
-  this.strength = this.strength + this.weapon.attack;
-  this.exp = opts.exp || this.level * 15;
-  this.x = opts.x || 3;
-  this.y = opts.y || 14;
-  this.map = opts.map;
-  this.is_player = false;
-  this.is_enemy = true;
-  this.show();
-};
-
-copy_prototype(Enemy, Character);
-
-$.extend(Enemy.prototype, {
+var Enemy = Character.extend({
+  init: function(opts){
+    this.level_id = 0;
+    this.level = opts.level || 1;
+    this.name = opts.name || 'Level ' + this.level + ' Battle Mage';
+    this.speed = opts.speed || 2;
+    this.ap = 0;
+    this.ap_left = 0;
+    this.hp = Math.floor(22.3 + this.level * 13.65);
+    this.hp_left = this.hp;
+    this.has_moved = false;
+    this.has_attacked = false;
+    this.weapon = new Weapon({ attack_range: 1, attack: 1, name: 'Bronze Sword' });
+    this.sprite = opts.sprite || '/images/enemy.gif';
+    this.accuracy = opts.accuracy || 80 + Math.floor(this.level * 0.19);
+    this.strength = opts.strength || this.level;
+    this.strength = this.strength + this.weapon.attack;
+    this.exp = opts.exp || this.level * 15;
+    this.x = opts.x || 3;
+    this.y = opts.y || 14;
+    this.map = opts.map;
+    this.is_player = false;
+    this.is_enemy = true;
+    this.show();
+  },
   animate_attack: function(x, y){
     var self = this;
     self.has_attacked = true;

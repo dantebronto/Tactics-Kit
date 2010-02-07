@@ -1,14 +1,6 @@
 <% content_for :head_scripts do -%>
 <script type="text/javascript">
-  // getscript the level code
-  // on callback
-  // create new level w/ terrain map
-  // fade in the stage
-  // getjson party by user id, possibly include inventory
-  // getjson enemies by level or from level
-  // getting from level is better idea
-  // 
-  var init_level = function(){
+  $(document).ready(function(){
     var map = new Map([ 
       [ 15, 15, 15, 15, 15, 15, 15, 15 ], 
       [ 15, 15, 15, 15, 15, 15, 15, 15 ],
@@ -32,29 +24,36 @@
 
     $('#stage').hide().fadeIn(2000, function(){ 
       level.info_div.hide().fadeIn(500); 
-
-      var inventory = new Inventory([
-        ['Potion', 3]
-      ]);
       
-      $.getJSON(view('character/by_name'), function(r){  
+      var key = '?startkey=["' + PLAYER_ID + '"]&endkey=["' + PLAYER_ID + '",{}]';
+      $.getJSON(view('character/party_with_inventory', key), function(res){
+        var rows = res['rows'];
         
-        var json = $.extend({ name: 'Atom', map: level.map, x: 3, y: 3 }, r['rows'][0]['value']);
+        var inventory = new Inventory(rows.reverse().pop().value);
         
-        var hero = new Character(json);
+        // instantiate players
+        var player, json, pos;
         
-        level.active_player = hero;
+        level.players = [];
         
-        var girl = new Character({ 
-          map: level.map, x: 4, y: 3,
-          name: 'Claudia', 
-          sprite: '/images/girl.gif',
-          inventory: inventory, 
-          weapon: new Weapon({ range: 3, attack: 1,  is_ranged: true, dead_range: 1, name: 'Weak Ass Bow' })
-        });
+        var positions = [ [3,3], [4,3] ];
         
-        level.players = [hero, girl];
-
+        while( rows.length > 0 ){
+          pos = positions.reverse().pop();
+          json = $.extend({ 
+            map: level.map, 
+            x : pos[0], 
+            y : pos[1] 
+          }, rows.reverse().pop().value);
+          
+          player = new Character(json);
+          player.inventory = inventory;
+          level.players.push(player);
+        }
+        
+        level.active_player = level.players[0];
+        
+        // instantiate enemies
         var foo = new Enemy( { map: level.map } );
         var bar = new Enemy( { map: level.map, x: 4, y: 14 } );
         level.enemies = [foo, bar];
@@ -62,8 +61,7 @@
         level.assign_ids();
         level.reset_turn();
       });
-    
     });
-  }
+  });
 </script>
 <% end %>

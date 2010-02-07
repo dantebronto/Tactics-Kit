@@ -1,28 +1,22 @@
-function Map(terrain_map){
-  var self = this;
-  self.div = $('#map');
-  self.terrain_matrix = new Matrix(terrain_map);
-  self.rows = self.terrain_matrix.rows();
-  self.cols = self.terrain_matrix.cols();
-  
-  var cell_types = ['map', 'underlay', 'item', 'enemy', 'player', 'stat', 'overlay'];
-  
-  self.cell_types = cell_types;
-  
-  for(var i=0; i < cell_types.length; i++)
-    self[cell_types[i] + '_matrix' ] = Matrix.new_filled_matrix(self.rows, self.cols);
-  
-  self.terrain_matrix.each(function(x, y){
-    self.add_cell(x, y);
-  });
-}
+var Map = Class.extend({
+  init: function(terrain_map){
+    var self = this;
+    self.div = $('#map');
+    self.terrain_matrix = new Matrix(terrain_map);
+    self.rows = self.terrain_matrix.rows();
+    self.cols = self.terrain_matrix.cols();
 
-// jQuery.fn.cell_to_xy = function(){
-//   var ara = $(this).attr('id').split('_');
-//   return
-// }
+    var cell_types = ['map', 'underlay', 'item', 'enemy', 'player', 'stat', 'overlay'];
 
-Map.prototype = {
+    self.cell_types = cell_types;
+
+    for(var i=0; i < cell_types.length; i++)
+      self[cell_types[i] + '_matrix' ] = Matrix.new_filled_matrix(self.rows, self.cols);
+
+    self.terrain_matrix.each(function(x, y){
+      self.add_cell(x, y);
+    });    
+  },
   add_cell: function(x, y){
     var self = this;
     var terrain_type = self.terrain_matrix.e(x, y);
@@ -106,5 +100,5 @@ Map.prototype = {
     for (var i = chars.length - 1; i >= 0; i--)
       if( chars[i].x == x && chars[i].y == y )
         return chars[i];
-  }
-}
+  }  
+});

@@ -1,11 +1,10 @@
-function Level(opts){
-  this.map = opts.map;
-  this.info_div = $('#info');
-  this.info_div.css('left', this.map.div.width() + 15);
-  this.animation_speed = 1;
-};
-
-Level.prototype = {
+var Level = Class.extend({
+  init: function(opts){
+    this.map = opts.map;
+    this.info_div = $('#info');
+    this.info_div.css('left', this.map.div.width() + 15);
+    this.animation_speed = 1;
+  },
   show_current_turn: function(){
     this.active_enemy = this.next_active_enemy();
     this.active_player = this.next_active_player();
@@ -122,5 +121,5 @@ Level.prototype = {
         
       stats.append(ul);
     }
-  },
-};
+  }  
+});

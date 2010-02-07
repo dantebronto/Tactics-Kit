@@ -1,21 +1,7 @@
-function Matrix(raw){
-  this.raw = raw; // 2d array
-}
-
-Matrix.new_filled_matrix = function(rows, cols, val){
-  var row, cc;
-  var ara = [];
-  
-  for(rows; rows > 0; rows--){
-    row = new Array(cols);
-    for(cc=0; cc < cols; cc++)
-      row[cc] = val || 0;
-    ara.push(row);
-  }
-  return new Matrix(ara);
-}
-
-Matrix.prototype = {
+var Matrix = Class.extend({
+  init: function(raw){
+    this.raw = raw; // 2D array
+  },
   e: function(x, y){
     if( this.raw[y] != undefined && this.raw[y][x] != undefined)
       return this.raw[y][x];
@@ -49,5 +35,18 @@ Matrix.prototype = {
         func.call(this, x, y);
       }
         
+  }  
+});
+
+Matrix.new_filled_matrix = function(rows, cols, val){
+  var row, cc;
+  var ara = [];
+  
+  for(rows; rows > 0; rows--){
+    row = new Array(cols);
+    for(cc=0; cc < cols; cc++)
+      row[cc] = val || 0;
+    ara.push(row);
   }
-}
+  return new Matrix(ara);
+};

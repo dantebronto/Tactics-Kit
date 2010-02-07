@@ -1,29 +1,28 @@
-function Character(opts){
-  this.level_id = 0;
-  this.name = opts.name || 'd00d';
-  this.level = opts.level || 1;
-  this.inventory = opts.inventory;
-  this.ap = opts.ap || Math.floor(4 + this.level * 0.07);
-  this.speed = opts.speed || Math.floor(this.ap / 2);
-  this.ap_left = this.ap;
-  this.hp = opts.hp || Math.floor(50.1 + this.level * 29.65);
-  this.hp_left = this.hp;
-  this.exp = opts.exp || 0;
-  this.exp_next = opts.exp_next || this.level * 100;
-  this.sprite = opts.sprite || '/images/bar.gif';
-  this.weapon = opts.weapon || new Weapon({ range: 1, attack: 2, is_ranged: false, dead_range: 0, name: 'Bronze Sword' });
-  this.accuracy = opts.accuracy || 80 + Math.floor(this.level * 0.19);
-  this.strength = opts.strength || this.level;
-  this.strength = this.strength + this.weapon.attack;
-  this.x = opts.x || 3;
-  this.y = opts.y || 3;
-  this.is_player = true;
-  this.is_enemy = false;
-  this.map = opts.map;
-  this.show();
-};
-
-Character.prototype = {
+var Character = Class.extend({
+  init: function(opts){
+    this.level_id = 0;
+    this.name = opts.name || 'd00d';
+    this.level = opts.level || 1;
+    this.inventory = opts.inventory;
+    this.ap = opts.ap || Math.floor(4 + this.level * 0.07);
+    this.speed = opts.speed || Math.floor(this.ap / 2);
+    this.ap_left = this.ap;
+    this.hp = opts.hp || Math.floor(50.1 + this.level * 29.65);
+    this.hp_left = this.hp;
+    this.exp = opts.exp || 0;
+    this.exp_next = opts.exp_next || this.level * 100;
+    this.sprite = opts.sprite || '/images/bar.gif';
+    this.weapon = opts.weapon || new Weapon({ range: 1, attack: 2, is_ranged: false, dead_range: 0, name: 'Bronze Sword' });
+    this.accuracy = opts.accuracy || 80 + Math.floor(this.level * 0.19);
+    this.strength = opts.strength || this.level;
+    this.strength = this.strength + this.weapon.attack;
+    this.x = opts.x || 3;
+    this.y = opts.y || 3;
+    this.is_player = true;
+    this.is_enemy = false;
+    this.map = opts.map;
+    this.show();
+  },
   add_exp: function(amt){
     for( var i=0; i < amt; i++ ){
       this.exp += 1;
@@ -377,5 +376,5 @@ Character.prototype = {
     this.map.player_matrix 
       .e(this.x, this.y)
       .unbind();
-  }
-};
+  }  
+});
