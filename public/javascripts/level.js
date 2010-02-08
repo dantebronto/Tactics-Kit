@@ -28,10 +28,11 @@ var Level = Class.extend({
     }
   },
   activate_enemy: function(){
-    var enemy = this.active_enemy;
-    console.log('enemy ' + enemy.name + ' activated');
-    var timeout = 500 + (level.enemies.indexOf(enemy) * 750 * level.animation_speed);
-    setTimeout(function(){ enemy.calculate_turn(); }, timeout);
+    this.active_enemy.calculate_turn();
+    // var enemy = this.active_enemy;
+    // console.log('enemy ' + enemy.name + ' activated');
+    // var timeout = 500 + (level.enemies.indexOf(enemy) * 750 * level.animation_speed);
+    // setTimeout(function(){ enemy.calculate_turn(); }, timeout);
   },
   reset_turn: function(){
     this.restore_players();    
@@ -76,7 +77,7 @@ var Level = Class.extend({
   },
   next_active_enemy: function(){
     for( var i=0; i < this.enemies.length; i++ )
-      if ( !this.enemies[i].has_gone() )
+      if ( !this.enemies[i].has_gone )
         return this.enemies[i];
   },
   next_active_player: function(){
@@ -86,8 +87,9 @@ var Level = Class.extend({
   },
   restore_enemies: function(){
     for( var i=this.enemies.length - 1; i >= 0; i-- ){
-      this.enemies[i].has_moved = false;
-      this.enemies[i].has_attacked = false;
+      // this.enemies[i].has_moved = false;
+      // this.enemies[i].has_attacked = false;
+      this.enemies[i].has_gone = false;
     }
   },
   restore_players: function(){
