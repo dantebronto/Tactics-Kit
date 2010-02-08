@@ -165,9 +165,7 @@ var Character = Class.extend({
       else
         hits = $('<h4>' + dmg + '</h4>');
     
-    this.map.stat_cell(x, y).html(hits);
-    hits.shake(3, 3, 180);
-    hits.fadeOut(2000);
+    level.map.stat_cell(x, y).html(hits).show().shake(3, 3, 180).fadeOut(500 * level.animation_speed);
   },
   die: function(){
     this.remove_from_map();
@@ -225,8 +223,12 @@ var Character = Class.extend({
 		
 		menu['move']     = function() { self.calculate_movement(); }
 	  menu['end turn'] = function() { 
-	    var sure = confirm('End your turn with ' + self.ap_left + ' AP remaining?'); 
-	    if(sure) { self.end_turn(); }
+	    if ( self.ap_left > 1 ){
+	      var sure = confirm('End your turn with ' + self.ap_left + ' AP remaining?'); 
+  	    if(sure) { self.end_turn(); }
+	    } else {
+	      self.end_turn();
+	    }
 	  }
 		
 		return menu;

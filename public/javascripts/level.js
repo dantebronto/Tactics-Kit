@@ -3,8 +3,11 @@ var Level = Class.extend({
     this.map = opts.map;
     this.info_div = $('#info');
     this.info_div.css('left', this.map.div.width() + 15);
-    this.animation_speed = 0.2;
+    this.animation_speed = 0.5;
     this.animation_queue = [];
+    this.turn = 1;
+    this.turn_function = function(){};
+    this.highest_id = 0;
     this.draw();
   },
   draw: function(){
@@ -30,6 +33,8 @@ var Level = Class.extend({
     this.restore_players();    
     this.restore_enemies();
     this.activate_players();
+    this.turn += 1;
+    this.turn_function();
     this.info_div.html('<p>Player Turn</p>');
     this.show_stats('players');
   },
@@ -91,8 +96,10 @@ var Level = Class.extend({
   },
   assign_ids: function(){
     var chars = this.enemies.concat(this.players);
-    for( var i=0; i < chars.length; i++ )
+    for( var i=0; i < chars.length; i++ ){
       chars[i].level_id = i;
+      this.higest_id = i;
+    }
   },
   show_stats: function(type, the_id){
     var chars = type == 'players' ? this.players : this.enemies;

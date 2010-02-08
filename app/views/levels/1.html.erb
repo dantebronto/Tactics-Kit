@@ -21,7 +21,29 @@
     ]);
 
     window['level'] = new Level({ map: map });
-
+    
+    level.turn_function = function(){
+      console.log(this.turn);
+      if ( this.turn == 10 ){
+        alert('Reinforcements are boarding!');
+        var baz = new Enemy( { map: level.map, x: 3, y: 14, name: 'Baz' } );
+        
+        if ( baz.can_move_to(baz.x, baz.y) ){
+          level.enemies.push(baz);
+          level.higest_id += 1;
+          baz.level_id = level.higest_id;
+        }
+          
+        var bat = new Enemy( { map: level.map, x: 4, y: 14, name: 'Bat' } );
+        
+        if ( bat.can_move_to(bat.x, bat.y) ){
+          level.enemies.push(bat);
+          level.higest_id += 1;
+          bat.level_id = level.higest_id;
+        }
+      }
+    };
+    
     $('#stage').hide().fadeIn(2000, function(){ 
       level.info_div.hide().fadeIn(500); 
       
