@@ -54,7 +54,7 @@ var Character = Class.extend({
     
     if( self.ap_left < self.speed )
       return; // not enough ap
-    
+    console.log(self.name + 'attacks!');
     self.deal_damage(x, y);  
     self.map.remove_clickables();
     self.subtract_ap(self.speed);
@@ -219,11 +219,11 @@ var Character = Class.extend({
 		  menu['item_no_ap'] = no_ap_func;
 		} else {
 		  menu['attack'] = function(){ self.calculate_attack(); };
-		  menu['guard']  = function(){ self.end_turn(); }
+		  menu['guard']  = function(){ console.log(self.name + ' guards'); self.end_turn(); }
 		  menu['item'] = function(){ self.show_inventory(); }
 		}
 		
-		menu['move']     = function() { self.calculate_movement(); }
+		menu['move']     = function() { console.log(self.name + ' moves'); self.calculate_movement(); }
 	  menu['end turn'] = function() { 
 	    var sure = confirm('End your turn with ' + self.ap_left + ' AP remaining?'); 
 	    if(sure) { self.end_turn(); }
@@ -232,9 +232,11 @@ var Character = Class.extend({
 		return menu;
   },
   get_attack_matrix: function(opts){
+    if( !opts)
+      opts = {};
     var self = this;
-    var x = self.x;
-    var y = self.y;
+    var x = opts.x || self.x;
+    var y = opts.y || self.y;
     
     matrix = Matrix.new_filled_matrix(self.map.rows, self.map.cols);
     matrix = self.find_neighbors({

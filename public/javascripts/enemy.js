@@ -21,6 +21,10 @@ var Enemy = Character.extend({
     this.map = opts.map;
     this.is_player = false;
     this.is_enemy = true;
+    this.actions = 2;
+    this.movement_queue = [];
+    this.attack_queue = [];
+    this.attacking = {};
     this.show();
   },
   animate_attack: function(x, y){
@@ -30,6 +34,7 @@ var Enemy = Character.extend({
     setTimeout(function(){ self.attack_specific_square(x, y); }, 500 * level.animation_speed);
   },
   attack: function(x, y){
+    console.log(this.name + ' attacks!' );
     this.has_moved = true;
     this.deal_damage(x, y);  
     this.map.remove_clickables();
@@ -40,8 +45,10 @@ var Enemy = Character.extend({
     
     attack_matrix.each(function(x, y){
       if( attack_matrix.e(x, y) == 1 && self.map.player_cell(x, y).hasClass('occupied') ){
-        if( !self.has_attacked ) // don't check this for area of effect
+        if( !self.has_attacked ){ // don't check this for area of effect
+          console.log(self.name + ' can reach for an attack!');
           self.animate_attack(x, y);
+        }
       }  
     });
   },
@@ -86,7 +93,7 @@ var Enemy = Character.extend({
         hits = $('<h3>' + dmg + '</h3>');
       else
         hits = $('<h4>' + dmg + '</h4>');
-
+        
     level.map.stat_cell(x, y).html(hits).show().shake(3, 3, 180).fadeOut(500);
   },
   die: function(){
@@ -95,6 +102,8 @@ var Enemy = Character.extend({
     level.remove_enemy(this);
   },
   has_gone: function(){
+    console.log(this.name + ' has moved: ' + (this.has_moved).toString() );
+    console.log(this.name + ' has attacked: ' + (this.has_attacked).toString() );
     return this.has_moved && this.has_attacked;
   },
   move: function(x, y){
@@ -112,6 +121,209 @@ var Enemy = Character.extend({
       this.animate_movement(x, y);
     }
   },
+  
+  ////////////////////////////////////
+  
+  highlight_attack: function(){
+    var self = this;
+    var attack_matrix = self.get_attack_matrix();
+
+    attack_matrix.each(function(x, y){
+      if( this.e(x, y) == 1 ){
+        self.map.underlay_cell(x, y)
+          .addClass('attackable pointer');
+      }
+    });
+  },
+  
+  highlight_movement: function(){
+    var self = this;
+    var x = self.x;
+    var y = self.y;
+    var speed = self.speed;
+    
+    matrix = Matrix.new_filled_matrix(self.map.rows, self.map.cols);
+    matrix = self.find_neighbors({
+      x: x, y: y,
+      matrix: matrix,
+      speed: speed
+    });
+    
+    matrix.set(x, y, 0);
+    
+    matrix.each(function(x, y){ 
+      if( this.e(x, y) == 1 ){        
+        self.map.underlay_cell(x, y)
+          .addClass('moveable pointer');
+      }
+    });
+  },
+  queue_animations: function(){
+    var self = this;
+    var anim_q = level.animation_queue;
+    var attk_q = self.attack_queue;
+    var mvmt_q = self.movement_queue;
+    var has_attacked = false;
+    var x, y;
+    
+    var no_attk = true;
+    for( var i=0; i < attk_q.length; i++ )
+      if( attk_q[i] )
+        no_attk = false;
+    
+    var can_attk = false;
+    
+    var am = self.get_attack_matrix({ x: self.x, y: self.y });
+    var player;
+    var weakest = { hp: 999999999 };
+    am.each(function(x, y){
+      
+      if( am.e(x, y) == 1 && self.map.player_cell(x, y).hasClass('occupied') ){
+        player = level.map.find_by_position('player', x, y);
+        weakest = weakest.hp < player.hp ? weakest : player;
+        can_attk = { x: weakest.x, y: weakest.y };
+      }
+      
+    });
+    
+    if( no_attk && can_attk ){
+      anim_q.push(function(){ self.highlight_attack(); } );
+      anim_q.push('rest');
+      anim_q.push(function(){ 
+        self.map.remove_clickables(); 
+        self.map.underlay_cell(can_attk.x, can_attk.y).addClass('attackable pointer'); 
+      });
+      anim_q.push(function(){
+        self.map.remove_clickables();
+        self.deal_damage(can_attk.x, can_attk.y);
+      });
+    } else {
+
+      // if ( attk_q[0] ){
+      //   has_attacked = true;
+      //   anim_q.push(function(){ self.highlight_attack(); } );
+      //   anim_q.push('rest');
+      //   anim_q.push(function(){ 
+      //     self.map.remove_clickables(); 
+      //     self.map.underlay_cell(attk_q[0].x, attk_q[0].y).addClass('attackable pointer'); 
+      //   });
+      //   anim_q.push(function(){
+      //     self.map.remove_clickables();
+      //     self.deal_damage(attk_q[0].x, attk_q[0].y);
+      //   })
+      // }
+
+        // end attack before
+        //
+        // movement
+
+        anim_q.push(function(){ self.highlight_movement(); });
+        anim_q.push('rest');
+        anim_q.push(function(){ self.map.remove_clickables(); });
+
+        for( var i=0; i < mvmt_q.length; i++ ){  
+          x = self.movement_queue[i].x;
+          y = self.movement_queue[i].y;
+          anim_q.push(function(){ 
+            self.remove_from_map();
+            self.x = self.movement_queue[0].x;
+            self.y = self.movement_queue[0].y;
+            self.movement_queue.shift();
+            self.show(); 
+          });
+          anim_q.push('noop');
+          
+          if ( self.attack_queue[i] && !has_attacked ){
+            has_attacked = true;
+            self.attacking = { x: self.attack_queue[i].x, y: self.attack_queue[i].y };
+            anim_q.push(function(){ self.highlight_attack(); } );
+            anim_q.push('rest');
+            anim_q.push(function(){ 
+              self.map.remove_clickables(); 
+              self.map.underlay_cell(self.attacking.x, self.attacking.y).addClass('attackable pointer'); 
+            });
+            anim_q.push(function(){
+              self.map.remove_clickables();
+              self.deal_damage(self.attacking.x, self.attacking.y);
+            })
+          }
+        }
+
+        // end movement
+        //
+        // attack after
+
+        // if ( !has_attacked && attk_q[attk_q.length - 1] ){
+        //   var last = attk_q[attk_q.length - 1];
+        // 
+        //   anim_q.push(function(){ self.highlight_attack(); } );
+        //   anim_q.push('rest');
+        //   anim_q.push(function(){ 
+        //     self.map.remove_clickables(); 
+        //     self.map.underlay_cell(last.x, last.y).addClass('attackable pointer'); 
+        //   });
+        //   anim_q.push(function(){
+        //     self.map.remove_clickables();
+        //     self.deal_damage(last.x, last.y);
+        //   })
+        // }
+      
+    } // end no_attk
+    
+    
+  },
+  real_turn_calc: function(){
+    var self = this;
+    var weakest_player = self.target_player();
+    var x = weakest_player.x;
+    var y = weakest_player.y;
+    
+    res = astar.search(self, self.map.terrain_matrix, 
+      { x: self.x, y: self.y }, { x: x, y: y });
+    
+    // all moves within speed range  
+    res = res.splice(0, self.speed);
+    
+    var last = res[res.length-1];
+    
+    if( last.x == x && last.y == y )
+      res.pop(); // get within one space of the target, not on top of
+    
+    self.movement_queue = res;
+    
+    console.log('mvmt_q: ')
+    console.log(self.movement_queue)
+    
+    self.attack_queue = [];
+    for( var i=0; i < self.movement_queue.length; i++ )
+      self.attack_queue.push(false);
+      
+    var am; // attack matrix
+    var player;
+    var weakest = { hp: 999999999 };
+    for( var i=self.movement_queue.length - 1; i >= 0; i-- ){
+      x = self.movement_queue[i].x;
+      y = self.movement_queue[i].y;
+      
+      am = self.get_attack_matrix({ x: x, y: y });
+      
+      am.each(function(x, y){
+        if( am.e(x, y) == 1 && self.map.player_cell(x, y).hasClass('occupied') ){
+          player = level.map.find_by_position('player', x, y);
+          weakest = weakest.hp < player.hp ? weakest : player;
+          
+          self.attack_queue[i] = { x: weakest.x, y: weakest.y }; // determine weakest: find_by_position('player', x, y).hp < weakest etc.
+        }
+      });
+    }
+    console.log('attk_q: ')
+    console.log(self.attack_queue)
+    self.queue_animations();
+  },
+  
+  ////////////////////////////////////////////////
+  
+  
   move_to_player: function(){
     var self = this;
     var weakest_player = self.target_player();

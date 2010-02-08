@@ -3,7 +3,16 @@ var Level = Class.extend({
     this.map = opts.map;
     this.info_div = $('#info');
     this.info_div.css('left', this.map.div.width() + 15);
-    this.animation_speed = 1;
+    this.animation_speed = 0.2;
+    this.animation_queue = [];
+    this.draw();
+  },
+  draw: function(){
+    var self = this;
+    if ( typeof(self.animation_queue[0]) == 'function' )
+      self.animation_queue[0]();
+    self.animation_queue.shift(); 
+    setTimeout(function(){ self.draw(); }, 500 * self.animation_speed);
   },
   show_current_turn: function(){
     this.active_enemy = this.next_active_enemy();
@@ -11,6 +20,7 @@ var Level = Class.extend({
     
     if ( !this.active_player && !this.active_enemy ) {
       this.reset_turn();
+      console.log('Turn reset!');
     } else if ( !this.active_player ) {
       this.activate_enemy();
       this.info_div.html('<p>Enemy Turn</p>');
@@ -19,6 +29,7 @@ var Level = Class.extend({
   },
   activate_enemy: function(){
     var enemy = this.active_enemy;
+    console.log('enemy ' + enemy.name + ' activated');
     var timeout = 500 + (level.enemies.indexOf(enemy) * 750 * level.animation_speed);
     setTimeout(function(){ enemy.calculate_turn(); }, timeout);
   },

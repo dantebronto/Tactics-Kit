@@ -36,7 +36,7 @@
         
         level.players = [];
         
-        var positions = [ [3,3], [4,3] ];
+        var positions = [ [3,3], [4,11] ];
         
         while( rows.length > 0 ){
           pos = positions.reverse().pop();
@@ -54,8 +54,8 @@
         level.active_player = level.players[0];
         
         // instantiate enemies
-        var foo = new Enemy( { map: level.map } );
-        var bar = new Enemy( { map: level.map, x: 4, y: 14 } );
+        var foo = new Enemy( { map: level.map, name: 'Foo' } );
+        var bar = new Enemy( { map: level.map, x: 4, y: 14, name: 'Bar' } );
         level.enemies = [foo, bar];
         
         level.assign_ids();
