@@ -189,12 +189,24 @@ var Enemy = Character.extend({
     res = astar.search(self, self.map.terrain_matrix, 
       { x: self.x, y: self.y }, { x: x, y: y });
     
+    if ( res.length == 0 ){
+      for( var i=0; i < level.players.length; i++ ){
+        x = level.players[i].x;
+        y = level.players[i].y;
+        
+        if( res.length == 0 ){
+          res = astar.search(self, self.map.terrain_matrix, 
+            { x: self.x, y: self.y }, { x: x, y: y });
+        }
+      }
+    }
+    
     // all moves within speed range  
     res = res.splice(0, self.speed);
     
     var last = res[res.length-1];
     
-    if( last.x == x && last.y == y )
+    if( last && last.x == x && last.y == y )
       res.pop(); // get within one space of the target, not on top of
     
     self.movement_queue = res;

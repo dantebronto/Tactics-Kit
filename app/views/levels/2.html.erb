@@ -1,0 +1,73 @@
+<% content_for :head_scripts do -%>
+<script type="text/javascript">
+  $(document).ready(function(){
+    var map = new Map([ 
+      [ 10, 10, 10, 10, 10, 10, 10, 15, 15, 15, 15, 15 ],
+      [ 10, 15, 10, 10, 10, 10, 10, 15, 10, 10, 10, 10 ],
+      [ 10, 10, 15, 15, 15, 10, 10, 15, 10, 10, 10, 10 ],
+      [ 15, 10, 10, 15, 15, 15, 10, 15, 10, 10, 10, 10 ],
+      [ 10, 10, 10, 10, 15, 15, 10, 15, 10, 10, 10, 15 ],
+      [ 10, 10, 10, 15, 15, 15, 15, 15, 10, 10, 10, 10 ],
+      [ 10, 10, 10, 15, 15, 10, 10, 10, 10, 10, 10, 10 ],
+      [ 15, 15, 10, 10, 15, 10, 10, 10, 10, 15, 15, 10 ],
+      [ 15, 15, 15, 15, 10, 10, 10, 10, 15, 15, 15, 15 ]
+    ]);
+
+    window['level'] = new Level({ map: map });
+    
+    $('#map').
+      css('width', '612px').
+      css('height', '458px').
+      css('background-image', 'url(/images/valley.jpg)');
+    
+    $('#info').css('left', '630px')
+    
+    $('<img style="padding-left:3px" src="/images/turtle_man.gif"/>').appendTo(level.map.stat_cell(3, 4)).animate({ 'width': '50' }, 1500).shake(3,3,300).animate({ 'width': '0' }, 50)
+    
+    level.turn_function = function(){
+      console.log(this.turn);
+    };
+    
+    $('#stage').hide().fadeIn(2000, function(){ 
+      level.info_div.hide().fadeIn(500); 
+      
+      var key = '?startkey=["' + PLAYER_ID + '"]&endkey=["' + PLAYER_ID + '",{}]';
+      $.getJSON(view('character/party_with_inventory', key), function(res){
+        var rows = res['rows'];
+        
+        var inventory = new Inventory(rows.reverse().pop().value);
+        
+        // instantiate players
+        var player, json, pos;
+        
+        level.players = [];
+        
+        var positions = [ [3,4], [2,3] ];
+        
+        while( rows.length > 0 ){
+          pos = positions.reverse().pop();
+          json = $.extend({ 
+            map: level.map, 
+            x : pos[0], 
+            y : pos[1] 
+          }, rows.reverse().pop().value);
+          
+          player = new Character(json);
+          player.inventory = inventory;
+          level.players.push(player);
+        }
+        
+        level.active_player = level.players[0];
+        
+        // instantiate enemies
+        var foo = new Enemy( { map: level.map, x: 11, y: 1, name: 'Foo', sprite: '/images/penguin2.gif' } );
+        var bar = new Enemy( { map: level.map, x: 11, y: 2, name: 'Bar', sprite: '/images/penguin2.gif' } );
+        level.enemies = [foo, bar];
+        
+        level.assign_ids();
+        level.reset_turn();
+      });
+    });
+  });
+</script>
+<% end %>
