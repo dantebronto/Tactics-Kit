@@ -311,30 +311,32 @@ var Character = Class.extend({
     var link;
     var there_are_items = false;
     
-    for( item in self.inventory.items){
-      if( self.inventory.get(item).qty <= 0 )
-        continue;
+    $.each(self.inventory.items, function(name){
+      var item = self.inventory.items[name];
+      if( item.qty <= 0 )
+        return;
       
       there_are_items = true;
       use_link = link_template.clone();
       throw_link = link_template.clone();
-      
-      use_link.html('Use ' + item)
-        .click(function(){ self.inventory.use(item, self); });
-        
+  
+      use_link.html('Use ' + name)
+        .click(function(){ self.inventory.use(name, self); });
+    
       faceout.append(use_link);
-      
+  
       faceout.append('<span> | </span>');
+  
+      throw_link.html('Throw ' + name)
+        .click(function(){ self.inventory.toss(name, self); });
       
-      throw_link.html('Throw ' + item)
-        .click(function(){ self.inventory.toss(item, self); });
-          
       faceout.append(throw_link)
-        .append('<span> x ' + self.inventory.get(item).qty + '</span>');
-    }
+        .append('<span> x ' + item.qty + '</span>');
+    });
+    
     if ( !there_are_items )
       faceout.html('<h1>No items in inventory!</h1>')
-    
+
     $.facebox(faceout); 
   },
   subtract_ap: function(amt){

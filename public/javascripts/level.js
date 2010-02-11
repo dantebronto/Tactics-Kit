@@ -118,8 +118,13 @@ var Level = Class.extend({
       ul = '<ul id=stats_' + they.level_id + '>';
       ul += '<li>Name: ' + they.name     + '</li>';
       ul += '<li>HP: '   + they.hp_left  + '/' + they.hp + '</li>';
-      if ( they.is_player )
-        ul += '<li>AP: '   + they.ap_left  + '/' + they.ap + '</li>';
+      if ( they.is_player ){
+        if ( they.ap_left >= 1 )
+          ul += '<li>AP: <b>'   + they.ap_left  + '</b>/' + they.ap + '</li>';
+        else
+          ul += '<li>AP: '   + they.ap_left  + '/' + they.ap + '</li>';
+      }
+        
       ul += '<li>ST: '   + they.strength + '</li>';
       ul += '<li>SP: '   + they.speed    + '</li>';
       ul += '</ul>';

@@ -12,7 +12,7 @@
       [ 15, 15, 10, 10, 15, 10, 10, 10, 10, 15, 15, 10 ],
       [ 15, 15, 15, 15, 10, 10, 10, 10, 15, 15, 15, 15 ]
     ]);
-
+    
     window['level'] = new Level({ map: map });
     
     $('#map').
@@ -22,7 +22,11 @@
     
     $('#info').css('left', '630px')
     
-    $('<img style="padding-left:3px" src="/images/turtle_man.gif"/>').appendTo(level.map.stat_cell(3, 4)).animate({ 'width': '50' }, 1500).shake(3,3,300).animate({ 'width': '0' }, 50)
+    $('<img style="padding-left:3px" src="/images/turtle_man.gif"/>').
+      appendTo(level.map.stat_cell(3, 4)).
+      animate({ 'width': '50' }, 1500).
+      shake(3,3,300).
+      animate({ 'width': '0' }, 50);
     
     level.turn_function = function(){
       console.log(this.turn);
@@ -35,7 +39,8 @@
       $.getJSON(view('character/party_with_inventory', key), function(res){
         var rows = res['rows'];
         
-        var inventory = new Inventory(rows.reverse().pop().value);
+        var inventory = new Inventory(rows[0].value);
+        rows.shift();
         
         // instantiate players
         var player, json, pos;
@@ -45,7 +50,7 @@
         var positions = [ [3,4], [2,3] ];
         
         while( rows.length > 0 ){
-          pos = positions.reverse().pop();
+          pos = positions.pop();
           json = $.extend({ 
             map: level.map, 
             x : pos[0], 
