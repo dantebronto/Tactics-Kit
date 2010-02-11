@@ -47,6 +47,8 @@ ActionController::Routing::Routes.draw do |map|
   
   map.connect '/couch/*query', :controller => 'couch', :action => 'query'
 
+  map.connect '/enemies', :controller => 'enemies'
+
   map.resource :players
   
   map.root :controller => 'welcome'
