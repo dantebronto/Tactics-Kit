@@ -1,5 +1,8 @@
 <% content_for :head_scripts do -%>
 <script type="text/javascript">
+
+  <%= render :partial => 'enemies/robo_cop' %>
+  
   $(document).ready(function(){
     var map = new Map([ 
       [ 10, 10, 10, 10, 10, 10, 10, 15, 15, 15, 15, 15 ],
@@ -47,15 +50,16 @@
         
         level.players = [];
         
-        var positions = [ [3,4], [2,3] ];
+        var positions = [ [0,0], [1,0], [2,0], [3,0], [1,0], [2,0] ];
+        positions.reverse();
         
         while( rows.length > 0 ){
           pos = positions.pop();
-          json = $.extend({ 
+          json = $.extend(rows.pop().value, { 
             map: level.map, 
             x : pos[0], 
             y : pos[1] 
-          }, rows.reverse().pop().value);
+          });
           
           player = new Character(json);
           player.inventory = inventory;
@@ -65,8 +69,8 @@
         level.active_player = level.players[0];
         
         // instantiate enemies
-        var foo = new Enemy( { map: level.map, x: 11, y: 1, name: 'Foo', sprite: '/images/penguin2.gif' } );
-        var bar = new Enemy( { map: level.map, x: 11, y: 2, name: 'Bar', sprite: '/images/penguin2.gif' } );
+        var foo = new RoboCop( { map: level.map, x: 11, y: 1, name: 'Robo Cop' } );
+        var bar = new RoboCop( { map: level.map, x: 11, y: 2, name: 'Robo Cop' } );
         level.enemies = [foo, bar];
         
         level.assign_ids();

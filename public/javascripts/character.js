@@ -18,6 +18,12 @@ var Character = Class.extend({
     this.strength = this.strength + this.weapon.attack;
     this.x = opts.x || 3;
     this.y = opts.y || 3;
+    
+    if( opts.x == 0 )
+      this.x = 0;
+    if( opts.y == 0 )
+      this.y = 0;
+    
     this.is_player = true;
     this.is_enemy = false;
     this.map = opts.map;
