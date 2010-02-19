@@ -135,5 +135,25 @@ var Level = Class.extend({
         
       stats.append(ul);
     }
-  }  
+  },
+  save_party: function(){
+    var inven_ara = [];
+    var post = {};
+    var player_ara = [];
+    
+    post.player_id = PLAYER_ID;
+    
+    $.each(level.players[0].inventory.items, function(val){
+      inven_ara.push([val, level.players[0].inventory.items[val].qty])
+    });
+    
+    $.each(level.players, function(i){
+      player_ara.push(JSON.stringify(level.players[i].to_json()));
+    });
+    
+    post['inventory'] = JSON.stringify(inven_ara);
+    post['players[]'] = player_ara;
+    
+    $.post('/party', post);
+  }
 });

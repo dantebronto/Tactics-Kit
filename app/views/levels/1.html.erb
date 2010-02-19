@@ -55,7 +55,7 @@
     $('#stage').hide().fadeIn(2000, function(){ 
       level.info_div.hide().fadeIn(500); 
       
-      var key = '?startkey=["' + PLAYER_ID + '"]&endkey=["' + PLAYER_ID + '",{}]';
+      var key = 'startkey=["' + PLAYER_ID + '"]&endkey=["' + PLAYER_ID + '",{}]';
       $.getJSON(view('character/party_with_inventory', key), function(res){
         var rows = res['rows'];
         

@@ -1,8 +1,5 @@
 class CouchController < ApplicationController
-  
   def query
-    res = Couch.perform(params[:query])
-    render :json => res
+    render :json => Couch.perform(params[:query], params[:startkey], params[:endkey])
   end
-  
 end

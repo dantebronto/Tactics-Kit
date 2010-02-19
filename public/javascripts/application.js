@@ -1,5 +1,5 @@
 // Amount of shakes, Shake distance, Time duration
-jQuery.fn.shake = function(intShakes, intDistance, intDuration) {
+$.fn.shake = function(intShakes, intDistance, intDuration) {
   this.each(function() {
     $(this).css({position:'relative'});
     for (var x=1; x<=intShakes; x++) {

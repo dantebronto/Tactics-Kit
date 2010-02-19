@@ -1,6 +1,9 @@
 var Character = Class.extend({
   init: function(opts){
     this.level_id = 0;
+    this._id = opts._id;
+    this._rev = opts._rev;
+    this.player_id = opts.player_id;
     this.name = opts.name || 'd00d';
     this.level = opts.level || 1;
     this.inventory = opts.inventory;
@@ -369,8 +372,10 @@ var Character = Class.extend({
   to_json: function(){
     return {
       name: this.name,
+      _id: this._id,
+      _rev: this._rev,
+      player_id: this.player_id,
       level: this.level,
-      inventory: this.inventory,
       ap: this.ap,
       speed:  this.speed,
       hp: this.hp,
