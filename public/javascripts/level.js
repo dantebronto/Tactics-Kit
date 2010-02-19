@@ -155,5 +155,13 @@ var Level = Class.extend({
     post['players[]'] = player_ara;
     
     $.post('/party', post);
+  },
+  next: function(){
+    var current_level = Number(location.pathname.replace(/\//g, '').replace('levels', ''));
+    if( current_level + 1 > 2 ){
+      alert('You beat the game! (There are only 2 levels so far)');
+      return false;
+    }
+    window.location = '/levels/' + String(current_level + 1);
   }
 });
