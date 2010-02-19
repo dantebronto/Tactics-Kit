@@ -1,0 +1,13 @@
+{
+  "_id":"_design/character",
+  "language": "javascript",
+  "views":
+  {
+     "by_name": {
+         "map": "function(doc) {\n  emit(doc.name, doc);\n}"
+     },
+     "party_with_inventory": {
+         "map": "function(doc) {\n  if ( doc.inventory )\n    emit([doc.player_id, \"inventory\"], doc.inventory);\n  if ( doc.name )\n    emit([doc.player_id, \"player\"], doc);\n}"
+     }
+  }  
+}
