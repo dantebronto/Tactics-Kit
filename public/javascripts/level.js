@@ -127,7 +127,7 @@ var Level = Class.extend({
           ul += '<li>AP: '   + they.ap_left  + '/' + they.ap + '</li>';
       }
         
-      ul += '<li>ST: '   + they.strength + '</li>';
+      ul += '<li>ST: '   + (Number(they.strength) + Number(they.weapon.attack)) + '</li>';
       ul += '<li>SP: '   + they.speed    + '</li>';
       ul += '<li>LVL: '  + they.level    + '</li>';
       ul += '</ul>';

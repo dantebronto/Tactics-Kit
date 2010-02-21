@@ -18,7 +18,6 @@ var Character = Class.extend({
     this.weapon = opts.weapon || new Weapon({ range: 1, attack: 2, is_ranged: false, dead_range: 0, name: 'Bronze Sword' });
     this.accuracy = opts.accuracy || 80 + Math.floor(this.level * 0.19);
     this.strength = opts.strength || this.level;
-    this.strength = this.strength + this.weapon.attack;
     this.x = opts.x || 3;
     this.y = opts.y || 3;
     
@@ -151,7 +150,7 @@ var Character = Class.extend({
     var enemy = this.map.find_by_position('enemy', x, y);
 
     if ( miss_pct < this.accuracy && enemy ){
-      for(var i=0; i < this.strength; i++)
+      for(var i=0; i < this.strength + this.weapon.attack; i++)
         dmg += this.roll_dice();
       enemy.subtract_hp(dmg);      
     } else {
@@ -283,7 +282,7 @@ var Character = Class.extend({
     this.ap = Math.floor(4 + this.level * 0.07);
     this.hp = Math.floor(71.1 + this.level * 29.65);
     this.accuracy = 80 + Math.floor(this.level * 0.19);
-    this.strength = this.level + this.weapon.attack;
+    this.strength = this.level;
     alert('Level up! ' + this.name + ' is now level ' + this.level + '!');
   },
   move: function(x, y){
