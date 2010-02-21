@@ -111,11 +111,12 @@ var Level = Class.extend({
     if( !stats.length )
       stats = $('<div></div>').attr('id', 'stats_list').appendTo(level.info_div);
     
-    var ul, they;
+    var ul, they, total_str;
     stats.html('');
     
     for( var i=0; i < chars.length; i++ ){
       they = chars[i];
+      total_str = (Number(they.strength) + Number(they.weapon.attack));
       
       ul = '<ul id=stats_' + they.level_id + '>';
       ul += '<li>Name: ' + they.name     + '</li>';
@@ -126,8 +127,8 @@ var Level = Class.extend({
         else
           ul += '<li>AP: '   + they.ap_left  + '/' + they.ap + '</li>';
       }
-        
-      ul += '<li>ST: '   + (Number(they.strength) + Number(they.weapon.attack)) + '</li>';
+      
+      ul += '<li>ST: '   + total_str     + '</li>';
       ul += '<li>SP: '   + they.speed    + '</li>';
       ul += '<li>LVL: '  + they.level    + '</li>';
       ul += '</ul>';

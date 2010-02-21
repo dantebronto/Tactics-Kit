@@ -62,7 +62,8 @@ var Enemy = Character.extend({
       else
         hits = $('<h4>' + dmg + '</h4>');
         
-    level.map.stat_cell(x, y).html(hits).show().shake(3, 3, 180).fadeOut(500 * level.animation_speed);
+    level.map.stat_cell(x, y).html(hits).show();
+    hits.shake(3, 3, 180).fadeOut(500 * level.animation_speed);
   },
   die: function(){
     this.remove_from_map();
