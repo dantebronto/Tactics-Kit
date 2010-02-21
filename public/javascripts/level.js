@@ -2,7 +2,6 @@ var Level = Class.extend({
   init: function(opts){
     this.map = opts.map;
     this.info_div = $('#info');
-    this.info_div.css('left', this.map.div.width() + 15);
     this.animation_speed = 0.5;
     this.animation_queue = [];
     this.turn = 1;
@@ -20,6 +19,9 @@ var Level = Class.extend({
   show_current_turn: function(){
     this.active_enemy = this.next_active_enemy();
     this.active_player = this.next_active_player();
+    
+    if ( level.enemies.length == 0 )
+      this.next();
     
     if ( !this.active_player && !this.active_enemy ) {
       this.reset_turn();
@@ -103,7 +105,7 @@ var Level = Class.extend({
   },
   show_stats: function(type, the_id){
     var chars = type == 'players' ? this.players : this.enemies;
-    
+
     var stats = $('#info #stats_list');
     
     if( !stats.length )
@@ -127,6 +129,7 @@ var Level = Class.extend({
         
       ul += '<li>ST: '   + they.strength + '</li>';
       ul += '<li>SP: '   + they.speed    + '</li>';
+      ul += '<li>LVL: '  + they.level    + '</li>';
       ul += '</ul>';
       
       ul = $(ul);
@@ -157,6 +160,8 @@ var Level = Class.extend({
     $.post('/party', post);
   },
   next: function(){
+    this.save_party();
+    
     var current_level = Number(location.pathname.replace(/\//g, '').replace('levels', ''));
     if( current_level + 1 > 2 ){
       alert('You beat the game! (There are only 2 levels so far)');
