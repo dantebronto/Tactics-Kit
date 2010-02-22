@@ -3,17 +3,17 @@ var Character = Class.extend({
     this.level_id = 0;
     this._id = opts._id;
     this._rev = opts._rev;
-    this.player_id = opts.player_id;
-    this.name = opts.name || 'd00d';
+    this.player_id = PLAYER_ID;
+    this.name = opts.name || 'Catan';
     this.level = opts.level || 1;
     this.inventory = opts.inventory;
     this.ap = opts.ap || Math.floor(4 + this.level * 0.07);
     this.speed = opts.speed || Math.floor(this.ap / 2);
     this.ap_left = this.ap;
-    this.hp = opts.hp || Math.floor(50.1 + this.level * 29.65);
+    this.hp = opts.hp || Math.floor(50.1 + this.level * 7.65);
     this.hp_left = this.hp;
     this.exp = opts.exp || 0;
-    this.exp_next = opts.exp_next || this.level * 100;
+    this.exp_next = opts.exp_next || this.hp;
     this.sprite = opts.sprite || '/images/bar.gif';
     this.weapon = opts.weapon || new Weapon({ range: 1, attack: 2, is_ranged: false, dead_range: 0, name: 'Bronze Sword' });
     this.accuracy = opts.accuracy || 80 + Math.floor(this.level * 0.19);
@@ -82,7 +82,7 @@ var Character = Class.extend({
         self.map.remove_clickables();
       });
   },
-  calculate_attack: function(){
+  calculate_attack: function(battle){
     var self = this;
     var attack_matrix = self.get_attack_matrix();
     
@@ -92,12 +92,19 @@ var Character = Class.extend({
           .addClass('attackable pointer')
           .click(function(){
             if ( self.is_player )
-              self.attack(x, y);
+              if ( battle ){
+                self.attack(x, y);
+                level.animation_queue.push('noop');
+                level.animation_queue.push('noop');
+                level.animation_queue.push(function(){ self.attack(x, y); });
+              } else {
+                self.attack(x, y);
+              }
           });
       }
     });
   },
-  calculate_movement: function(){
+  calculate_movement: function(run){
     var self = this;
     var x = self.x;
     var y = self.y;
@@ -110,6 +117,9 @@ var Character = Class.extend({
       speed = self.ap_left;
     else
       speed = self.speed;
+      
+    if( run == true )
+      speed = self.ap;
     
     matrix = Matrix.new_filled_matrix(self.map.rows, self.map.cols);
     matrix = self.find_neighbors({
@@ -222,15 +232,18 @@ var Character = Class.extend({
     
 		if( this.ap_left < this.speed ){
 		  menu['attack_no_ap'] = no_ap_func;
+		  menu['battle_no_ap'] = no_ap_func;
 		  menu['guard_no_ap']  = no_ap_func;
 		  menu['item_no_ap'] = no_ap_func;
 		} else {
 		  menu['attack'] = function(){ self.calculate_attack(); };
+		  menu['battle'] = function(){ self.calculate_attack(true); }
 		  menu['guard']  = function(){ self.end_turn(); }
 		  menu['item'] = function(){ self.show_inventory(); }
 		}
 		
 		menu['move']     = function() { self.calculate_movement(); }
+		menu['run']     = function() { self.calculate_movement(true); }
 	  menu['end turn'] = function() { 
 	    if ( self.ap_left > 1 ){
 	      var sure = confirm('End your turn with ' + self.ap_left + ' AP remaining?'); 
@@ -278,10 +291,10 @@ var Character = Class.extend({
   },
   level_up: function(){
     this.level += 1;
-    this.exp_next = this.level * 100;
     this.speed = Math.floor(this.ap / 2);
     this.ap = Math.floor(4 + this.level * 0.07);
-    this.hp = Math.floor(71.1 + this.level * 29.65);
+    this.hp = Math.floor(50.1 + this.level * 7.65);
+    this.exp_next = this.hp;
     this.accuracy = 80 + Math.floor(this.level * 0.19);
     this.strength = this.level;
     alert('Level up! ' + this.name + ' is now level ' + this.level + '!');

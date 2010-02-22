@@ -61,26 +61,9 @@
       $.getJSON(view('character/party_with_inventory', key), function(res){
         var rows = res['rows'];
         
-        if ( rows.length == 0 ){ // create stuff if it doesn't exist
+        if ( rows.length == 0 ){ // create party and inventory if it doesn't exist
           rows[0] = { value: [['Potion', 3]] };
-          rows[1] = { 
-            value: {
-              accuracy: 80,
-              ap: 4,
-              exp: 0,
-              exp_next: 55,
-              hp: 55,
-              is_enemy: false,
-              is_player: true,
-              level: 1,
-              name: 'd00d',
-              player_id: PLAYER_ID,
-              speed: 2,
-              sprite: '/images/bar.gif',
-              strength: 1,
-              weapon: new Weapon({ attack: 2, is_ranged: false, name: 'Sword', range: 1})
-            }
-          }
+          rows[1] = { value: { sprite: '/images/bar.gif' } }
         }
         
         var inventory = new Inventory(rows.reverse().pop().value);
