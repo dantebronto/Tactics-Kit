@@ -42,8 +42,19 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; }
 /* end hit points */
 
 /* context menu */
-div.hct {background-image: url(/images/greybutton.png);position: absolute;width: 48px;height: 34px;font-size: 10px;text-align: center;padding-top: 14px;display: none;cursor: pointer;}	
-div.hct:hover {background-image: url(/images/greyhighlight.png);}
-div.hct.no_ap {background-image: url(/images/redbutton.png);}
+div.hct {
+  background-image:url(/images/menubutton.png);
+  border:thin solid #999999;
+  cursor:pointer;
+  display:none;
+  font-size:10px;
+  height:15px;
+  padding-top:5px;
+  position:absolute;
+  text-align:center;
+  width:100px;
+}
+div.hct:hover {background-image: url(/images/menuhighlight.png);}
+div.hct.no_ap {background-image: url(/images/menured.png);}
 #hpt {position: absolute;width: 10px;height: 10px;display: none;background: 000;opacity: 0;}
 /* end context menu */

@@ -93,7 +93,7 @@ var Character = Class.extend({
           .click(function(){
             if ( self.is_player )
               if ( battle ){
-                self.attack(x, y);
+                level.animation_queue.push(function(){ self.attack(x, y); });
                 level.animation_queue.push('noop');
                 level.animation_queue.push('noop');
                 level.animation_queue.push(function(){ self.attack(x, y); });
@@ -119,7 +119,7 @@ var Character = Class.extend({
       speed = self.speed;
       
     if( run == true )
-      speed = self.ap;
+      speed = self.ap_left;
     
     matrix = Matrix.new_filled_matrix(self.map.rows, self.map.cols);
     matrix = self.find_neighbors({
@@ -233,17 +233,19 @@ var Character = Class.extend({
 		if( this.ap_left < this.speed ){
 		  menu['attack_no_ap'] = no_ap_func;
 		  menu['battle_no_ap'] = no_ap_func;
+		  menu['move']         = function(){ self.calculate_movement(); }
+  		menu['run']          = function(){ self.calculate_movement(true); }
 		  menu['guard_no_ap']  = no_ap_func;
-		  menu['item_no_ap'] = no_ap_func;
+		  menu['item_no_ap']   = no_ap_func;
 		} else {
 		  menu['attack'] = function(){ self.calculate_attack(); };
 		  menu['battle'] = function(){ self.calculate_attack(true); }
+		  menu['move']   = function(){ self.calculate_movement(); }
+  		menu['run']    = function(){ self.calculate_movement(true); }
 		  menu['guard']  = function(){ self.end_turn(); }
-		  menu['item'] = function(){ self.show_inventory(); }
+		  menu['item']   = function(){ self.show_inventory(); }
 		}
 		
-		menu['move']     = function() { self.calculate_movement(); }
-		menu['run']     = function() { self.calculate_movement(true); }
 	  menu['end turn'] = function() { 
 	    if ( self.ap_left > 1 ){
 	      var sure = confirm('End your turn with ' + self.ap_left + ' AP remaining?'); 
