@@ -13,7 +13,7 @@ var Character = Class.extend({
     this.hp = opts.hp || Math.floor(50.1 + this.level * 7.65);
     this.hp_left = this.hp;
     this.exp = opts.exp || 0;
-    this.exp_next = opts.exp_next || this.hp;
+    this.exp_next = opts.exp_next || this.hp * 5;
     this.sprite = opts.sprite || '/images/bar.gif';
     this.weapon = opts.weapon || new Weapon({ range: 1, attack: 2, is_ranged: false, dead_range: 0, name: 'Bronze Sword' });
     this.accuracy = opts.accuracy || 80 + Math.floor(this.level * 0.19);
@@ -131,13 +131,20 @@ var Character = Class.extend({
     matrix.set(x, y, 0);
     
     matrix.each(function(x, y){ 
-      if( this.e(x, y) == 1 ){        
+      if( this.e(x, y) == 1 ){
         self.map.underlay_cell(x, y)
           .addClass('moveable pointer')
           .click(function(){
             if ( self.is_player )
               self.move(x, y);
           });
+      } else {
+        if ( self.map.terrain_matrix.e(x, y) <= 10 )
+          self.map.underlay_cell(x, y)
+            .addClass('passable');
+        else
+          self.map.underlay_cell(x, y)
+            .addClass('impassable');
       }
     });
   },
@@ -296,7 +303,8 @@ var Character = Class.extend({
     this.speed = Math.floor(this.ap / 2);
     this.ap = Math.floor(4 + this.level * 0.07);
     this.hp = Math.floor(50.1 + this.level * 7.65);
-    this.exp_next = this.hp;
+    this.exp_next = this.hp * 5;
+    this.hp_left = this.hp;
     this.accuracy = 80 + Math.floor(this.level * 0.19);
     this.strength = this.level;
     alert('Level up! ' + this.name + ' is now level ' + this.level + '!');

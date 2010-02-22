@@ -70,11 +70,11 @@
         level.active_player = level.players[0];
         
         // instantiate enemies
-        var foo = new RoboCop( { map: level.map, x: 11, y: 1, name: 'Robo Cop' } );
-        var bar = new RoboCop( { map: level.map, x: 11, y: 2, name: 'Robo Cop' } );
+        var foo = new RoboCop( { map: level.map, x: 11, y: 1, name: 'Robo Cop', level: level.active_player.level } );
+        var bar = new RoboCop( { map: level.map, x: 11, y: 2, name: 'Robo Cop', level: level.active_player.level } );
         
-        var baz = new Ninja( { map: level.map, x: 6, y: 4, name: 'Ninja' } );
-        var bat = new Ninja( { map: level.map, x: 5, y: 6, name: 'Ninja' } );
+        var baz = new Ninja( { map: level.map, x: 6, y: 4, name: 'Ninja', level: level.active_player.level } );
+        var bat = new Ninja( { map: level.map, x: 5, y: 6, name: 'Ninja', level: level.active_player.level } );
         
         level.enemies = [foo, bar, baz, bat];
         

@@ -81,11 +81,12 @@ var Map = Class.extend({
     return cell;
   },
   remove_clickables: function( types ){ // array of types to remove
+    console.log('clickables');
     if ( !types )
-      types = ['attackable pointer moveable healable'];
+      types = ['attackable pointer moveable healable passable impassable'];
     
     this.div
-      .find('.underlay.attackable, .underlay.moveable, .underlay.healable')
+      .find('.underlay.attackable, .underlay.moveable, .underlay.healable, .underlay.passable, .underlay.impassable')
       .removeClass(types.join(' '))
       .unbind('click');
   },
