@@ -1,0 +1,35 @@
+h1. rpgQuery: A tactical RPG written in jQuery
+
+p. rpgQuery uses CouchDB and Ruby on Rails for backend communication, but most of the game logic is written in pure jQuery.
+
+h1. Screenshots
+
+!http://crawwwl.com/images/js_game_1.png!
+
+!http://crawwwl.com/images/js_game_2.png!
+
+h1. Setup
+
+p. Make sure you have Ruby, Rails, and the following gems:
+
+<pre>
+haml v2.2.8
+curb v0.5.4.0
+rails_warden v0.3.0
+</pre>
+
+p. You should be able to run 
+<pre>
+  rake gems:install
+</pre>
+
+p. Next "install CouchDB":http://wiki.apache.org/couchdb/Installation
+
+p. After CouchDB is running on http://localhost:5984, you can run 
+<pre>
+  rake couch:create_db
+</pre>
+
+p. This will create the database, and all necessary views.
+
+p. From here you can simply start the server (script/server) and create a login to begin playing. Enjoy!

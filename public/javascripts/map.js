@@ -81,7 +81,6 @@ var Map = Class.extend({
     return cell;
   },
   remove_clickables: function( types ){ // array of types to remove
-    console.log('clickables');
     if ( !types )
       types = ['attackable pointer moveable healable passable impassable'];
     

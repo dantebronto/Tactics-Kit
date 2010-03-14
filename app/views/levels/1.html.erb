@@ -31,7 +31,7 @@
     
     level.turn_function = function(){
       console.log(this.turn);
-      if ( this.turn == 10 ){
+      if ( this.turn == 8 ){
         
         alert('Reinforcements are boarding!');
         
@@ -53,6 +53,8 @@
       }
     };
     
+    level.end_function = function(){};
+    
     $('#stage').hide().fadeIn(2000, function(){ 
       level.info_div.hide().fadeIn(500); 
       
@@ -61,8 +63,17 @@
         var rows = res['rows'];
         
         if ( rows.length == 0 ){ // create party and inventory if it doesn't exist
-          rows[0] = { value: [['Potion', 3]] };
-          rows[1] = { value: { sprite: '/images/bar.gif' } }
+          rows.push({ value: [['Potion', 3]] });
+          rows.push({ value: { sprite: '/images/bar.gif' } });
+          rows.push({ 
+            value: 
+            { 
+              sprite: '/images/girl.gif', 
+              name: 'Claudia', 
+              weapon: new Weapon({ range: 3, attack: 1, is_ranged: true, dead_range: 1, name: 'Weak Bow' }),
+              hp: 45
+            } 
+          });
         }
         
         var inventory = new Inventory(rows.reverse().pop().value);
@@ -72,7 +83,7 @@
         
         level.players = [];
         
-        var positions = [ [3,3], [4,11] ];
+        var positions = [ [3,3], [4,3] ];
         
         while( rows.length > 0 ){
           pos = positions.reverse().pop();

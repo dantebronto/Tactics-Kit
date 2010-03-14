@@ -36,6 +36,10 @@
       console.log(this.turn);
     };
     
+    level.end_function = function(){
+      alert('You beat the game! (There are only 2 levels so far)');
+    };
+    
     $('#stage').hide().fadeIn(2000, function(){ 
       level.info_div.hide().fadeIn(500);
       

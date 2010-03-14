@@ -161,13 +161,12 @@ var Level = Class.extend({
     $.post('/party', post);
   },
   next: function(){
+    this.end_function();
     this.save_party();
     
     var current_level = Number(location.pathname.replace(/\//g, '').replace('levels', ''));
-    if( current_level + 1 > 2 ){
-      alert('You beat the game! (There are only 2 levels so far)');
+    if( current_level + 1 > 2 )
       return false;
-    }
     window.location = '/levels/' + String(current_level + 1);
   }
 });
