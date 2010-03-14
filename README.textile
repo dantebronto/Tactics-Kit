@@ -19,16 +19,12 @@ rails_warden v0.3.0
 </pre>
 
 p. You should be able to run 
-<pre>
-  rake gems:install
-</pre>
+<pre>rake gems:install</pre>
 
 p. Next "install CouchDB":http://wiki.apache.org/couchdb/Installation
 
 p. After CouchDB is running on http://localhost:5984, you can run 
-<pre>
-  rake couch:create_db
-</pre>
+<pre>rake couch:create_db</pre>
 
 p. This will create the database, and all necessary views.
 
