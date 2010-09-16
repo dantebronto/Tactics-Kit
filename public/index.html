@@ -47,8 +47,6 @@
           css('height', '816px').
           css('background-image', 'url(/images/test_map.jpg)');
 
-        $('#info').css('left', '420px');
-
         level.turn_function = function(){
           console.log(this.turn);
           if ( this.turn == 8 ){
@@ -76,9 +74,12 @@
         level.end_function = function(){};
 
         $('#stage').hide().fadeIn(2000, function(){ 
-          level.info_div.hide().fadeIn(500); 
-
+          
+          $('#info_toggles').show();
+          
           var inventory = new Inventory( [ ['Potion', 3] ] );
+          
+          var catan = new Character({ map: level.map, x: 4, y: 3 });
           
           var claudia = new Character({ 
             sprite: '/images/girl.gif', 
@@ -91,73 +92,44 @@
           });
           
           claudia.inventory = inventory;
-          level.players = [claudia];
+          catan.inventory = inventory
+          level.players = [catan, claudia];
           level.active_player = level.players[0];
           
-          //     json = $.extend({ 
-          //       map: level.map, 
-          //       x : pos[0], 
-          //       y : pos[1] 
-          //     }, rows.reverse().pop().value);
-
-          // var key = 'startkey=["' + PLAYER_ID + '"]&endkey=["' + PLAYER_ID + '",{}]';
-          // $.getJSON(view('character/party_with_inventory', key), function(res){
-          //   var rows = res['rows'];
-          // 
-          //   if ( rows.length == 0 ){ // create party and inventory if it doesn't exist
-          //     rows.push({ value: [['Potion', 3]] });
-          //     rows.push({ value: { sprite: '/images/bar.gif' } });
-          //     rows.push({ 
-          //       value: 
-          //       { 
-          //         sprite: '/images/girl.gif', 
-          //         name: 'Claudia', 
-          //         weapon: new Weapon({ range: 3, attack: 1, is_ranged: true, dead_range: 1, name: 'Weak Bow' }),
-          //         hp: 45
-          //       } 
-          //     });
-          //   }
-          // 
-          //   var inventory = new Inventory(rows.reverse().pop().value);
-          // 
-          //   // instantiate players
-          //   var player, json, pos;
-          // 
-          //   level.players = [];
-          // 
-          //   var positions = [ [3,3], [4,3] ];
-          // 
-          //   while( rows.length > 0 ){
-          //     pos = positions.reverse().pop();
-          //     json = $.extend({ 
-          //       map: level.map, 
-          //       x : pos[0], 
-          //       y : pos[1] 
-          //     }, rows.reverse().pop().value);
-          // 
-          //     player = new Character(json);
-          //     player.inventory = inventory;
-          //     level.players.push(player);
-          //   }
-          // 
-          //   level.active_player = level.players[0];
-          // 
-            // instantiate enemies
-            var foo = new Enemy( { map: level.map, name: 'Foo', sprite: '/images/penguin2.gif' } );
-            var bar = new Enemy( { map: level.map, x: 4, y: 14, name: 'Bar', sprite: '/images/turtle_man.gif' } );
-            level.enemies = [foo, bar];
+          // instantiate enemies
+          var foo = new Enemy( { map: level.map, name: 'Foo', sprite: '/images/penguin2.gif' } );
+          var bar = new Enemy( { map: level.map, x: 4, y: 14, name: 'Bar', sprite: '/images/turtle_man.gif' } );
+          level.enemies = [foo, bar];
           
-            level.assign_ids();
-            level.reset_turn();
-          // });
+          level.assign_ids();
+          level.reset_turn();
         });
+        
+        $('#player_info_toggle').bind('click', function(){
+          $('#info_toggles').hide();
+          level.show_stats('players');
+          level.info_div.show()
+        });
+        
+        $('#enemy_info_toggle').bind('click', function(){
+          $('#info_toggles').hide();
+          level.show_stats('enemies');
+          level.info_div.show();
+        });
+        
       });
+      
+      
     </script>
   </head>
   
   <body>
     <div id='stage'>
       <div id='map'></div>
+      <div id="info_toggles">
+        <a href="javascript:void(0)" id="player_info_toggle">players</a>
+        <a href="javascript:void(0)" id="enemy_info_toggle">enemies</a>
+      </div>
       <div id='info'></div>
     </div>
   </body>

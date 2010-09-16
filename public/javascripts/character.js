@@ -74,11 +74,11 @@ var Character = Class.extend({
     
     elem
       .haloContext(self, self.get_context_menu)
-      .mouseover(function(){ level.show_stats('players', self.level_id)})
-      .mouseout(function(){  level.show_stats('players'); })
+      // .mouseover(function(){ level.show_stats('players', self.level_id)})
+      // .mouseout(function(){  level.show_stats('players'); })
       .click(function(){
         elem.unbind('mouseover');
-        level.show_stats('players');
+//        level.show_stats('players');
         self.map.remove_clickables();
       });
   },
@@ -191,7 +191,7 @@ var Character = Class.extend({
         hits = $('<h4>' + dmg + '</h4>');
     
     level.map.stat_cell(x, y).html(hits).show();
-    hits.shake(3, 3, 180).fadeOut(500 * level.animation_speed);
+    hits.shake(3, 3, 180).fadeOut(200 * level.animation_speed);
   },
   die: function(){
     this.remove_from_map();
@@ -378,16 +378,16 @@ var Character = Class.extend({
       this.ap_left = 0;
       this.unbind_events();
     }
-    if ( this.is_player )
-      level.show_stats('players');
+    // if ( this.is_player )
+    //   level.show_stats('players');
     
     level.show_current_turn();
   },
   subtract_hp: function(amt){
     this.hp_left -= amt;
     
-    if ( this.is_player )
-      level.show_stats('players');
+    // if ( this.is_player )
+    //   level.show_stats('players');
     
     if( this.hp_left <= 0 )
       this.die();

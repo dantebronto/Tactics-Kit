@@ -216,12 +216,12 @@ var Enemy = Character.extend({
     var self = this;
     self.map.enemy_cell(self.x, self.y)
       .addClass('pointer occupied')
-      .css('background', 'url(' + self.sprite + ') no-repeat center')
-      .mouseout(function(){  level.show_stats('players'); })
-      .mouseover(function(){ 
-        if ( self.map.underlay_cell(self.x, self.y).hasClass('attackable') )
-          level.show_stats('enemies', self.level_id)
-      });
+      .css('background', 'url(' + self.sprite + ') no-repeat center');
+      // .mouseout(function(){  level.show_stats('players'); })
+      //       .mouseover(function(){ 
+      //         if ( self.map.underlay_cell(self.x, self.y).hasClass('attackable') )
+      //           level.show_stats('enemies', self.level_id)
+      //       });
   },
   target_in_range: function(x, y){
     var self = this;

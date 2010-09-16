@@ -52,14 +52,14 @@
 			temp = $('#hb'+i);
       temp.css("left", e.pageX);
       temp.css("top", last_y);
-			temp.fadeIn("fast");
-			last_y += 20;
+			temp.show();
+			last_y += 30;
 		}
 		$(document).one("click", function(){ 
 		  hide(); 
-		  $(trigger).mouseover(function(){ 
-		    level.show_stats('players', player.level_id);
-		  });
+      // $(trigger).mouseover(function(){ 
+      //   level.show_stats('players', player.level_id);
+      // });
 		});
 	}
 

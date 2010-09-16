@@ -27,8 +27,9 @@ var Level = Class.extend({
       this.reset_turn();
     } else if ( !this.active_player ) {
       this.active_enemy.calculate_turn(); // activate next enemy
-      this.info_div.html('<p>Enemy Turn</p>');
-      this.show_stats('players');
+      
+      // this.info_div.html('<p>Enemy Turn</p>');
+      // this.show_stats('players');
     }
   },
   reset_turn: function(){
@@ -37,8 +38,9 @@ var Level = Class.extend({
     this.activate_players();
     this.turn += 1;
     this.turn_function();
-    this.info_div.html('<p>Player Turn</p>');
-    this.show_stats('players');
+    
+    // this.info_div.html('<p>Player Turn</p>');
+    // this.show_stats('players');
   },
   distribute_exp: function(amt){
     var chars = this.players;
@@ -104,21 +106,26 @@ var Level = Class.extend({
     }
   },
   show_stats: function(type, the_id){
+    
+    var close_stats = $('<a href="javascript:void(0)" id="close_stats">close</a>');
+    close_stats.one('click', function(){ level.info_div.hide(); $('#info_toggles').show(); });
+    
+    level.info_div.html(close_stats);
+    
     var chars = type == 'players' ? this.players : this.enemies;
 
-    var stats = $('#info #stats_list');
+    var stats = $('#stats_list');
     
     if( !stats.length )
       stats = $('<div></div>').attr('id', 'stats_list').appendTo(level.info_div);
     
     var ul, they, total_str;
-    stats.html('');
     
     for( var i=0; i < chars.length; i++ ){
       they = chars[i];
       total_str = (Number(they.strength) + Number(they.weapon.attack));
       
-      ul = '<ul id=stats_' + they.level_id + '>';
+      ul  = '<ul id=stats_' + they.level_id + '>';
       ul += '<li>Name: ' + they.name     + '</li>';
       ul += '<li>HP: '   + they.hp_left  + '/' + they.hp + '</li>';
       if ( they.is_player ){

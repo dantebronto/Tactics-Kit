@@ -27,8 +27,6 @@
       css('height', '816px').
       css('background-image', 'url(/images/test_map.jpg)');
     
-    $('#info').css('left', '420px');
-    
     level.turn_function = function(){
       console.log(this.turn);
       if ( this.turn == 8 ){
@@ -56,7 +54,6 @@
     level.end_function = function(){};
     
     $('#stage').hide().fadeIn(2000, function(){ 
-      level.info_div.hide().fadeIn(500); 
       
       var key = 'startkey=["' + PLAYER_ID + '"]&endkey=["' + PLAYER_ID + '",{}]';
       $.getJSON(view('character/party_with_inventory', key), function(res){
