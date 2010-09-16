@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-type' />
+    <title>
+      Title
+    </title>
+    <link charset='utf-8' href='/stylesheets/style.css' media='screen' rel='stylesheet' type='text/css' />
+    <link charset='utf-8' href='/stylesheets/facebox.css' media='screen' rel='stylesheet' type='text/css' />
+    <script src='/javascripts/jquery.min.js' type='text/javascript'></script>
+    <script src='/javascripts/application.js' type='text/javascript'></script>
+    <script src='/javascripts/facebox.js' type='text/javascript'></script>
+    <script src='/javascripts/halo_context.js' type='text/javascript'></script>
+    <script src='/javascripts/inventory.js' type='text/javascript'></script>
+    <script src='/javascripts/matrix.js' type='text/javascript'></script>
+    <script src='/javascripts/map.js' type='text/javascript'></script>
+    <script src='/javascripts/weapon.js' type='text/javascript'></script>
+    <script src='/javascripts/character.js' type='text/javascript'></script>
+    <script src='/javascripts/enemy.js' type='text/javascript'></script>
+    <script src='/javascripts/astar.js' type='text/javascript'></script>
+    <script src='/javascripts/level.js' type='text/javascript'></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        var map = new Map([ 
+          [ 15, 15, 15, 15, 15, 15, 15, 15 ], 
+          [ 15, 15, 15, 15, 15, 15, 15, 15 ],
+          [ 15, 15, 15, 15, 15, 15, 15, 15 ], 
+          [ 15, 15, 15, 10, 10, 15, 15, 15 ], 
+          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+          [ 15, 15, 10, 15, 10, 10, 15, 15 ],
+          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+          [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+          [ 15, 15, 15, 15, 15, 15, 15, 15 ]
+        ]);
+
+        window['level'] = new Level({ map: map });
+
+        $('#map').
+          css('width', '410px').
+          css('height', '816px').
+          css('background-image', 'url(/images/test_map.jpg)');
+
+        $('#info').css('left', '420px');
+
+        level.turn_function = function(){
+          console.log(this.turn);
+          if ( this.turn == 8 ){
+
+            alert('Reinforcements are boarding!');
+
+            if ( level.map.enemy_matrix.e(3, 14).hasClass('occupied') != true &&
+                level.map.player_matrix.e(3, 14).hasClass('occupied') != true ){  
+                var baz = new Enemy( { map: level.map, x: 3, y: 14, name: 'Baz' } );
+                level.enemies.push(baz);
+                level.higest_id += 1;
+                baz.level_id = level.higest_id;              
+            }
+
+            if ( level.map.enemy_matrix.e(4, 14).hasClass('occupied') != true &&
+                level.map.player_matrix.e(4, 14).hasClass('occupied') != true ){  
+                var bat = new Enemy( { map: level.map, x: 4, y: 14, name: 'Bat' } );
+                level.enemies.push(bat);
+                level.higest_id += 1;
+                bat.level_id = level.higest_id;              
+            }
+          }
+        };
+
+        level.end_function = function(){};
+
+        $('#stage').hide().fadeIn(2000, function(){ 
+          level.info_div.hide().fadeIn(500); 
+
+          var inventory = new Inventory( [ ['Potion', 3] ] );
+          
+          var claudia = new Character({ 
+            sprite: '/images/girl.gif', 
+            name: 'Claudia', 
+            weapon: new Weapon({ range: 3, attack: 1, is_ranged: true, dead_range: 1, name: 'Weak Bow' }),
+            hp: 45,
+            map: level.map,
+            x: 3,
+            y: 3,
+          });
+          
+          claudia.inventory = inventory;
+          level.players = [claudia];
+          level.active_player = level.players[0];
+          
+          //     json = $.extend({ 
+          //       map: level.map, 
+          //       x : pos[0], 
+          //       y : pos[1] 
+          //     }, rows.reverse().pop().value);
+
+          // var key = 'startkey=["' + PLAYER_ID + '"]&endkey=["' + PLAYER_ID + '",{}]';
+          // $.getJSON(view('character/party_with_inventory', key), function(res){
+          //   var rows = res['rows'];
+          // 
+          //   if ( rows.length == 0 ){ // create party and inventory if it doesn't exist
+          //     rows.push({ value: [['Potion', 3]] });
+          //     rows.push({ value: { sprite: '/images/bar.gif' } });
+          //     rows.push({ 
+          //       value: 
+          //       { 
+          //         sprite: '/images/girl.gif', 
+          //         name: 'Claudia', 
+          //         weapon: new Weapon({ range: 3, attack: 1, is_ranged: true, dead_range: 1, name: 'Weak Bow' }),
+          //         hp: 45
+          //       } 
+          //     });
+          //   }
+          // 
+          //   var inventory = new Inventory(rows.reverse().pop().value);
+          // 
+          //   // instantiate players
+          //   var player, json, pos;
+          // 
+          //   level.players = [];
+          // 
+          //   var positions = [ [3,3], [4,3] ];
+          // 
+          //   while( rows.length > 0 ){
+          //     pos = positions.reverse().pop();
+          //     json = $.extend({ 
+          //       map: level.map, 
+          //       x : pos[0], 
+          //       y : pos[1] 
+          //     }, rows.reverse().pop().value);
+          // 
+          //     player = new Character(json);
+          //     player.inventory = inventory;
+          //     level.players.push(player);
+          //   }
+          // 
+          //   level.active_player = level.players[0];
+          // 
+            // instantiate enemies
+            var foo = new Enemy( { map: level.map, name: 'Foo', sprite: '/images/penguin2.gif' } );
+            var bar = new Enemy( { map: level.map, x: 4, y: 14, name: 'Bar', sprite: '/images/turtle_man.gif' } );
+            level.enemies = [foo, bar];
+          
+            level.assign_ids();
+            level.reset_turn();
+          // });
+        });
+      });
+    </script>
+  </head>
+  
+  <body>
+    <div id='stage'>
+      <div id='map'></div>
+      <div id='info'></div>
+    </div>
+  </body>
+</html>
+

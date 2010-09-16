@@ -3,7 +3,7 @@ class Player
   def self.authenticate(login, pass)    
     req = Couch.view('player/authenticate', { :key => "[\"#{login}\", \"#{pass}\"]" } )
     hsh = Couch.get(req)
-    ( hsh['rows'] && hsh['rows'].first && hsh['rows'].first ) ? hsh['rows'].first : nil
+    ( hsh['rows'] && hsh['rows'].first ) ? hsh['rows'].first : nil
   end
   
   def self.find(id)

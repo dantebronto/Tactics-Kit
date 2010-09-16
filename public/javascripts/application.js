@@ -11,34 +11,6 @@ $.fn.shake = function(intShakes, intDistance, intDuration) {
   return this;
 };
 
-function view(val, query){
-  query = query ? '?' + query : '';
-  val = val.split("/");
-  return '/couch/_design/' + val[0] + '/_view/' + val[1] + query
-};
-
-$(document).ready(function(){
-    
-  $('.login_link').click(function(){
-    $.facebox(function() { 
-      $.get('/login/new/', function(data) {
-        $.facebox(data)
-      });
-    });
-    return false;
-  });
-
-  $('.signup_link').click(function(){
-    $.facebox(function() { 
-      $.get('/players/new/', function(data) {
-        $.facebox(data)
-      });
-    });
-    return false;
-  });
-  
-});
-
 (function(){
   var initializing = false, fnTest = /xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/;
   // The base Class implementation (does nothing)

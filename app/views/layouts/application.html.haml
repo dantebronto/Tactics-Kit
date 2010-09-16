@@ -19,10 +19,5 @@
     %script{ :src => "/javascripts/astar.js", :type => "text/javascript" }
     %script{ :src => "/javascripts/level.js", :type => "text/javascript" }
     = yield :head_scripts
-  %body
-    #flashes
-      - [:notice, :warning, :error].each do |type|
-        - if flash[type]
-          %div{:id => type}=flash[type]
-          
+  %body    
     = yield

@@ -145,7 +145,7 @@ var Level = Class.extend({
     var post = {};
     var player_ara = [];
     
-    post.player_id = PLAYER_ID;
+    post.player_id = 1;
     
     $.each(level.players[0].inventory.items, function(val){
       inven_ara.push([val, level.players[0].inventory.items[val].qty])
