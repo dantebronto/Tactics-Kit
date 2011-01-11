@@ -148,32 +148,72 @@ var Level = Class.extend({
     }
   },
   save_party: function(){
-    var inven_ara = [];
-    var post = {};
-    var player_ara = [];
+    if ( localStorage ){
+      localStorage.inventory = JSON.stringify(level.players[0].inventory);
+      $.each(level.players, function(){ this.map = null }); // remove circular reference
+      localStorage.players = JSON.stringify(level.players);
+    }
+  },
+  load_party: function(positions){
     
-    post.player_id = 1;
+    var inventory, catan, claudia, players, pos;
     
-    $.each(level.players[0].inventory.items, function(val){
-      inven_ara.push([val, level.players[0].inventory.items[val].qty])
-    });
+    if ( typeof positions == 'undefined' ){ positions = [ { x: 4, y: 3 }, { x: 3, y: 3 } ]; }
     
-    $.each(level.players, function(i){
-      player_ara.push(JSON.stringify(level.players[i].to_json()));
-    });
-    
-    post['inventory'] = JSON.stringify(inven_ara);
-    post['players[]'] = player_ara;
-    
-    $.post('/party', post);
+    if ( localStorage && localStorage.players ){
+      
+      inventory = new Inventory(JSON.parse(localStorage.inventory));
+      players = JSON.parse(localStorage.players);
+      level.players = [];
+      
+      $.each(players, function(){
+        pos = positions.pop();
+        this.x = pos.x;
+        this.y = pos.y;
+        this.map = level.map;
+        this.inventory = inventory;
+        level.players.push(new Character(this));
+      });
+      level.active_player = level.players[0];
+      
+    } else { // create a new party, none stored 
+      
+      inventory = new Inventory( [ ['Potion', 3] ] );
+      pos = positions.pop();
+      catan = new Character({ map: level.map, x: pos.x, y: pos.y });
+      pos = positions.pop();
+      claudia = new Character({ 
+        sprite: '/images/girl.gif', name: 'Claudia', 
+        weapon: new Weapon({ range: 3, attack: 1, is_ranged: true, dead_range: 1, name: 'Weak Bow' }),
+        hp: 45, map: level.map, x: pos.x, y: pos.y,
+      });
+      claudia.inventory = inventory;
+      catan.inventory = inventory;
+      level.players = [catan, claudia];
+      level.active_player = level.players[0];
+    }
   },
   next: function(){
     this.end_function();
     this.save_party();
     
-    var current_level = Number(location.pathname.replace(/\//g, '').replace('levels', ''));
-    if( current_level + 1 > 2 )
-      return false;
-    window.location = '/levels/' + String(current_level + 1);
+    var current_level = Number(location.pathname.replace('/', '').replace('.html', ''));
+    if( isNaN(current_level) ){ current_level = 1; }
+    if( current_level + 1 > 2 ){ return false; }
+    
+    window.location = String(current_level + 1) + '.html';
+  },
+  load_info_toggles: function(){
+    $('#info_toggles').show();
+    $('#player_info_toggle').bind('click', function(){
+      $('#info_toggles').hide();
+      level.show_stats('players');
+      level.info_div.show()
+    });
+    $('#enemy_info_toggle').bind('click', function(){
+      $('#info_toggles').hide();
+      level.show_stats('enemies');
+      level.info_div.show();
+    });
   }
 });

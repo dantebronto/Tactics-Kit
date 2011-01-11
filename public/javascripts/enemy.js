@@ -1,6 +1,9 @@
+var enemy_level_id = 99;
+
 var Enemy = Character.extend({
   init: function(opts){
-    this.level_id = 0;
+    this.level_id = enemy_level_id;
+    enemy_level_id += 1;
     this.level = opts.level || 1;
     this.name = opts.name || 'Level ' + this.level + ' Battle Mage';
     this.speed = opts.speed || 2;
@@ -216,7 +219,13 @@ var Enemy = Character.extend({
     var self = this;
     self.map.enemy_cell(self.x, self.y)
       .addClass('pointer occupied')
-      .css('background', 'url(' + self.sprite + ') no-repeat center');
+      .css('background', 'url(' + self.sprite + ') no-repeat center')
+      .click(function(){
+        if( level.info_div.is(':visible') ){
+          
+          level.show_stats('enemies', self.level_id);
+        }
+      });
       // .mouseout(function(){  level.show_stats('players'); })
       //       .mouseover(function(){ 
       //         if ( self.map.underlay_cell(self.x, self.y).hasClass('attackable') )

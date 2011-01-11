@@ -1,9 +1,12 @@
+var player_id = 1;
+
 var Character = Class.extend({
   init: function(opts){
     this.level_id = 0;
     this._id = opts._id;
     this._rev = opts._rev;
-    this.player_id = 1;
+    this.player_id = player_id;
+    player_id += 1;
     this.name = opts.name || 'Catan';
     this.level = opts.level || 1;
     this.inventory = opts.inventory;
