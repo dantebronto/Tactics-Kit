@@ -3,8 +3,6 @@ var player_id = 1;
 var Character = Class.extend({
   init: function(opts){
     this.level_id = 0;
-    this._id = opts._id;
-    this._rev = opts._rev;
     this.player_id = player_id;
     player_id += 1;
     this.name = opts.name || 'Catan';
@@ -16,7 +14,7 @@ var Character = Class.extend({
     this.hp = opts.hp || Math.floor(50.1 + this.level * 7.65);
     this.hp_left = this.hp;
     this.exp = opts.exp || 0;
-    this.exp_next = opts.exp_next || this.hp * 5;
+    this.exp_next = opts.exp_next || Math.floor(this.hp * 1.3);
     this.sprite = opts.sprite || '/images/bar.gif';
     this.weapon = opts.weapon || new Weapon({ range: 1, attack: 2, is_ranged: false, dead_range: 0, name: 'Bronze Sword' });
     this.accuracy = opts.accuracy || 80 + Math.floor(this.level * 0.19);
@@ -394,26 +392,6 @@ var Character = Class.extend({
     
     if( this.hp_left <= 0 )
       this.die();
-  },
-  to_json: function(){
-    return {
-      name: this.name,
-      _id: this._id,
-      _rev: this._rev,
-      player_id: this.player_id,
-      level: this.level,
-      ap: this.ap,
-      speed:  this.speed,
-      hp: this.hp,
-      exp: this.exp,
-      exp_next: this.exp_next,
-      sprite: this.sprite,
-      weapon: this.weapon,
-      accuracy: this.accuracy,
-      strength: this.strength,
-      is_player: this.is_player,
-      is_enemy: this.is_enemy
-    }
   },
   unbind_events: function(){
     this.map.player_matrix 

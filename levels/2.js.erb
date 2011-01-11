@@ -1,0 +1,68 @@
+var map = new Map([ 
+  [ 10, 10, 10, 10, 10, 10, 10, 15, 15, 15, 15, 15 ],
+  [ 10, 15, 10, 10, 10, 10, 10, 15, 10, 10, 10, 10 ],
+  [ 10, 10, 15, 15, 15, 10, 10, 15, 10, 10, 10, 10 ],
+  [ 15, 10, 10, 15, 15, 15, 10, 15, 10, 10, 10, 10 ],
+  [ 10, 10, 10, 10, 15, 15, 10, 15, 10, 10, 10, 15 ],
+  [ 10, 10, 10, 15, 15, 15, 15, 15, 10, 10, 10, 10 ],
+  [ 10, 10, 10, 15, 15, 10, 10, 10, 10, 10, 10, 10 ],
+  [ 15, 15, 10, 10, 15, 10, 10, 10, 10, 15, 15, 10 ],
+  [ 15, 15, 15, 15, 10, 10, 10, 10, 15, 15, 15, 15 ]
+]);
+
+window['level'] = new Level({ map: map });
+
+$('#map').
+  css('width', '612px').
+  css('height', '458px').
+  css('background-image', 'url(/images/valley.jpg)');
+
+// playing with animation
+$('<img style="padding-left:3px" src="/images/turtle_man.gif"/>').
+  appendTo(level.map.stat_cell(3, 4)).
+  animate({ 'width': '50' }, 1500).
+  shake(2,5,10).
+  animate({ 'width': '0' }, 50);
+
+level.turn_function = function(){};
+level.end_function = function(){
+  alert('You beat the game! (There are only 2 levels so far)');
+};
+
+$('#stage').hide().fadeIn(2000, function(){ 
+  level.load_party([ { x: 3, y: 3 }, { x: 2, y: 3 } ]);
+  
+  // extend enemy class
+  var RoboCop = Enemy.extend({
+    init: function(opts){
+      opts.sprite = '/images/penguin2.gif';
+      this._super(opts);
+      this.speed = 2;
+    }
+  })
+  
+  var Ninja = Enemy.extend({
+    init: function(opts){
+      opts.sprite = '/images/ninja.gif';
+      this._super(opts);
+      this.speed = 3;
+      this.weapon.range = 2;
+    }
+  })
+  
+  // instantiate enemies
+  var foo = new RoboCop( { map: level.map, x: 11, y: 1, 
+    name: 'Robo Cop', level: level.active_player.level } );
+  var bar = new RoboCop( { map: level.map, x: 11, y: 2, 
+    name: 'Robo Cop', level: level.active_player.level } );
+
+  var baz = new Ninja( { map: level.map, x: 6, y: 4, name: 'Ninja', 
+    level: level.active_player.level } );
+  var bat = new Ninja( { map: level.map, x: 5, y: 6, name: 'Ninja', 
+    level: level.active_player.level } );
+  
+  level.enemies = [foo, bar, baz, bat];          
+  level.assign_ids();
+  level.reset_turn();
+  level.load_info_toggles();
+});

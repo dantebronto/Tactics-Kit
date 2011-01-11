@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-type' />
+    <title></title>
+    <link charset='utf-8' href='/stylesheets/style.css' media='screen' rel='stylesheet' type='text/css' />
+    <link charset='utf-8' href='/stylesheets/facebox.css' media='screen' rel='stylesheet' type='text/css' />
+    <script src='/javascripts/jquery.min.js' type='text/javascript'></script>
+    <script src='/javascripts/application.js' type='text/javascript'></script>
+    <script src='/javascripts/facebox.js' type='text/javascript'></script>
+    <script src='/javascripts/halo_context.js' type='text/javascript'></script>
+    <script src='/javascripts/inventory.js' type='text/javascript'></script>
+    <script src='/javascripts/matrix.js' type='text/javascript'></script>
+    <script src='/javascripts/map.js' type='text/javascript'></script>
+    <script src='/javascripts/weapon.js' type='text/javascript'></script>
+    <script src='/javascripts/character.js' type='text/javascript'></script>
+    <script src='/javascripts/enemy.js' type='text/javascript'></script>
+    <script src='/javascripts/astar.js' type='text/javascript'></script>
+    <script src='/javascripts/level.js' type='text/javascript'></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        <%= yield %>        
+      });
+    </script>
+  </head>
+  
+  <body>
+    <div id='stage'>
+      <div id='map'></div>
+      <div id="info_toggles">
+        <a href="javascript:void(0)" id="player_info_toggle">players</a> |
+        <a href="javascript:void(0)" id="enemy_info_toggle">enemies</a>
+      </div>
+      <div id='info'></div>
+    </div>
+  </body>
+</html>
