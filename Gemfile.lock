@@ -1,9 +1,17 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    barista (1.2.1)
+      coffee-script (~> 2.2)
     childprocess (0.3.0)
       ffi (~> 1.0.6)
+    coffee-script (2.2.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.2.0)
     diff-lcs (1.1.3)
+    execjs (1.3.0)
+      multi_json (~> 1.0)
     ffi (1.0.11)
     jasmine (1.1.2)
       jasmine-core (>= 1.1.0)
@@ -13,6 +21,8 @@ GEM
     jasmine-core (1.1.0)
     multi_json (1.0.4)
     rack (1.4.0)
+    rack-protection (1.2.0)
+      rack
     rspec (2.8.0)
       rspec-core (~> 2.8.0)
       rspec-expectations (~> 2.8.0)
@@ -27,9 +37,16 @@ GEM
       ffi (~> 1.0.9)
       multi_json (~> 1.0.4)
       rubyzip
+    sinatra (1.3.2)
+      rack (~> 1.3, >= 1.3.6)
+      rack-protection (~> 1.2)
+      tilt (~> 1.3, >= 1.3.3)
+    tilt (1.3.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  barista
   jasmine
+  sinatra

@@ -1,32 +1,37 @@
-# animation
-# character
-# enemy
-# weapon
-# inventory
-# pathfinder
+/* DO NOT MODIFY. This file was compiled Sat, 21 Jan 2012 17:37:50 GMT from
+ * /Users/kellenpresley/source/rpgQuery/app/models/application.coffee
+ */
 
-# level.matrix
-# level.map
-# level.turnState
+(function() {
 
-# menus.contextMenu
-# menus.modalDialog
+  $.fn.shake = function(intShakes, intDistance, intDuration) {
+    this.each(function() {
+      var elem, x, _i, _len, _results;
+      elem = $(this);
+      elem.css({
+        position: 'relative'
+      });
+      _results = [];
+      for (_i = 0, _len = intShakes.length; _i < _len; _i++) {
+        x = intShakes[_i];
+        _results.push(elem.animate({
+          left: intDistance * -1
+        }, (intDuration / intShakes) / 4).animate({
+          left: intDistance
+        }, (intDuration / intShakes) / 2).animate({
+          left: 0
+        }, (intDuration / intShakes) / 4));
+      }
+      return _results;
+    });
+    return this;
+  };
 
-# Amount of shakes, Shake distance, Time duration
-$.fn.shake = (intShakes, intDistance, intDuration) ->
-  @each ->
-    elem = $(this)
-    elem.css position:'relative'
-    for x in intShakes
-      elem.animate({left: intDistance*-1 }, (((intDuration/intShakes)/4)))
-      .animate({left:intDistance}, ((intDuration/intShakes)/2))
-      .animate({left:0}, (((intDuration/intShakes)/4)))
-  this
+  (function() {
+    return alert('dude');
+  })();
 
-do ->
-  alert('hi')
-
-`
+  
 (function(){
   var initializing = false, fnTest = /xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/;
   // The base Class implementation (does nothing)
@@ -84,4 +89,6 @@ do ->
     
     return Class;
   };
-})();`
+})();;
+
+}).call(this);
