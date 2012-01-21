@@ -1,5 +1,5 @@
-/* DO NOT MODIFY. This file was compiled Sat, 21 Jan 2012 17:40:55 GMT from
- * /Users/kellenpresley/source/rpgQuery/app/models/application.coffee
+/* DO NOT MODIFY. This file was compiled Sat, 21 Jan 2012 18:59:03 GMT from
+ * /Users/kellenpresley/source/rpgQuery/app/application.coffee
  */
 
 (function() {
@@ -28,7 +28,7 @@
   };
 
   (function() {
-    return alert('yah!!!');
+    return new Level();
   })();
 
   
