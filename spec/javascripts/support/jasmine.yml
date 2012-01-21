@@ -49,7 +49,7 @@ helpers:
 #   - **/*[sS]pec.js
 #
 spec_files:
-  - "**/*[sS]pec.coffee"
+  - **/*[sS]pec.js
 
 # src_dir
 #

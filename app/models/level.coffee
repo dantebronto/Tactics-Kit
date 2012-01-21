@@ -1,5 +1,7 @@
 class window.Level
   constructor: (opts) ->
+    @turnFunction = opts.turnFunction or ->
+    @endFunction = opts.endFunction or ->
     @map = new Level.Map opts.map
 
 # class window.Level

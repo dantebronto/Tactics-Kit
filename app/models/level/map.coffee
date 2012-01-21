@@ -1,7 +1,17 @@
 class Level.Map
-  constructor: (@terrainMap) ->
-    @div = $('#map')
-
+  constructor: (opts={}) ->
+    @elem = $(opts.selector or '#map')
+    @width = opts.width or 410
+    @height = opts.height or 816
+    @backgroundImage = opts.backgroundImage or '/images/test_map.jpg'
+    @setStyles()
+  
+  setStyles: ->
+    @elem
+      .css('width', "#{@width}px")
+      .css('width', "#{@height}px")
+      .css('background-image', "url(#{@backgroundImage})")
+  
 # `var Map = Class.extend({
 #   init: function(terrain_map){
 #     var self = this;

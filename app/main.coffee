@@ -1,4 +1,3 @@
-#ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
 # animation
 # character
 # enemy
@@ -13,19 +12,35 @@
 # menus.contextMenu
 # menus.modalDialog
 
-# Amount of shakes, Shake distance, Time duration
-$.fn.shake = (intShakes, intDistance, intDuration) ->
-  @each ->
-    elem = $(this)
-    elem.css position:'relative'
-    for x in intShakes
-      elem.animate({left: intDistance*-1 }, (((intDuration/intShakes)/4)))
-      .animate({left:intDistance}, ((intDuration/intShakes)/2))
-      .animate({left:0}, (((intDuration/intShakes)/4)))
-  this
-
 do ->
-  # new Level()
+  # level 1
+  terrain = [ 
+    [ 15, 15, 15, 15, 15, 15, 15, 15 ], 
+    [ 15, 15, 15, 15, 15, 15, 15, 15 ],
+    [ 15, 15, 15, 15, 15, 15, 15, 15 ], 
+    [ 15, 15, 15, 10, 10, 15, 15, 15 ], 
+    [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+    [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+    [ 15, 15, 10, 15, 10, 10, 15, 15 ],
+    [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+    [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+    [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+    [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+    [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+    [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+    [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+    [ 15, 15, 10, 10, 10, 10, 15, 15 ],
+    [ 15, 15, 15, 15, 15, 15, 15, 15 ]
+  ]
+  
+  if Level?
+    window.level = new Level
+      map: 
+        terrain: terrain
+        width: 410
+        height: 816
+        backgroundImage: '/images/test_map.jpg'
+        selector: '#map'
 
 `
 (function(){
