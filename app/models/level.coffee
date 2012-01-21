@@ -1,12 +1,6 @@
-class Level
-  constructor: ->
-    
-    console.log 'contructor called for level'
-  
-  func: ->
-    console.log 'func'
-
-window.Level = Level
+class window.Level
+  constructor: (opts) ->
+    @map = new Level.Map opts.map
 
 # class window.Level
 #   constructor: (opts) ->

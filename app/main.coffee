@@ -1,3 +1,4 @@
+#ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
 # animation
 # character
 # enemy
@@ -24,7 +25,7 @@ $.fn.shake = (intShakes, intDistance, intDuration) ->
   this
 
 do ->
-  new Level()
+  # new Level()
 
 `
 (function(){

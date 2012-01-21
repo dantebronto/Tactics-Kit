@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Sat, 21 Jan 2012 19:21:29 GMT from
+/* DO NOT MODIFY. This file was compiled Sat, 21 Jan 2012 19:36:51 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/level/map.coffee
  */
 

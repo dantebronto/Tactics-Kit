@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Sat, 21 Jan 2012 19:23:11 GMT from
+/* DO NOT MODIFY. This file was compiled Sat, 21 Jan 2012 19:46:36 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/main.coffee
  */
 
@@ -27,9 +27,7 @@
     return this;
   };
 
-  (function() {
-    return new Level();
-  })();
+  (function() {})();
 
   
 (function(){
