@@ -1,4 +1,4 @@
-class LevelModule.Map
+class Level.Map
   constructor: (@terrainMap) ->
     @div = $('#map')
 

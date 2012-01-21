@@ -1,5 +1,5 @@
 /* DO NOT MODIFY. This file was compiled Sat, 21 Jan 2012 19:23:11 GMT from
- * /Users/kellenpresley/source/rpgQuery/app/application.coffee
+ * /Users/kellenpresley/source/rpgQuery/app/main.coffee
  */
 
 (function() {

@@ -1,7 +1,6 @@
-window.LevelModule = {}
-
 class Level
   constructor: ->
+    
     console.log 'contructor called for level'
   
   func: ->

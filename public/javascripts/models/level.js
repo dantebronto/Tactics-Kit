@@ -1,11 +1,9 @@
-/* DO NOT MODIFY. This file was compiled Sat, 21 Jan 2012 18:59:03 GMT from
+/* DO NOT MODIFY. This file was compiled Sat, 21 Jan 2012 19:21:29 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/level.coffee
  */
 
 (function() {
   var Level;
-
-  window.LevelModule = {};
 
   Level = (function() {
 
