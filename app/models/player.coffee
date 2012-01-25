@@ -1,0 +1,1 @@
+class window.Player extends Character

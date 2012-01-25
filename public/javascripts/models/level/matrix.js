@@ -48,7 +48,8 @@
       if (value == null) {
         value = 0;
       }
-      return this.raw[y][x] = value;
+      this.raw[y][x] = value;
+      return value;
     };
     Matrix.prototype.debug = function() {
       var i, _ref, _results;

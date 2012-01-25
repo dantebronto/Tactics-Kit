@@ -3,6 +3,18 @@ class window.Level
     @turnFunction = opts.turnFunction or ->
     @endFunction = opts.endFunction or ->
     @map = new Level.Map opts.map # pass in the terrain map
+    @inventory = opts.inventory or new Inventory()
+  
+  # level.hasEnemyAt(3,14) => map.enemyMatrix.get(3,14).hasClass('occupied')
+  
+  # var baz = new Enemy( { map: level.map, x: 3, y: 14, name: 'Baz' } )
+  # level.enemies.push(baz)
+  # level.higest_id += 1
+  # baz.level_id = level.higest_id
+  
+  # level.addCharacter
+  #   x:3, y:14
+  #   name: 'Baz'
   
 # class window.Level
 #   constructor: (opts) ->

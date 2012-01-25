@@ -15,7 +15,7 @@ class Level.Matrix
     @
   
   get: (x=0, y=0) -> @raw[y][x] if @raw[x]? && @raw[y][x]?
-  set: (x=0, y=0, value=0) -> @raw[y][x] = value
+  set: (x=0, y=0, value=0) -> @raw[y][x] = value; value
   
   debug: -> console.log(@raw[i]) for i in [0..@rowCount-1]
   

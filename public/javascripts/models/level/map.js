@@ -26,7 +26,7 @@
       return this.elem.css('height', "" + this.height + "px").css('width', "" + this.width + "px").css('background-image', "url(" + this.backgroundImage + ")");
     };
     Map.prototype.createCells = function() {
-      var cell, cellType, elemDiv, mapCells, _i, _j, _len, _len2, _ref;
+      var cell, cellType, mapCells, _i, _j, _len, _len2, _ref, _results;
       _ref = this.cellTypes;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         cellType = _ref[_i];
@@ -34,16 +34,16 @@
       }
       mapCells = [];
       this.terrainMatrix.each(__bind(function(x, y) {
-        return mapCells.push(this.addCells(x, y));
+        return mapCells.push(this.calculateCells(x, y));
       }, this));
-      elemDiv = $('<div></div>');
+      _results = [];
       for (_j = 0, _len2 = mapCells.length; _j < _len2; _j++) {
         cell = mapCells[_j];
-        cell.appendTo(elemDiv);
+        _results.push(cell.appendTo(this.elem));
       }
-      return $(elemDiv.html()).appendTo(this.elem);
+      return _results;
     };
-    Map.prototype.addCells = function(x, y) {
+    Map.prototype.calculateCells = function(x, y) {
       var cell, lastCell, mapCell, terrainType, type, _i, _len, _ref;
       terrainType = this.terrainMatrix.get(x, y);
       mapCell = null;
@@ -52,10 +52,10 @@
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         type = _ref[_i];
         cell = this.cellFromTemplate(x, y, type);
+        this["" + type + "Matrix"].set(x, y, cell);
         if (type === this.cellTypes[0]) {
           mapCell = cell;
-        }
-        if (lastCell) {
+        } else {
           cell.appendTo(lastCell);
         }
         lastCell = cell;
@@ -64,11 +64,12 @@
     };
     Map.prototype.cellFromTemplate = function(x, y, type) {
       var cell;
-      cell = this.cellTemplate.clone();
-      cell.addClass(type);
-      cell.attr('id', "" + type + "-cell-" + x + "-" + y);
-      this["" + type + "Matrix"].set(x, y, cell);
-      return cell;
+      return cell = this.cellTemplate.clone().addClass(type).attr('id', "" + type + "-cell-" + x + "-" + y);
+    };
+    Map.prototype.add = function(obj) {
+      if (obj.constructor === Player) {
+        return this.playerMatrix.get(obj.x, obj.y).addClass('pointer occupied').css('background', "url(" + obj.sprite + ") no-repeat center");
+      }
     };
     return Map;
   })();

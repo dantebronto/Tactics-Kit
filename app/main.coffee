@@ -6,7 +6,6 @@
 # weapon
 # inventory
 
-
 # menus.contextMenu
 # menus.modalDialog
 
@@ -39,3 +38,6 @@ do ->
         height: 816
         backgroundImage: '/images/test-map.jpg'
         selector: '#map'
+    
+    new Player()
+    

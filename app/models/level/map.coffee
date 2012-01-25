@@ -29,32 +29,33 @@ class Level.Map
       @["#{cellType}Matrix"] = Level.Matrix.newFilledMatrix(@rowCount, @colCount)
     
     mapCells = []
-    @terrainMatrix.each (x, y) => mapCells.push @addCells(x, y)
-    elemDiv = $ '<div></div>'
-    cell.appendTo elemDiv for cell in mapCells
-    $(elemDiv.html()).appendTo @elem
-    
+    @terrainMatrix.each (x, y) => mapCells.push @calculateCells(x, y)
+    cell.appendTo @elem for cell in mapCells
   
-  addCells: (x, y) ->
+  calculateCells: (x, y) ->
     terrainType = @terrainMatrix.get(x, y)
     mapCell = null
     lastCell = null
     
     for type in @cellTypes
       cell = @cellFromTemplate(x, y, type)
-      mapCell = cell if type == @cellTypes[0]
-      cell.appendTo lastCell if lastCell
+      @["#{type}Matrix"].set x, y, cell
+      if type == @cellTypes[0] then mapCell = cell else cell.appendTo lastCell
       lastCell = cell
-    
     mapCell
   
   cellFromTemplate: (x, y, type) ->
-    cell = @cellTemplate.clone()
-    cell.addClass(type)
-    cell.attr('id', "#{type}-cell-#{x}-#{y}")
-    @["#{type}Matrix"].set(x, y, cell)
-    cell
+    cell = @cellTemplate
+     .clone()
+     .addClass(type)
+     .attr 'id', "#{type}-cell-#{x}-#{y}"
     
+  add: (obj) ->
+    if obj.constructor == Player
+      @playerMatrix.get(obj.x, obj.y)
+        .addClass('pointer occupied')
+        .css('background', "url(#{obj.sprite}) no-repeat center")
+  
 # `var Map = Class.extend({
 
 #   cell: function(x, y){
