@@ -22,9 +22,12 @@
       this.x = opts.x || 0;
       this.y = opts.y || 0;
       $(__bind(function() {
-        return level.map.add(this);
+        return level.add(this);
       }, this));
     }
+    Character.prototype.getElem = function() {
+      return level.getElem(this);
+    };
     return Character;
   })();
 }).call(this);

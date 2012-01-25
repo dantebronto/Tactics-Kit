@@ -5,6 +5,9 @@ class window.Level
     @map = new Level.Map opts.map # pass in the terrain map
     @inventory = opts.inventory or new Inventory()
   
+  add: (obj) -> @map.add obj # TODO: assign ids, add to Qs
+  getElem: (obj) -> @map.getElem obj
+    
   # level.hasEnemyAt(3,14) => map.enemyMatrix.get(3,14).hasClass('occupied')
   
   # var baz = new Enemy( { map: level.map, x: 3, y: 14, name: 'Baz' } )

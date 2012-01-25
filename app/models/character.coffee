@@ -24,9 +24,9 @@ class window.Character
     @x = opts.x or 0
     @y = opts.y or 0
     
-    $ =>
-      level.map.add @
-      
+    $ => level.add @
+    
+  getElem: -> level.getElem @
   
 # // var player_id = 1;
 # // 

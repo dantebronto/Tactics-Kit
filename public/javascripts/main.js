@@ -12,7 +12,7 @@
           selector: '#map'
         }
       });
-      return new Player();
+      return window.char = new Player();
     }
   })();
 }).call(this);

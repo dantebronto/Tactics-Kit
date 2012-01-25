@@ -63,12 +63,14 @@
       return mapCell;
     };
     Map.prototype.cellFromTemplate = function(x, y, type) {
-      var cell;
-      return cell = this.cellTemplate.clone().addClass(type).attr('id', "" + type + "-cell-" + x + "-" + y);
+      return this.cellTemplate.clone().addClass(type).attr('id', "" + type + "-cell-" + x + "-" + y);
     };
     Map.prototype.add = function(obj) {
+      return this.getElem(obj).addClass('pointer occupied').css('background', "url(" + obj.sprite + ") no-repeat center");
+    };
+    Map.prototype.getElem = function(obj) {
       if (obj.constructor === Player) {
-        return this.playerMatrix.get(obj.x, obj.y).addClass('pointer occupied').css('background', "url(" + obj.sprite + ") no-repeat center");
+        return this.playerMatrix.get(obj.x, obj.y);
       }
     };
     return Map;

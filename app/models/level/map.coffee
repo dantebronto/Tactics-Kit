@@ -45,40 +45,21 @@ class Level.Map
     mapCell
   
   cellFromTemplate: (x, y, type) ->
-    cell = @cellTemplate
+    @cellTemplate
      .clone()
      .addClass(type)
      .attr 'id', "#{type}-cell-#{x}-#{y}"
-    
-  add: (obj) ->
-    if obj.constructor == Player
-      @playerMatrix.get(obj.x, obj.y)
-        .addClass('pointer occupied')
-        .css('background', "url(#{obj.sprite}) no-repeat center")
   
+  add: (obj) ->
+    @getElem(obj)
+      .addClass('pointer occupied')
+      .css('background', "url(#{obj.sprite}) no-repeat center")
+  
+  getElem: (obj) ->
+    if obj.constructor == Player 
+      @playerMatrix.get(obj.x, obj.y)
+        
 # `var Map = Class.extend({
-
-#   cell: function(x, y){
-#     return this.map_matrix.e(x, y);
-#   },
-#   player_cell: function(x, y){
-#     return this.player_matrix.e(x, y);
-#   },
-#   underlay_cell: function(x, y){
-#     return this.underlay_matrix.e(x, y);
-#   },
-#   overlay_cell: function(x, y){
-#     return this.overlay_matrix.e(x, y);
-#   },
-#   item_cell: function(x, y){
-#     return this.item_matrix.e(x, y);
-#   },
-#   enemy_cell: function(x, y){
-#     return this.enemy_matrix.e(x, y);
-#   },
-#   stat_cell: function(x, y){
-#     return this.stat_matrix.e(x, y);
-#   },
 #   remove_clickables: function( types ){ // array of types to remove
 #     if ( !types )
 #       types = ['attackable pointer moveable healable passable impassable'];
