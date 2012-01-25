@@ -1,68 +1,62 @@
 class Level.Map
   constructor: (opts={}) ->
-    @elem = $(opts.selector or '#map')
     @width = opts.width or 410
     @height = opts.height or 816
-    @backgroundImage = opts.backgroundImage or '/images/test_map.jpg'
-    @setStyles()
+    @terrainMatrix = new Level.Matrix opts.terrain
+    
+    throw "Error: You must provide a terrain matrix" unless @terrainMatrix
+    
+    @rowCount = @terrainMatrix.rowCount
+    @colCount = @terrainMatrix.colCount
+    
+    @backgroundImage = opts.backgroundImage or '/images/test-map.jpg'
+    @cellTemplate = opts.cellTemplate or $ '<span class="cell"></span>'
+    @cellTypes = opts.cellTypes or ['map', 'underlay', 'item', 'enemy', 'player', 'stat', 'overlay']
+    
+    $ =>
+      @elem = $ opts.selector or '#map'
+      @setStyles()
+      @createCells()
   
   setStyles: ->
     @elem
+      .css('height', "#{@height}px")
       .css('width', "#{@width}px")
-      .css('width', "#{@height}px")
       .css('background-image', "url(#{@backgroundImage})")
   
+  createCells: ->
+    for cellType in @cellTypes
+      @["#{cellType}Matrix"] = Level.Matrix.newFilledMatrix(@rowCount, @colCount)
+    
+    mapCells = []
+    @terrainMatrix.each (x, y) => mapCells.push @addCells(x, y)
+    elemDiv = $ '<div></div>'
+    cell.appendTo elemDiv for cell in mapCells
+    $(elemDiv.html()).appendTo @elem
+    
+  
+  addCells: (x, y) ->
+    terrainType = @terrainMatrix.get(x, y)
+    mapCell = null
+    lastCell = null
+    
+    for type in @cellTypes
+      cell = @cellFromTemplate(x, y, type)
+      mapCell = cell if type == @cellTypes[0]
+      cell.appendTo lastCell if lastCell
+      lastCell = cell
+    
+    mapCell
+  
+  cellFromTemplate: (x, y, type) ->
+    cell = @cellTemplate.clone()
+    cell.addClass(type)
+    cell.attr('id', "#{type}-cell-#{x}-#{y}")
+    @["#{type}Matrix"].set(x, y, cell)
+    cell
+    
 # `var Map = Class.extend({
-#   init: function(terrain_map){
-#     var self = this;
-#     self.div = $('#map');
-#     self.terrain_matrix = new Matrix(terrain_map);
-#     self.rows = self.terrain_matrix.rows();
-#     self.cols = self.terrain_matrix.cols();
-# 
-#     var cell_types = ['map', 'underlay', 'item', 'enemy', 'player', 'stat', 'overlay'];
-# 
-#     self.cell_types = cell_types;
-# 
-#     for(var i=0; i < cell_types.length; i++)
-#       self[cell_types[i] + '_matrix' ] = Matrix.new_filled_matrix(self.rows, self.cols);
-# 
-#     self.terrain_matrix.each(function(x, y){
-#       self.add_cell(x, y);
-#     });    
-#   },
-#   add_cell: function(x, y){
-#     var self = this;
-#     var terrain_type = self.terrain_matrix.e(x, y);
-#     
-#     var map_cell = self.cell_from_template(x, y, 'map');
-#     
-#     // underlay (underlay) (filter) e.g. moveable
-#     var underlay_cell = self.cell_from_template(x, y, 'underlay');
-#     underlay_cell.appendTo(map_cell);
-#     
-#     // item layer
-#     var item_cell = self.cell_from_template(x, y, 'item');
-#     item_cell.appendTo(underlay_cell);
-#     
-#     // enemy layer
-#     var enemy_cell = self.cell_from_template(x, y, 'enemy');
-#     enemy_cell.appendTo(item_cell);
-#     
-#     // player layer
-#     var player_cell = self.cell_from_template(x, y, 'player');
-#     player_cell.appendTo(enemy_cell);
-#     
-#     // overlay filter e.g. attack range, status effects
-#     var overlay_cell = self.cell_from_template(x, y, 'overlay');
-#     overlay_cell.appendTo(player_cell);
-#     
-#     // stat layer e.g. hit points
-#     var stat_cell = self.cell_from_template(x, y, 'stat');
-#     stat_cell.appendTo(overlay_cell);
-#     
-#     map_cell.appendTo(self.div);
-#   },
+
 #   cell: function(x, y){
 #     return this.map_matrix.e(x, y);
 #   },
@@ -83,16 +77,6 @@ class Level.Map
 #   },
 #   stat_cell: function(x, y){
 #     return this.stat_matrix.e(x, y);
-#   },
-#   cell_from_template: function(x, y, type){
-#     var cell_id = 'cell_' + x + '_' + y;
-#     var template = $("<span class='cell'></span>");
-#     
-#     var cell = template.clone();
-#     cell.addClass(type);
-#     cell.attr('id', type + '_' + cell_id);
-#     this[type + '_matrix'].set(x, y, cell);
-#     return cell;
 #   },
 #   remove_clickables: function( types ){ // array of types to remove
 #     if ( !types )

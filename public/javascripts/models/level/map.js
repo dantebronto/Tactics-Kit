@@ -1,17 +1,74 @@
 (function() {
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   Level.Map = (function() {
     function Map(opts) {
       if (opts == null) {
         opts = {};
       }
-      this.elem = $(opts.selector || '#map');
       this.width = opts.width || 410;
       this.height = opts.height || 816;
-      this.backgroundImage = opts.backgroundImage || '/images/test_map.jpg';
-      this.setStyles();
+      this.terrainMatrix = new Level.Matrix(opts.terrain);
+      if (!this.terrainMatrix) {
+        throw "Error: You must provide a terrain matrix";
+      }
+      this.rowCount = this.terrainMatrix.rowCount;
+      this.colCount = this.terrainMatrix.colCount;
+      this.backgroundImage = opts.backgroundImage || '/images/test-map.jpg';
+      this.cellTemplate = opts.cellTemplate || $('<span class="cell"></span>');
+      this.cellTypes = opts.cellTypes || ['map', 'underlay', 'item', 'enemy', 'player', 'stat', 'overlay'];
+      $(__bind(function() {
+        this.elem = $(opts.selector || '#map');
+        this.setStyles();
+        return this.createCells();
+      }, this));
     }
     Map.prototype.setStyles = function() {
-      return this.elem.css('width', "" + this.width + "px").css('width', "" + this.height + "px").css('background-image', "url(" + this.backgroundImage + ")");
+      return this.elem.css('height', "" + this.height + "px").css('width', "" + this.width + "px").css('background-image', "url(" + this.backgroundImage + ")");
+    };
+    Map.prototype.createCells = function() {
+      var cell, cellType, elemDiv, mapCells, _i, _j, _len, _len2, _ref;
+      _ref = this.cellTypes;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        cellType = _ref[_i];
+        this["" + cellType + "Matrix"] = Level.Matrix.newFilledMatrix(this.rowCount, this.colCount);
+      }
+      mapCells = [];
+      this.terrainMatrix.each(__bind(function(x, y) {
+        return mapCells.push(this.addCells(x, y));
+      }, this));
+      elemDiv = $('<div></div>');
+      for (_j = 0, _len2 = mapCells.length; _j < _len2; _j++) {
+        cell = mapCells[_j];
+        cell.appendTo(elemDiv);
+      }
+      return $(elemDiv.html()).appendTo(this.elem);
+    };
+    Map.prototype.addCells = function(x, y) {
+      var cell, lastCell, mapCell, terrainType, type, _i, _len, _ref;
+      terrainType = this.terrainMatrix.get(x, y);
+      mapCell = null;
+      lastCell = null;
+      _ref = this.cellTypes;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        type = _ref[_i];
+        cell = this.cellFromTemplate(x, y, type);
+        if (type === this.cellTypes[0]) {
+          mapCell = cell;
+        }
+        if (lastCell) {
+          cell.appendTo(lastCell);
+        }
+        lastCell = cell;
+      }
+      return mapCell;
+    };
+    Map.prototype.cellFromTemplate = function(x, y, type) {
+      var cell;
+      cell = this.cellTemplate.clone();
+      cell.addClass(type);
+      cell.attr('id', "" + type + "-cell-" + x + "-" + y);
+      this["" + type + "Matrix"].set(x, y, cell);
+      return cell;
     };
     return Map;
   })();

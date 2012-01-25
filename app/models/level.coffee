@@ -1,9 +1,9 @@
 class window.Level
-  constructor: (opts) ->
+  constructor: (opts={}) ->
     @turnFunction = opts.turnFunction or ->
     @endFunction = opts.endFunction or ->
-    @map = new Level.Map opts.map
-
+    @map = new Level.Map opts.map # pass in the terrain map
+  
 # class window.Level
 #   constructor: (opts) ->
 #     @map = opts.map
