@@ -1,55 +1,65 @@
 class window.Character
   
-  constructor: (opts={}) ->
-    @name = opts.name or 'Catan'
-    @inventory = opts.inventory or level.inventory
-    @level = opts.level or 1
+  @mixin: (mixins...) ->
+    for mixin in mixins
+      for key, value of mixin::
+        @::[key] = value
+  
+  Character.mixin Experience
+  
+  constructor: (@opts={}) ->
+    @name = @opts.name or 'Catan'
+    @inventory = @opts.inventory or level.inventory
+    @level = @opts.level or 1
     
-    @ap = opts.ap or Math.floor(4+@level*0.07)
+    @ap = @opts.ap or Math.floor(4+@level*0.07)
     @apLeft = @ap
     
-    @hp = opts.hp or Math.floor(50.1+@level*7.65)
+    @hp = @opts.hp or Math.floor(50.1+@level*7.65)
     @hpLeft = @hp
     
-    @speed = opts.speed or Math.floor(@ap/2)
+    @speed = @opts.speed or Math.floor(@ap/2)
     
-    @exp = opts.exp or 0
-    @expNext = opts.expNext or Math.floor(@hp*1.3)
+    @initExperience()
     
-    @sprite = opts.sprite or '/images/bar.gif'
+    @sprite = @opts.sprite or '/images/bar.gif'
     
-    @weapon = opts.weapon or new Weapon()
-    @accuracy = opts.accuracy or 80+Math.floor(@level*0.19)
-    @strength = opts.strength or @level
+    @weapon = @opts.weapon or new Weapon()
+    @accuracy = @opts.accuracy or 80+Math.floor(@level*0.19)
+    @strength = @opts.strength or @level
     
-    @x = opts.x or 0
-    @y = opts.y or 0
+    @x = @opts.x or 0
+    @y = @opts.y or 0
     
-    # something to hook events to
     @eventDispatch = $('')
-    @bind 'onCreate', opts.onCreate or ->
+    
+    @onCreate = @opts.onCreate or ->
+    @onTurnStart = @opts.onTurnStart or ->
+    @onTurnEnd = @opts.onTurnEnd or ->
+    @onDeath = @opts.onDeath or ->
+    
+    @bindEvents()
     
     $ =>
       level.add @
-      @trigger 'onCreate'
+      @trigger 'create'
   
   getElem: -> level.getElem @
   
   bind: (event, cb) -> @eventDispatch.bind(event, cb)
-  trigger: (event, msg) -> @eventDispatch.trigger(event, msg) 
+  trigger: (event, msg) -> @eventDispatch.trigger(event, msg)
   
+  bindEvents: ->
+    @bind 'create', @onCreate
+    @bind 'turnStart', @onTurnStart
+    @bind 'turnEnd', @onTurnEnd
+    @bind 'death', @onDeath
+
+# mixin Experience, Character
+
 # // var player_id = 1;
 # // 
 # // var Character = Class.extend({
-# //   add_exp: function(amt){
-# //     for( var i=0; i < amt; i++ ){
-# //       this.exp += 1;
-# //       this.exp_next -= 1;
-# //       
-# //       if( this.exp_next <= 0 )
-# //         this.level_up();
-# //     }
-# //   },
 # //   animate_movement: function(x, y){
 # //     var self = this;
 # //     

@@ -40,3 +40,4 @@ do ->
         selector: '#map'
     
     new Player x: 3, y: 3
+    
