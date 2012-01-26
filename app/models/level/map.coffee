@@ -20,9 +20,11 @@ class Level.Map
   
   setStyles: ->
     @elem
+      .hide()
       .css('height', "#{@height}px")
       .css('width', "#{@width}px")
       .css('background-image', "url(#{@backgroundImage})")
+      .fadeIn('slow')
   
   createCells: ->
     for cellType in @cellTypes

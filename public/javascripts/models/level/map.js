@@ -23,7 +23,7 @@
       }, this));
     }
     Map.prototype.setStyles = function() {
-      return this.elem.css('height', "" + this.height + "px").css('width', "" + this.width + "px").css('background-image', "url(" + this.backgroundImage + ")");
+      return this.elem.hide().css('height', "" + this.height + "px").css('width', "" + this.width + "px").css('background-image', "url(" + this.backgroundImage + ")").fadeIn('slow');
     };
     Map.prototype.createCells = function() {
       var cell, cellType, mapCells, _i, _j, _len, _len2, _ref, _results;

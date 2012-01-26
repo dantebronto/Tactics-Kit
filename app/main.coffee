@@ -39,5 +39,4 @@ do ->
         backgroundImage: '/images/test-map.jpg'
         selector: '#map'
     
-    window.char = new Player()
-    
+    new Player x: 3, y: 3

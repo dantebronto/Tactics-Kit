@@ -1,3 +1,7 @@
+/* DO NOT MODIFY. This file was compiled Thu, 26 Jan 2012 04:23:01 GMT from
+ * /Users/kellenpresley/source/rpgQuery/app/models/character.coffee
+ */
+
 (function() {
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   window.Character = (function() {
@@ -21,12 +25,21 @@
       this.strength = opts.strength || this.level;
       this.x = opts.x || 0;
       this.y = opts.y || 0;
+      this.eventDispatch = $('');
+      this.bind('onCreate', opts.onCreate || function() {});
       $(__bind(function() {
-        return level.add(this);
+        level.add(this);
+        return this.trigger('onCreate');
       }, this));
     }
     Character.prototype.getElem = function() {
       return level.getElem(this);
+    };
+    Character.prototype.bind = function(event, cb) {
+      return this.eventDispatch.bind(event, cb);
+    };
+    Character.prototype.trigger = function(event, msg) {
+      return this.eventDispatch.trigger(event, msg);
     };
     return Character;
   })();

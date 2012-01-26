@@ -1,4 +1,5 @@
 class window.Character
+  
   constructor: (opts={}) ->
     @name = opts.name or 'Catan'
     @inventory = opts.inventory or level.inventory
@@ -24,9 +25,18 @@ class window.Character
     @x = opts.x or 0
     @y = opts.y or 0
     
-    $ => level.add @
+    # something to hook events to
+    @eventDispatch = $('')
+    @bind 'onCreate', opts.onCreate or ->
     
+    $ =>
+      level.add @
+      @trigger 'onCreate'
+  
   getElem: -> level.getElem @
+  
+  bind: (event, cb) -> @eventDispatch.bind(event, cb)
+  trigger: (event, msg) -> @eventDispatch.trigger(event, msg) 
   
 # // var player_id = 1;
 # // 
@@ -398,3 +408,4 @@ class window.Character
 # //       .unbind();
 # //   }  
 # // });
+
