@@ -14,7 +14,8 @@
       });
       return new Player({
         x: 3,
-        y: 3
+        y: 3,
+        name: 'd00d'
       });
     }
   })();

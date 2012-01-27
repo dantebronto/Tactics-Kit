@@ -14,6 +14,7 @@ class Level.Map
     @cellTypes = opts.cellTypes or ['map', 'underlay', 'item', 'enemy', 'player', 'stat', 'overlay']
     
     $ =>
+      @info = $ opts.infoSelector or '#info'
       @elem = $ opts.selector or '#map'
       @setStyles()
       @createCells()
@@ -24,7 +25,8 @@ class Level.Map
       .css('height', "#{@height}px")
       .css('width', "#{@width}px")
       .css('background-image', "url(#{@backgroundImage})")
-      .fadeIn('slow')
+      .show()
+    @info.css('height', "#{@height}px")
   
   createCells: ->
     for cellType in @cellTypes
@@ -47,19 +49,21 @@ class Level.Map
     mapCell
   
   cellFromTemplate: (x, y, type) ->
-    @cellTemplate
-     .clone()
+    clone = $(@cellTemplate[0].cloneNode(true))
+    clone
      .addClass(type)
      .attr 'id', "#{type}-cell-#{x}-#{y}"
   
   add: (obj) ->
-    @getElem(obj)
-      .addClass('pointer occupied')
-      .css('background', "url(#{obj.sprite}) no-repeat center")
+    if obj.constructor == Player
+      @getElem(obj)
+        .addClass('pointer occupied')
+        .css('background', "url(#{obj.sprite}) no-repeat center")
   
   getElem: (obj) ->
-    if obj.constructor == Player 
+    if obj.constructor == Player
       @playerMatrix.get(obj.x, obj.y)
+      
         
 # `var Map = Class.extend({
 #   remove_clickables: function( types ){ // array of types to remove

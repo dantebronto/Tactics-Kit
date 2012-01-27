@@ -39,5 +39,5 @@ do ->
         backgroundImage: '/images/test-map.jpg'
         selector: '#map'
     
-    new Player x: 3, y: 3
+    new Player x: 3, y: 3, name: 'd00d'
     

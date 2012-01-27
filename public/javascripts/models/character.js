@@ -46,11 +46,19 @@
       this.bindEvents();
       $(__bind(function() {
         level.add(this);
+        this.drawInfo();
         return this.trigger('create');
       }, this));
     }
     Character.prototype.getElem = function() {
       return level.getElem(this);
+    };
+    Character.prototype.drawInfo = function() {
+      this.info = $(TMPL.characterInfo(this));
+      return level.map.info.find('ul').append(this.info);
+    };
+    Character.prototype.updateInfo = function() {
+      return this.info.html($(TMPL.characterInfo(this)).html());
     };
     Character.prototype.bind = function(event, cb) {
       return this.eventDispatch.bind(event, cb);

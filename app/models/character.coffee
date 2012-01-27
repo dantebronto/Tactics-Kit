@@ -42,9 +42,16 @@ class window.Character
     
     $ =>
       level.add @
+      @drawInfo()
       @trigger 'create'
   
   getElem: -> level.getElem @
+  
+  drawInfo: -> # fill in the info div
+    @info = $(TMPL.characterInfo(@))
+    level.map.info.find('ul').append @info
+  
+  updateInfo: -> @info.html($(TMPL.characterInfo(@)).html())
   
   bind: (event, cb) -> @eventDispatch.bind(event, cb)
   trigger: (event, msg) -> @eventDispatch.trigger(event, msg)

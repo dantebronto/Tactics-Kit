@@ -17,13 +17,15 @@
       this.cellTemplate = opts.cellTemplate || $('<span class="cell"></span>');
       this.cellTypes = opts.cellTypes || ['map', 'underlay', 'item', 'enemy', 'player', 'stat', 'overlay'];
       $(__bind(function() {
+        this.info = $(opts.infoSelector || '#info');
         this.elem = $(opts.selector || '#map');
         this.setStyles();
         return this.createCells();
       }, this));
     }
     Map.prototype.setStyles = function() {
-      return this.elem.hide().css('height', "" + this.height + "px").css('width', "" + this.width + "px").css('background-image', "url(" + this.backgroundImage + ")").fadeIn('slow');
+      this.elem.hide().css('height', "" + this.height + "px").css('width', "" + this.width + "px").css('background-image', "url(" + this.backgroundImage + ")").show();
+      return this.info.css('height', "" + this.height + "px");
     };
     Map.prototype.createCells = function() {
       var cell, cellType, mapCells, _i, _j, _len, _len2, _ref, _results;
@@ -63,10 +65,14 @@
       return mapCell;
     };
     Map.prototype.cellFromTemplate = function(x, y, type) {
-      return this.cellTemplate.clone().addClass(type).attr('id', "" + type + "-cell-" + x + "-" + y);
+      var clone;
+      clone = $(this.cellTemplate[0].cloneNode(true));
+      return clone.addClass(type).attr('id', "" + type + "-cell-" + x + "-" + y);
     };
     Map.prototype.add = function(obj) {
-      return this.getElem(obj).addClass('pointer occupied').css('background', "url(" + obj.sprite + ") no-repeat center");
+      if (obj.constructor === Player) {
+        return this.getElem(obj).addClass('pointer occupied').css('background', "url(" + obj.sprite + ") no-repeat center");
+      }
     };
     Map.prototype.getElem = function(obj) {
       if (obj.constructor === Player) {

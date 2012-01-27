@@ -12,18 +12,8 @@ table {border-collapse: collapse;border-spacing: 0;}
 
 body { padding: 15px; font-family: arial; font-size: 0.8em; }
 
-/* flashes */
-#flashes { font:monospace; font-size: 2em; text-align:center;  }
-#flashes #notice { color:#CF1515; background-color:#333; display:block; padding:10px; border-radius: 5px; -moz-border:radius: 5px; }
-/* end flashes */
-
-#map { border-top: thin solid #666; border-left: thin solid #666; float:left;}
-#info { padding: 5px; position:fixed; background-color: white;border: 2px solid gray;display: block;float: left; display:none; }
-
-#info-toggles { background-color: white;border: 2px solid gray;float: left;font-size: 16px;padding: 2px;position: fixed; display:none;}
-#close-stats, #info-toggles a { color:black; text-decoration:none; }
-
-#info p { font-size: 1.2em; }
+#map { border-top: thin solid #666; border-left: thin solid #666; float:left; }
+#info { float:left; width: 200px; overflow: auto; }
 .cell { background-color:transparent; width: 50px; height: 50px; display:inline; float:left; border-right: thin solid #666; border-bottom: thin solid #666; text-align:center; }
 
 .attackable { background-image: url(/images/attackable.png); }
@@ -33,9 +23,17 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; }
 .healable { background-image: url(/images/healable.png); }
 .pointer { cursor: pointer; }
 
+#info .character-info { display: inline-block; height: 100px; width: 180px; font-size: 11px; margin: 0 0 5px; position: relative; padding: 0 2px; background-color: gray; border: medium black solid; border-radius: 6px; padding: 3px; }
+#info .character-info .stat-bar-holder { width: 145px; position:relative; }
+#info .stat-bar { display: block; height: 12px; position: absolute; z-index: 1; left: 0; border-radius: 5px;}
+#info .hp { background: none repeat scroll 0 0 red; top: 10px; }
+#info .ap { background: none repeat scroll 0 0 blue; top: 25px; }
+
+/*
 #info ul { padding-top: 10px; padding:5px; }
 #info ul li { padding-top:3px; }
 #info ul.selected { background-color: #ccc;}
+*/
 
 /* hit points */
 .cell.stat { color:white; font-family:arial; text-shadow: 2px 2px 0 #333333; }
@@ -46,10 +44,3 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; }
 .cell.stat h2 { font-size: 3.5em; padding-top: 20px; margin-left: -12px; margin-top: 15px; }
 .cell.stat h1 { font-size: 4em; padding-top: 20px; margin-left: -16px; margin-top: 15px; }
 /* end hit points */
-
-/* context menu */
-div.hct { background-image:url(/images/menubutton.png);border:thin solid #999999;cursor:pointer;display:none;font-size:20px;height:25px;padding-top:5px;position:absolute;text-align:center;width:100px; }
-div.hct:hover { background-image: url(/images/menuhighlight.png); }
-div.hct.no-ap { background-image: url(/images/menured.png); }
-#hpt { position: absolute;width: 10px;height: 10px;display: none;background: 000;opacity: 0; }
-/* end context menu */
