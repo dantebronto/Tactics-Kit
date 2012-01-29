@@ -18,6 +18,7 @@ class Level.Map
       @elem = $ opts.selector or '#map'
       @setStyles()
       @createCells()
+      @bindClicked()
   
   setStyles: ->
     @elem
@@ -59,33 +60,60 @@ class Level.Map
       @getElem(obj)
         .addClass('pointer occupied')
         .css('background', "url(#{obj.sprite}) no-repeat center")
+        .show()
+      obj.addedToLevel()
+  
+  remove: (obj) ->
+    if obj.constructor == Player
+      @getElem(obj)
+        .removeClass('pointer occupied')
+        .hide()
   
   getElem: (obj) ->
     if obj.constructor == Player
       @playerMatrix.get(obj.x, obj.y)
-      
-        
-# `var Map = Class.extend({
-#   remove_clickables: function( types ){ // array of types to remove
-#     if ( !types )
-#       types = ['attackable pointer moveable healable passable impassable'];
-#     
-#     this.div
-#       .find('.underlay.attackable, .underlay.moveable, .underlay.healable, .underlay.passable, .underlay.impassable')
-#       .removeClass(types.join(' '))
-#       .unbind('click');
-#   },
-#   find_by_position: function(type, x, y){
-#     var chars = []; 
-#     
-#     if( type == 'player' )
-#       chars = level.players;
-#     else
-#       chars = level.enemies;
-#     
-#     for (var i = chars.length - 1; i >= 0; i--)
-#       if( chars[i].x == x && chars[i].y == y )
-#         return chars[i];
-#   }  
-# });
-# `
+  
+  occupiedAt: (x, y) ->
+    @playerMatrix.get(x, y).hasClass('occupied') or
+    @enemyMatrix.get(x, y).hasClass('occupied')
+  
+  canMoveTo: (x, y) -> @canWalkOn(x, y) and not @occupiedAt(x, y)
+  canWalkOn: (x, y) -> @terrainMatrix.get(x, y) <= 10
+  
+  showCellAs: (type, x, y) ->
+    if type == 'moveable'
+      @playerMatrix.get(x,y).addClass type
+    if type == 'passable' or type == 'impassable'
+      @underlayMatrix.get(x, y).addClass type
+  
+  hideCellAs: (type, x, y) ->
+    if type == 'moveable'
+      @playerMatrix.get(x,y).removeClass type
+    if type == 'passable' or type == 'impassable'
+      @underlayMatrix.get(x, y).removeClass type
+  
+  clear: ->
+    @underlayMatrix.each -> 
+      @removeClass 'passable impassable'
+    @playerMatrix.each -> 
+      @removeClass 'moveable'
+  
+  bindClicked: ->
+    @elem.bind 'click', (e) => @handleMapClicked(e)
+  
+  getCellClasses: (x, y) ->
+    classes = []
+    classes.push 'passable' if @underlayMatrix.get(x, y).hasClass('passable')
+    classes.push 'impassable' if @underlayMatrix.get(x, y).hasClass('impassable')
+    classes.push 'moveable' if @playerMatrix.get(x, y).hasClass('moveable')
+    classes
+  
+  handleMapClicked: (e) ->
+    overlayInfo = e.target.id.split("-")
+    x = Number(overlayInfo[2])
+    y = Number(overlayInfo[3])
+    
+    classes = @getCellClasses(x, y)
+    if _(classes).include('impassable') or _(classes).include('passable')
+      @clear()
+    

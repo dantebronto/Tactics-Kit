@@ -18,7 +18,6 @@
     };
     Experience.prototype.onLevelUp = function() {
       this.level += 1;
-      this.speed = Math.floor(this.ap / 2);
       this.ap = Math.floor(4 + this.level * 0.07);
       this.hp = Math.floor(50.1 + this.level * 7.65);
       this.expNext = this.hp * 5;

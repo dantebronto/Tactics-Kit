@@ -20,7 +20,8 @@
         this.info = $(opts.infoSelector || '#info');
         this.elem = $(opts.selector || '#map');
         this.setStyles();
-        return this.createCells();
+        this.createCells();
+        return this.bindClicked();
       }, this));
     }
     Map.prototype.setStyles = function() {
@@ -71,12 +72,80 @@
     };
     Map.prototype.add = function(obj) {
       if (obj.constructor === Player) {
-        return this.getElem(obj).addClass('pointer occupied').css('background', "url(" + obj.sprite + ") no-repeat center");
+        this.getElem(obj).addClass('pointer occupied').css('background', "url(" + obj.sprite + ") no-repeat center").show();
+        return obj.addedToLevel();
+      }
+    };
+    Map.prototype.remove = function(obj) {
+      if (obj.constructor === Player) {
+        return this.getElem(obj).removeClass('pointer occupied').hide();
       }
     };
     Map.prototype.getElem = function(obj) {
       if (obj.constructor === Player) {
         return this.playerMatrix.get(obj.x, obj.y);
+      }
+    };
+    Map.prototype.occupiedAt = function(x, y) {
+      return this.playerMatrix.get(x, y).hasClass('occupied') || this.enemyMatrix.get(x, y).hasClass('occupied');
+    };
+    Map.prototype.canMoveTo = function(x, y) {
+      return this.canWalkOn(x, y) && !this.occupiedAt(x, y);
+    };
+    Map.prototype.canWalkOn = function(x, y) {
+      return this.terrainMatrix.get(x, y) <= 10;
+    };
+    Map.prototype.showCellAs = function(type, x, y) {
+      if (type === 'moveable') {
+        this.playerMatrix.get(x, y).addClass(type);
+      }
+      if (type === 'passable' || type === 'impassable') {
+        return this.underlayMatrix.get(x, y).addClass(type);
+      }
+    };
+    Map.prototype.hideCellAs = function(type, x, y) {
+      if (type === 'moveable') {
+        this.playerMatrix.get(x, y).removeClass(type);
+      }
+      if (type === 'passable' || type === 'impassable') {
+        return this.underlayMatrix.get(x, y).removeClass(type);
+      }
+    };
+    Map.prototype.clear = function() {
+      this.underlayMatrix.each(function() {
+        return this.removeClass('passable impassable');
+      });
+      return this.playerMatrix.each(function() {
+        return this.removeClass('moveable');
+      });
+    };
+    Map.prototype.bindClicked = function() {
+      return this.elem.bind('click', __bind(function(e) {
+        return this.handleMapClicked(e);
+      }, this));
+    };
+    Map.prototype.getCellClasses = function(x, y) {
+      var classes;
+      classes = [];
+      if (this.underlayMatrix.get(x, y).hasClass('passable')) {
+        classes.push('passable');
+      }
+      if (this.underlayMatrix.get(x, y).hasClass('impassable')) {
+        classes.push('impassable');
+      }
+      if (this.playerMatrix.get(x, y).hasClass('moveable')) {
+        classes.push('moveable');
+      }
+      return classes;
+    };
+    Map.prototype.handleMapClicked = function(e) {
+      var classes, overlayInfo, x, y;
+      overlayInfo = e.target.id.split("-");
+      x = Number(overlayInfo[2]);
+      y = Number(overlayInfo[3]);
+      classes = this.getCellClasses(x, y);
+      if (_(classes).include('impassable') || _(classes).include('passable')) {
+        return this.clear();
       }
     };
     return Map;

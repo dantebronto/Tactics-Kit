@@ -6,30 +6,28 @@ class window.Character
         @::[key] = value
   
   Character.mixin Experience
+  Character.mixin LifeForce
+  Character.mixin Actionable
+  Character.mixin Moveable
+  Character.mixin Attacking
   
   constructor: (@opts={}) ->
     @name = @opts.name or 'Catan'
-    @inventory = @opts.inventory or level.inventory
+    @inventory = @opts.inventory or new Inventory()
     @level = @opts.level or 1
     
-    @ap = @opts.ap or Math.floor(4+@level*0.07)
-    @apLeft = @ap
-    
-    @hp = @opts.hp or Math.floor(50.1+@level*7.65)
-    @hpLeft = @hp
-    
-    @speed = @opts.speed or Math.floor(@ap/2)
-    
+    @initAp()
+    @initHp()
+    @initMovement()
+    @initAttacking()
     @initExperience()
     
     @sprite = @opts.sprite or '/images/bar.gif'
     
-    @weapon = @opts.weapon or new Weapon()
     @accuracy = @opts.accuracy or 80+Math.floor(@level*0.19)
     @strength = @opts.strength or @level
     
-    @x = @opts.x or 0
-    @y = @opts.y or 0
+    @weapon = @opts.weapon or new Weapon()
     
     @eventDispatch = $('')
     
@@ -38,31 +36,42 @@ class window.Character
     @onTurnEnd = @opts.onTurnEnd or ->
     @onDeath = @opts.onDeath or ->
     
-    @bindEvents()
+    $ => @bindEvents()
     
-    $ =>
-      level.add @
-      @drawInfo()
-      @trigger 'create'
+  addedToLevel: ->
+    @drawInfo()
+    @bindInfoClicked()
+    @bindElemClicked()
+    @trigger 'create'
+  
+  characterSelected: ->
+    console.log "#{@name} selected"
+    level.clear()
+    level.activePlayer = @
+    @showMovableCells()
+  
+  bindInfoClicked: -> @info.bind 'click', => @characterSelected()
+  bindElemClicked: -> @getElem().bind 'click', => @characterSelected()
   
   getElem: -> level.getElem @
   
   drawInfo: -> # fill in the info div
     @info = $(TMPL.characterInfo(@))
+    @info.hide()
     level.map.info.find('ul').append @info
+    @info.fadeIn('slow')
   
-  updateInfo: -> @info.html($(TMPL.characterInfo(@)).html())
+  updateInfo: -> 
+    @info.html($(TMPL.characterInfo(@)).html())
   
-  bind: (event, cb) -> @eventDispatch.bind(event, cb)
+  on: (event, cb) -> @eventDispatch.bind(event, cb)
   trigger: (event, msg) -> @eventDispatch.trigger(event, msg)
   
   bindEvents: ->
-    @bind 'create', @onCreate
-    @bind 'turnStart', @onTurnStart
-    @bind 'turnEnd', @onTurnEnd
-    @bind 'death', @onDeath
-
-# mixin Experience, Character
+    @on 'create', @onCreate
+    @on 'turnStart', @onTurnStart
+    @on 'turnEnd', @onTurnEnd
+    @on 'die', @onDeath
 
 # // var player_id = 1;
 # // 
@@ -131,62 +140,6 @@ class window.Character
 # //       }
 # //     });
 # //   },
-# //   calculate_movement: function(run){
-# //     var self = this;
-# //     var x = self.x;
-# //     var y = self.y;
-# //     var speed;
-# //     
-# //     if( self.is_player && self.ap_left <= 0 )
-# //       return;
-# //     
-# //     if( self.is_player && self.ap_left < self.speed )
-# //       speed = self.ap_left;
-# //     else
-# //       speed = self.speed;
-# //       
-# //     if( run == true )
-# //       speed = self.ap_left;
-# //     
-# //     matrix = Matrix.new_filled_matrix(self.map.rows, self.map.cols);
-# //     matrix = self.find_neighbors({
-# //       x: x, y: y,
-# //       matrix: matrix,
-# //       speed: speed
-# //     });
-# //     
-# //     matrix.set(x, y, 0);
-# //     
-# //     matrix.each(function(x, y){ 
-# //       if( this.e(x, y) == 1 ){
-# //         self.map.underlay_cell(x, y)
-# //           .addClass('moveable pointer')
-# //           .click(function(){
-# //             if ( self.is_player )
-# //               self.move(x, y);
-# //           });
-# //       } else {
-# //         if ( self.map.terrain_matrix.e(x, y) <= 10 )
-# //           self.map.underlay_cell(x, y)
-# //             .addClass('passable');
-# //         else
-# //           self.map.underlay_cell(x, y)
-# //             .addClass('impassable');
-# //       }
-# //     });
-# //   },
-# //   can_move_to: function(x, y){
-# //     var terrain = this.map.terrain_matrix.e(x, y);
-# //     var enemy   = this.map.enemy_matrix.e(x, y);
-# //     var player  = this.map.player_matrix.e(x, y);
-# //     
-# //     if( !terrain || terrain > 10 || 
-# //       enemy.hasClass('occupied') || 
-# //       player.hasClass('occupied') )
-# //       return false;
-# //     
-# //     return true;
-# //   },
 # //   deal_damage: function(x, y){
 # //     var hits;
 # //     var dmg = 0;
@@ -219,45 +172,6 @@ class window.Character
 # //     
 # //     level.map.stat_cell(x, y).html(hits).show();
 # //     hits.shake(3, 3, 180).fadeOut(200 * level.animation_speed);
-# //   },
-# //   die: function(){
-# //     this.remove_from_map();
-# //     level.remove_player(this);
-# //   },
-# //   end_turn: function(){
-# //     this.subtract_ap(this.ap_left);
-# //   },
-# //   find_neighbors: function(opts){
-# //     var x = opts.x, y = opts.y, speed = opts.speed - 1;
-# //     var is_attacking = opts.is_attacking || false;
-# //     var fill_with = 1;
-# //     if( opts.fill_with == 0 )
-# //       fill_with = 0;
-# //     
-# //     var surrounds = [ 
-# //       [ x, y-1 ], [ x+1, y-1 ], [ x+1, y ], [ x+1, y+1 ],
-# //       [ x, y+1 ], [ x-1, y+1 ], [ x-1, y ], [ x-1, y-1 ] 
-# //     ];
-# //     
-# //     for(var i=0; i<8; i++){
-# //       x = surrounds[i][0];
-# //       y = surrounds[i][1];
-# //       
-# //       if( is_attacking || this.can_move_to(x, y) ){
-# //         if( opts.matrix.e(x, y) != fill_with)
-# //           opts.matrix.set(x, y, fill_with);
-# //         if( speed > 0 ){
-# //           this.find_neighbors({
-# //             x: x, y: y,
-# //             matrix: opts.matrix,
-# //             speed: speed,
-# //             fill_with: fill_with,
-# //             is_attacking: is_attacking
-# //           });
-# //         } 
-# //       }        
-# //     }
-# //     return matrix;
 # //   },
 # //   get_context_menu: function(){
 # //     var self = this;
@@ -318,23 +232,6 @@ class window.Character
 # //     matrix.set(x, y, 0);
 # //     
 # //     return matrix;
-# //   },
-# //   has_gone: function(){
-# //     if( this.ap_left == 0 )
-# //       return true; 
-# // 
-# //     return false;
-# //   },
-# //   level_up: function(){
-# //     this.level += 1;
-# //     this.speed = Math.floor(this.ap / 2);
-# //     this.ap = Math.floor(4 + this.level * 0.07);
-# //     this.hp = Math.floor(50.1 + this.level * 7.65);
-# //     this.exp_next = this.hp * 5;
-# //     this.hp_left = this.hp;
-# //     this.accuracy = 80 + Math.floor(this.level * 0.19);
-# //     this.strength = this.level;
-# //     alert('Level up! ' + this.name + ' is now level ' + this.level + '!');
 # //   },
 # //   move: function(x, y){
 # //     
@@ -397,27 +294,6 @@ class window.Character
 # //       faceout.html('<h1>No items in inventory!</h1>')
 # // 
 # //     $.facebox(faceout); 
-# //   },
-# //   subtract_ap: function(amt){
-# //     if( !amt ) { amt = 0; }
-# //     this.ap_left -= amt;
-# //     if( this.ap_left <= 0 ){
-# //       this.ap_left = 0;
-# //       this.unbind_events();
-# //     }
-# //     // if ( this.is_player )
-# //     //   level.show_stats('players');
-# //     
-# //     level.show_current_turn();
-# //   },
-# //   subtract_hp: function(amt){
-# //     this.hp_left -= amt;
-# //     
-# //     // if ( this.is_player )
-# //     //   level.show_stats('players');
-# //     
-# //     if( this.hp_left <= 0 )
-# //       this.die();
 # //   },
 # //   unbind_events: function(){
 # //     this.map.player_matrix 

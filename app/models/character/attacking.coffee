@@ -1,0 +1,4 @@
+class window.Attacking
+  initAttacking: ->
+    
+  

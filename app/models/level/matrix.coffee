@@ -1,5 +1,11 @@
 class Level.Matrix
   
+  @distance: (p1, p2, q1, q2) -> 
+    t1 = Math.pow((p1-q1), 2)
+    t2 = Math.pow((p2-q2), 2)
+    console.log t1,t2
+    Math.sqrt(t1 + t2)
+  
   @newFilledMatrix: (rowCount=0, colCount=0, value=0) ->
     ara = []
     for x in [0..rowCount-1]

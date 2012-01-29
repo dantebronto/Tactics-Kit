@@ -4,20 +4,38 @@ class window.Level
     @endFunction = opts.endFunction or ->
     @map = new Level.Map opts.map # pass in the terrain map
     @inventory = opts.inventory or new Inventory()
-  
-  add: (obj) -> @map.add obj # TODO: assign ids, add to Qs
-  getElem: (obj) -> @map.getElem obj
+    @players = opts.players or []
+    @enemies = opts.enemies or []
+    @eventDispatch = $('')
+    @activePlayer = null
     
-  # level.hasEnemyAt(3,14) => map.enemyMatrix.get(3,14).hasClass('occupied')
+    $ =>
+      @initCharacters()
   
-  # var baz = new Enemy( { map: level.map, x: 3, y: 14, name: 'Baz' } )
-  # level.enemies.push(baz)
-  # level.higest_id += 1
-  # baz.level_id = level.higest_id
+  # TODO: have level mixin map functions?
+  add: (obj) -> @map.add obj # TODO: assign ids, add to Qs
+  remove: (obj) -> @map.remove obj
+  getElem: (obj) -> @map.getElem obj
+  canMoveTo: (x, y) -> @map.canMoveTo(x, y)
+  canWalkOn: (x, y) -> @map.canWalkOn(x, y)
+  showCellAs: (type, x, y) -> @map.showCellAs type, x, y
+  hideCellAs: (type, x, y) -> @map.hideCellAs type, x, y
+  clear: -> @map.clear()
   
-  # level.addCharacter
-  #   x:3, y:14
-  #   name: 'Baz'
+  # TODO: add @eventDispatch and these to evented mixin
+  on: (event, cb) -> @eventDispatch.bind(event, cb)
+  trigger: (event, msg) -> @eventDispatch.trigger(event, msg)
+  
+  # @on 'create', @onCreate
+  # @on 'turnStart', @onTurnStart
+  # @on 'turnEnd', @onTurnEnd, gameOver, etc
+  
+  initCharacters: ->
+    if @players.length > 0
+      @add(player) for player in @players
+      
+    if @enemies.length > 0
+      @add enemy for enemy in @enemies
   
 # class window.Level
 #   constructor: (opts) ->

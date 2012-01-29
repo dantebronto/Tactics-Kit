@@ -13,7 +13,6 @@ class window.Experience
   
   onLevelUp: ->
     @level += 1
-    @speed = Math.floor @ap/2
     @ap = Math.floor 4+@level*0.07
     @hp = Math.floor 50.1+@level*7.65
     @expNext = @hp*5

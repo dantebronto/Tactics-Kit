@@ -1,5 +1,12 @@
 (function() {
   Level.Matrix = (function() {
+    Matrix.distance = function(p1, p2, q1, q2) {
+      var t1, t2;
+      t1 = Math.pow(p1 - q1, 2);
+      t2 = Math.pow(p2 - q2, 2);
+      console.log(t1, t2);
+      return Math.sqrt(t1 + t2);
+    };
     Matrix.newFilledMatrix = function(rowCount, colCount, value) {
       var ara, row, x, y, _ref, _ref2;
       if (rowCount == null) {

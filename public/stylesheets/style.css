@@ -16,24 +16,18 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; }
 #info { float:left; width: 200px; overflow: auto; }
 .cell { background-color:transparent; width: 50px; height: 50px; display:inline; float:left; border-right: thin solid #666; border-bottom: thin solid #666; text-align:center; }
 
-.attackable { background-image: url(/images/attackable.png); }
-.moveable { background-image: url(/images/moveable.png); }
+.attackable { background-image: url(/images/attackable.png); cursor: pointer; }
+.moveable { background-image: url(/images/moveable.png); cursor: pointer; }
 .passable { background-image: url(/images/passable.png); }
 .impassable { background-image: url(/images/impassable.png); }
 .healable { background-image: url(/images/healable.png); }
 .pointer { cursor: pointer; }
 
 #info .character-info { display: inline-block; height: 100px; width: 180px; font-size: 11px; margin: 0 0 5px; position: relative; padding: 0 2px; background-color: gray; border: medium black solid; border-radius: 6px; padding: 3px; }
-#info .character-info .stat-bar-holder { width: 145px; position:relative; }
+#info .character-info .stat-bar-holder { width: 179px; position:relative; }
 #info .stat-bar { display: block; height: 12px; position: absolute; z-index: 1; left: 0; border-radius: 5px;}
 #info .hp { background: none repeat scroll 0 0 red; top: 10px; }
 #info .ap { background: none repeat scroll 0 0 blue; top: 25px; }
-
-/*
-#info ul { padding-top: 10px; padding:5px; }
-#info ul li { padding-top:3px; }
-#info ul.selected { background-color: #ccc;}
-*/
 
 /* hit points */
 .cell.stat { color:white; font-family:arial; text-shadow: 2px 2px 0 #333333; }

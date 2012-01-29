@@ -2,10 +2,8 @@
 # character
 # enemy
 # enemy.pathfinder
-
 # weapon
 # inventory
-
 # menus.contextMenu
 # menus.modalDialog
 
@@ -31,6 +29,9 @@ do ->
   ]
   
   if Level?
+    window.p = new Player x: 3, y: 3, name: 'd00d'
+    window.p2 = new Player x: 4, y: 3, name: 'lady', sprite: '/images/girl.gif'
+    
     window.level = new Level
       map:
         terrain: terrain
@@ -38,6 +39,5 @@ do ->
         height: 816
         backgroundImage: '/images/test-map.jpg'
         selector: '#map'
-    
-    new Player x: 3, y: 3, name: 'd00d'
-    
+      players: [p, p2]
+      enemies: []
