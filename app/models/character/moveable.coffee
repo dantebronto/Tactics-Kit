@@ -32,3 +32,16 @@ class window.Moveable
         matrix.set(x, y, 1)
         matrix = @findNeighbors(x, y, matrix, speed-1) if speed > 0
     matrix
+  
+  moveTo: (x, y) ->
+    console.log "#{@name} moving to #{x} #{y}"
+    res = @findShortestPathTo(x, y)
+    @subtractAp(res.length)
+    @updateInfo()
+    @getElem().unbind 'click'
+    @hide()
+    @x = x
+    @y = y
+    level.clear()
+    @show()
+    @bindElemClicked()

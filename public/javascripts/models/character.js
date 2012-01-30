@@ -25,6 +25,7 @@
     Character.mixin(Actionable);
     Character.mixin(Moveable);
     Character.mixin(Attacking);
+    Character.mixin(PathFinding);
     function Character(opts) {
       this.opts = opts != null ? opts : {};
       this.name = this.opts.name || 'Catan';
@@ -35,6 +36,7 @@
       this.initMovement();
       this.initAttacking();
       this.initExperience();
+      this.initPathFinding();
       this.sprite = this.opts.sprite || '/images/bar.gif';
       this.accuracy = this.opts.accuracy || 80 + Math.floor(this.level * 0.19);
       this.strength = this.opts.strength || this.level;
@@ -93,6 +95,12 @@
       this.on('turnStart', this.onTurnStart);
       this.on('turnEnd', this.onTurnEnd);
       return this.on('die', this.onDeath);
+    };
+    Character.prototype.hide = function() {
+      return this.getElem().css('background', 'transparent').removeClass('pointer occupied');
+    };
+    Character.prototype.show = function() {
+      return this.getElem().css('background', "url(" + this.sprite + ") no-repeat center").addClass('pointer occupied');
     };
     return Character;
   })();

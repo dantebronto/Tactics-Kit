@@ -72,13 +72,13 @@
     };
     Map.prototype.add = function(obj) {
       if (obj.constructor === Player) {
-        this.getElem(obj).addClass('pointer occupied').css('background', "url(" + obj.sprite + ") no-repeat center").show();
+        obj.show();
         return obj.addedToLevel();
       }
     };
     Map.prototype.remove = function(obj) {
       if (obj.constructor === Player) {
-        return this.getElem(obj).removeClass('pointer occupied').hide();
+        return obj.hide();
       }
     };
     Map.prototype.getElem = function(obj) {
@@ -139,13 +139,17 @@
       return classes;
     };
     Map.prototype.handleMapClicked = function(e) {
-      var classes, overlayInfo, x, y;
+      var classes, overlayInfo, x, y, _ref;
       overlayInfo = e.target.id.split("-");
       x = Number(overlayInfo[2]);
       y = Number(overlayInfo[3]);
       classes = this.getCellClasses(x, y);
       if (_(classes).include('impassable') || _(classes).include('passable')) {
-        return this.clear();
+        this.clear();
+        return;
+      }
+      if (_(classes).include('moveable')) {
+        return (_ref = level.activePlayer) != null ? _ref.moveTo(x, y) : void 0;
       }
     };
     return Map;

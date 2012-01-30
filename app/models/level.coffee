@@ -9,6 +9,9 @@ class window.Level
     @eventDispatch = $('')
     @activePlayer = null
     
+    @animationSpeed = opts.animationSpeed or 500
+    @initAnimationQueue()
+    
     $ =>
       @initCharacters()
   
@@ -36,6 +39,24 @@ class window.Level
       
     if @enemies.length > 0
       @add enemy for enemy in @enemies
+  
+  initAnimationQueue: ->
+    @aQ = []
+    setInterval((=> @tick()), @animationSpeed)
+  
+  animate: (args) ->
+    if typeof(args) == 'object'
+      @aQ.push arg for arg in args
+    else
+      @aQ.push args
+  
+  tick: ->
+    return unless @aQ.length > 0
+    if typeof(@aQ[0]) == 'function'
+      @aQ[0]()
+    else
+      @aQ[0] -= @animationSpeed
+    @aQ.shift()
   
 # class window.Level
 #   constructor: (opts) ->

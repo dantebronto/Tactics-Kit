@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Sun, 29 Jan 2012 22:42:12 GMT from
+/* DO NOT MODIFY. This file was compiled Mon, 30 Jan 2012 05:17:19 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/moveable.coffee
  */
 
@@ -44,6 +44,20 @@
         }
       }
       return matrix;
+    };
+    Moveable.prototype.moveTo = function(x, y) {
+      var res;
+      console.log("" + this.name + " moving to " + x + " " + y);
+      res = this.findShortestPathTo(x, y);
+      this.subtractAp(res.length);
+      this.updateInfo();
+      this.getElem().unbind('click');
+      this.hide();
+      this.x = x;
+      this.y = y;
+      level.clear();
+      this.show();
+      return this.bindElemClicked();
     };
     return Moveable;
   })();

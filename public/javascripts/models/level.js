@@ -13,6 +13,8 @@
       this.enemies = opts.enemies || [];
       this.eventDispatch = $('');
       this.activePlayer = null;
+      this.animationSpeed = opts.animationSpeed || 500;
+      this.initAnimationQueue();
       $(__bind(function() {
         return this.initCharacters();
       }, this));
@@ -65,6 +67,36 @@
         }
         return _results;
       }
+    };
+    Level.prototype.initAnimationQueue = function() {
+      this.aQ = [];
+      return setInterval((__bind(function() {
+        return this.tick();
+      }, this)), this.animationSpeed);
+    };
+    Level.prototype.animate = function(args) {
+      var arg, _i, _len, _results;
+      if (typeof args === 'object') {
+        _results = [];
+        for (_i = 0, _len = args.length; _i < _len; _i++) {
+          arg = args[_i];
+          _results.push(this.aQ.push(arg));
+        }
+        return _results;
+      } else {
+        return this.aQ.push(args);
+      }
+    };
+    Level.prototype.tick = function() {
+      if (!(this.aQ.length > 0)) {
+        return;
+      }
+      if (typeof this.aQ[0] === 'function') {
+        this.aQ[0]();
+      } else {
+        this.aQ[0] -= this.animationSpeed;
+      }
+      return this.aQ.shift();
     };
     return Level;
   })();

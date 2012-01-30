@@ -57,17 +57,12 @@ class Level.Map
   
   add: (obj) ->
     if obj.constructor == Player
-      @getElem(obj)
-        .addClass('pointer occupied')
-        .css('background', "url(#{obj.sprite}) no-repeat center")
-        .show()
+      obj.show()
       obj.addedToLevel()
   
   remove: (obj) ->
     if obj.constructor == Player
-      @getElem(obj)
-        .removeClass('pointer occupied')
-        .hide()
+      obj.hide()
   
   getElem: (obj) ->
     if obj.constructor == Player
@@ -93,13 +88,10 @@ class Level.Map
       @underlayMatrix.get(x, y).removeClass type
   
   clear: ->
-    @underlayMatrix.each -> 
-      @removeClass 'passable impassable'
-    @playerMatrix.each -> 
-      @removeClass 'moveable'
+    @underlayMatrix.each -> @removeClass 'passable impassable'
+    @playerMatrix.each -> @removeClass 'moveable'
   
-  bindClicked: ->
-    @elem.bind 'click', (e) => @handleMapClicked(e)
+  bindClicked: -> @elem.bind 'click', (e) => @handleMapClicked(e)
   
   getCellClasses: (x, y) ->
     classes = []
@@ -116,4 +108,7 @@ class Level.Map
     classes = @getCellClasses(x, y)
     if _(classes).include('impassable') or _(classes).include('passable')
       @clear()
+      return
+    if _(classes).include('moveable')
+      level.activePlayer?.moveTo(x, y)
     

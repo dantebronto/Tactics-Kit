@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Sun, 29 Jan 2012 21:58:20 GMT from
+/* DO NOT MODIFY. This file was compiled Mon, 30 Jan 2012 02:03:25 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/attacking.coffee
  */
 

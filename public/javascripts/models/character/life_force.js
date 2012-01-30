@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Sun, 29 Jan 2012 22:57:24 GMT from
+/* DO NOT MODIFY. This file was compiled Mon, 30 Jan 2012 04:54:09 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/life_force.coffee
  */
 
@@ -32,6 +32,7 @@
     LifeForce.prototype.die = function() {
       this.trigger('die');
       this.info.fadeOut('slow');
+      this.remove();
       level.clear();
       return level.remove(this);
     };

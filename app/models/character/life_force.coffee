@@ -17,6 +17,7 @@ class window.LifeForce
   
   die: ->
     @trigger 'die'
-    @info.fadeOut('slow')
+    @info.fadeOut 'slow'
+    @remove()
     level.clear()
     level.remove @
