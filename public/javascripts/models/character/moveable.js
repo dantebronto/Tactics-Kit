@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Tue, 31 Jan 2012 02:11:41 GMT from
+/* DO NOT MODIFY. This file was compiled Tue, 31 Jan 2012 15:09:12 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/moveable.coffee
  */
 
@@ -19,16 +19,16 @@
       matrix = Level.Matrix.newFilledMatrix(level.map.rowCount, level.map.colCount);
       matrix = this.findNeighbors(this.x, this.y, matrix, speed - 1);
       matrix.set(this.x, this.y, 0);
-      matrix.each(function(x, y) {
+      return matrix.each(function(x, y) {
         var type;
         if (Number(this) === 1) {
           return level.showCellAs('moveable', x, y);
         } else {
           type = level.canWalkOn(x, y) ? 'passable' : 'impassable';
-          return level.showCellAs(type, x, y);
+          level.showCellAs(type, x, y);
+          return matrix;
         }
       });
-      return matrix;
     };
     Moveable.prototype.findNeighbors = function(x, y, matrix, speed) {
       var i, surrounds;
@@ -50,7 +50,7 @@
       console.log("" + this.name + " moving to " + x + " " + y);
       results = this.findShortestPathTo(x, y);
       _(results).each(__bind(function(res) {
-        return level.queue(1000, __bind(function() {
+        return level.queue(500, __bind(function() {
           this.getElem().unbind('click');
           this.subtractAp(1);
           this.updateInfo();

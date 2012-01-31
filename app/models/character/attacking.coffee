@@ -1,4 +1,48 @@
 class window.Attacking
+  
+  # showAttackableCells: ->
+  #   return if @apLeft <= 0
+  #   speed = @apLeft
+  #   matrix = Level.Matrix.newFilledMatrix level.map.rowCount, level.map.colCount
+  #   matrix = @findNeighbors(@x, @y, matrix, speed-1)
+  #   matrix.set @x, @y, 0
+  #   matrix.each (x, y) ->
+  #     if Number(this) == 1
+  #       level.showCellAs('moveable', x, y)
+  #     else
+  #       type = if level.canWalkOn(x, y) then 'passable' else 'impassable'
+  #       level.showCellAs(type, x, y)
+  #       matrix
+  
+        # //   get_attack_matrix: function(opts){
+        # //     if( !opts)
+        # //       opts = {};
+        # //     var self = this;
+        # //     var x = opts.x || self.x;
+        # //     var y = opts.y || self.y;
+        # //     
+        # //     matrix = Matrix.new_filled_matrix(self.map.rows, self.map.cols);
+        # //     matrix = self.find_neighbors({
+        # //       x: x, y: y,
+        # //       matrix: matrix,
+        # //       speed: self.weapon.range,
+        # //       is_attacking: true
+        # //     });
+        # //     
+        # //     if( self.weapon.is_ranged )
+        # //       matrix = self.find_neighbors({
+        # //         x: x, y: y,
+        # //         matrix: matrix,
+        # //         speed: self.weapon.dead_range,
+        # //         fill_with: 0,
+        # //         is_attacking: true
+        # //       });
+        # //     
+        # //     matrix.set(x, y, 0);
+        # //     
+        # //     return matrix;
+        # //   },
+  
   initAttacking: ->
     
     # //   attack: function(x, y){
@@ -81,66 +125,7 @@ class window.Attacking
     # //     level.map.stat_cell(x, y).html(hits).show();
     # //     hits.shake(3, 3, 180).fadeOut(200 * level.animation_speed);
     # //   },
-    # //   get_context_menu: function(){
-    # //     var self = this;
-    # //     var menu = {};
-    # //     var no_ap_func = function(){ alert('Not enough AP!'); };
-    # //     
-    # //    if( this.ap_left < this.speed ){
-    # //      menu['attack_no_ap'] = no_ap_func;
-    # //      menu['battle_no_ap'] = no_ap_func;
-    # //      menu['move']         = function(){ self.calculate_movement(); }
-    # //      menu['run']          = function(){ self.calculate_movement(true); }
-    # //      menu['guard_no_ap']  = no_ap_func;
-    # //      menu['item_no_ap']   = no_ap_func;
-    # //    } else {
-    # //      menu['attack'] = function(){ self.calculate_attack(); };
-    # //      menu['battle'] = function(){ self.calculate_attack(true); }
-    # //      menu['move']   = function(){ self.calculate_movement(); }
-    # //      menu['run']    = function(){ self.calculate_movement(true); }
-    # //      menu['guard']  = function(){ self.end_turn(); }
-    # //      menu['item']   = function(){ self.show_inventory(); }
-    # //    }
-    # //    
-    # //    menu['end turn'] = function() { 
-    # //      if ( self.ap_left > 1 ){
-    # //        var sure = confirm('End your turn with ' + self.ap_left + ' AP remaining?'); 
-    # //        if(sure) { self.end_turn(); }
-    # //      } else {
-    # //        self.end_turn();
-    # //      }
-    # //    }
-    # //    
-    # //    return menu;
-    # //   },
-    # //   get_attack_matrix: function(opts){
-    # //     if( !opts)
-    # //       opts = {};
-    # //     var self = this;
-    # //     var x = opts.x || self.x;
-    # //     var y = opts.y || self.y;
-    # //     
-    # //     matrix = Matrix.new_filled_matrix(self.map.rows, self.map.cols);
-    # //     matrix = self.find_neighbors({
-    # //       x: x, y: y,
-    # //       matrix: matrix,
-    # //       speed: self.weapon.range,
-    # //       is_attacking: true
-    # //     });
-    # //     
-    # //     if( self.weapon.is_ranged )
-    # //       matrix = self.find_neighbors({
-    # //         x: x, y: y,
-    # //         matrix: matrix,
-    # //         speed: self.weapon.dead_range,
-    # //         fill_with: 0,
-    # //         is_attacking: true
-    # //       });
-    # //     
-    # //     matrix.set(x, y, 0);
-    # //     
-    # //     return matrix;
-    # //   },
+
     # //   move: function(x, y){
     # //     
     # //     this.remove_from_map();

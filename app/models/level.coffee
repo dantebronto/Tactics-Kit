@@ -43,7 +43,9 @@ class window.Level
     if typeof delay == 'function'
       fn = delay 
       delay = 0
-    @anim.queue('lvl', => fn(); setTimeout((=> @anim.dequeue('lvl')), delay))
+    @anim.queue('lvl', => 
+      fn()
+      setTimeout((=> @anim.dequeue('lvl')), delay))
     @
   
   animate: -> 
@@ -58,7 +60,7 @@ class window.Level
 #     @map = opts.map
 #     @info_div = $('#info')
 #     @animation_speed = 0.5
-#     @animation_queue = []
+#     @animation_queue = [] # new Array()
 #     @turn = 1
 #     @turn_function = ->
 #     @highest_id = 0

@@ -25,7 +25,11 @@
       }, this));
     }
     Map.prototype.setStyles = function() {
-      this.elem.hide().css('height', "" + this.height + "px").css('width', "" + this.width + "px").css('background-image', "url(" + this.backgroundImage + ")").show();
+      this.elem.hide().css({
+        height: "" + this.height + "px",
+        width: "" + this.width + "px",
+        backgroundImage: "url(" + this.backgroundImage + ")"
+      }).fadeIn('slow');
       return this.info.css('height', "" + this.height + "px");
     };
     Map.prototype.createCells = function() {
@@ -71,7 +75,7 @@
       return clone.addClass(type).attr('id', "" + type + "-cell-" + x + "-" + y);
     };
     Map.prototype.add = function(obj) {
-      if (obj.constructor === Player) {
+      if (obj.constructor === Player || obj.constructor === Enemy) {
         obj.show();
         return obj.addedToLevel();
       }
@@ -84,6 +88,9 @@
     Map.prototype.getElem = function(obj) {
       if (obj.constructor === Player) {
         return this.playerMatrix.get(obj.x, obj.y);
+      }
+      if (obj.constructor === Enemy) {
+        return this.enemyMatrix.get(obj.x, obj.y);
       }
     };
     Map.prototype.occupiedAt = function(x, y) {

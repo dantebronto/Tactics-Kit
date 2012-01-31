@@ -1,0 +1,1 @@
+class window.Enemy extends Character

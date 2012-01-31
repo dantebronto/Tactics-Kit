@@ -23,10 +23,11 @@ class Level.Map
   setStyles: ->
     @elem
       .hide()
-      .css('height', "#{@height}px")
-      .css('width', "#{@width}px")
-      .css('background-image', "url(#{@backgroundImage})")
-      .show()
+      .css(
+        height: "#{@height}px"
+        width: "#{@width}px"
+        backgroundImage: "url(#{@backgroundImage})"
+      ).fadeIn('slow')
     @info.css('height', "#{@height}px")
   
   createCells: ->
@@ -56,7 +57,7 @@ class Level.Map
      .attr 'id', "#{type}-cell-#{x}-#{y}"
   
   add: (obj) ->
-    if obj.constructor == Player
+    if obj.constructor == Player or obj.constructor == Enemy
       obj.show()
       obj.addedToLevel()
   
@@ -66,7 +67,9 @@ class Level.Map
   
   getElem: (obj) ->
     if obj.constructor == Player
-      @playerMatrix.get(obj.x, obj.y)
+      return @playerMatrix.get(obj.x, obj.y)
+    if obj.constructor == Enemy
+      return @enemyMatrix.get(obj.x, obj.y)
   
   occupiedAt: (x, y) ->
     @playerMatrix.get(x, y).hasClass('occupied') or
