@@ -11,7 +11,8 @@
       this.inventory = opts.inventory || new Inventory();
       this.players = opts.players || [];
       this.enemies = opts.enemies || [];
-      this.eventDispatch = $('');
+      this.eventDispatch = $({});
+      this.anim = $({});
       this.activePlayer = null;
       this.animationSpeed = opts.animationSpeed || 500;
       this.initAnimationQueue();
@@ -68,36 +69,24 @@
         return _results;
       }
     };
-    Level.prototype.initAnimationQueue = function() {
-      this.aQ = [];
-      return setInterval((__bind(function() {
-        return this.tick();
-      }, this)), this.animationSpeed);
-    };
-    Level.prototype.animate = function(args) {
-      var arg, _i, _len, _results;
-      if (typeof args === 'object') {
-        _results = [];
-        for (_i = 0, _len = args.length; _i < _len; _i++) {
-          arg = args[_i];
-          _results.push(this.aQ.push(arg));
-        }
-        return _results;
-      } else {
-        return this.aQ.push(args);
+    Level.prototype.queue = function(delay, fn) {
+      if (typeof delay === 'function') {
+        fn = delay;
+        delay = 0;
       }
+      this.anim.queue('lvl', __bind(function() {
+        fn();
+        return setTimeout((__bind(function() {
+          return this.anim.dequeue('lvl');
+        }, this)), delay);
+      }, this));
+      return this;
     };
-    Level.prototype.tick = function() {
-      if (!(this.aQ.length > 0)) {
-        return;
-      }
-      if (typeof this.aQ[0] === 'function') {
-        this.aQ[0]();
-      } else {
-        this.aQ[0] -= this.animationSpeed;
-      }
-      return this.aQ.shift();
+    Level.prototype.animate = function() {
+      this.anim.dequeue('lvl');
+      return this;
     };
+    Level.prototype.initAnimationQueue = function() {};
     return Level;
   })();
 }).call(this);

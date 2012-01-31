@@ -31,7 +31,7 @@ class window.Character
     
     @weapon = @opts.weapon or new Weapon()
     
-    @eventDispatch = $('')
+    @eventDispatch = $({})
     
     @onCreate = @opts.onCreate or ->
     @onTurnStart = @opts.onTurnStart or ->

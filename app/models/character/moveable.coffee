@@ -16,7 +16,7 @@ class window.Moveable
       else
         type = if level.canWalkOn(x, y) then 'passable' else 'impassable'
         level.showCellAs(type, x, y)
-    level.hideCellAs('passable', @x, @y)
+    # level.hideCellAs('passable', @x, @y)
     matrix
   
   findNeighbors: (x, y, matrix, speed) ->
@@ -35,13 +35,26 @@ class window.Moveable
   
   moveTo: (x, y) ->
     console.log "#{@name} moving to #{x} #{y}"
-    res = @findShortestPathTo(x, y)
-    @subtractAp(res.length)
-    @updateInfo()
-    @getElem().unbind 'click'
-    @hide()
-    @x = x
-    @y = y
-    level.clear()
-    @show()
-    @bindElemClicked()
+    results = @findShortestPathTo(x, y)
+    
+    _(results).each (res) =>
+      level.queue(1000, =>
+        @getElem().unbind 'click'
+        @subtractAp(1)
+        @updateInfo()
+        @hide()
+        @x = res.pos.x
+        @y = res.pos.y
+        level.clear()
+        @show()
+        @bindElemClicked()
+      )
+    
+    level.animate()
+    
+    
+    # level.queue(1000, -> console.log 1)
+    # .queue(1000, -> console.log 2)
+    # .queue(1000, -> console.log 3)
+    # .animate()
+    

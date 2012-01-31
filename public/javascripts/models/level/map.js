@@ -96,27 +96,14 @@
       return this.terrainMatrix.get(x, y) <= 10;
     };
     Map.prototype.showCellAs = function(type, x, y) {
-      if (type === 'moveable') {
-        this.playerMatrix.get(x, y).addClass(type);
-      }
-      if (type === 'passable' || type === 'impassable') {
-        return this.underlayMatrix.get(x, y).addClass(type);
-      }
+      return this.underlayMatrix.get(x, y).addClass(type);
     };
     Map.prototype.hideCellAs = function(type, x, y) {
-      if (type === 'moveable') {
-        this.playerMatrix.get(x, y).removeClass(type);
-      }
-      if (type === 'passable' || type === 'impassable') {
-        return this.underlayMatrix.get(x, y).removeClass(type);
-      }
+      return this.underlayMatrix.get(x, y).removeClass(type);
     };
     Map.prototype.clear = function() {
-      this.underlayMatrix.each(function() {
-        return this.removeClass('passable impassable');
-      });
-      return this.playerMatrix.each(function() {
-        return this.removeClass('moveable');
+      return this.underlayMatrix.each(function() {
+        return this.removeClass('passable impassable moveable');
       });
     };
     Map.prototype.bindClicked = function() {
@@ -124,29 +111,20 @@
         return this.handleMapClicked(e);
       }, this));
     };
-    Map.prototype.getCellClasses = function(x, y) {
-      var classes;
-      classes = [];
-      if (this.underlayMatrix.get(x, y).hasClass('passable')) {
-        classes.push('passable');
-      }
-      if (this.underlayMatrix.get(x, y).hasClass('impassable')) {
-        classes.push('impassable');
-      }
-      if (this.playerMatrix.get(x, y).hasClass('moveable')) {
-        classes.push('moveable');
-      }
-      return classes;
-    };
     Map.prototype.handleMapClicked = function(e) {
       var classes, overlayInfo, x, y, _ref;
       overlayInfo = e.target.id.split("-");
       x = Number(overlayInfo[2]);
       y = Number(overlayInfo[3]);
-      classes = this.getCellClasses(x, y);
-      if (_(classes).include('impassable') || _(classes).include('passable')) {
+      classes = this.underlayMatrix.get(x, y).attr('class').split(' ');
+      if (_(classes).include('impassable')) {
         this.clear();
         return;
+      } else if (_(classes).include('passable')) {
+        if (!this.playerMatrix.get(x, y).hasClass('occupied')) {
+          this.clear();
+          return;
+        }
       }
       if (_(classes).include('moveable')) {
         return (_ref = level.activePlayer) != null ? _ref.moveTo(x, y) : void 0;

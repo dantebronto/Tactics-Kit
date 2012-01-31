@@ -75,40 +75,26 @@ class Level.Map
   canMoveTo: (x, y) -> @canWalkOn(x, y) and not @occupiedAt(x, y)
   canWalkOn: (x, y) -> @terrainMatrix.get(x, y) <= 10
   
-  showCellAs: (type, x, y) ->
-    if type == 'moveable'
-      @playerMatrix.get(x,y).addClass type
-    if type == 'passable' or type == 'impassable'
-      @underlayMatrix.get(x, y).addClass type
+  showCellAs: (type, x, y) -> @underlayMatrix.get(x, y).addClass type
+  hideCellAs: (type, x, y) -> @underlayMatrix.get(x, y).removeClass type
   
-  hideCellAs: (type, x, y) ->
-    if type == 'moveable'
-      @playerMatrix.get(x,y).removeClass type
-    if type == 'passable' or type == 'impassable'
-      @underlayMatrix.get(x, y).removeClass type
-  
-  clear: ->
-    @underlayMatrix.each -> @removeClass 'passable impassable'
-    @playerMatrix.each -> @removeClass 'moveable'
+  clear: -> @underlayMatrix.each -> @removeClass 'passable impassable moveable'
   
   bindClicked: -> @elem.bind 'click', (e) => @handleMapClicked(e)
-  
-  getCellClasses: (x, y) ->
-    classes = []
-    classes.push 'passable' if @underlayMatrix.get(x, y).hasClass('passable')
-    classes.push 'impassable' if @underlayMatrix.get(x, y).hasClass('impassable')
-    classes.push 'moveable' if @playerMatrix.get(x, y).hasClass('moveable')
-    classes
   
   handleMapClicked: (e) ->
     overlayInfo = e.target.id.split("-")
     x = Number(overlayInfo[2])
     y = Number(overlayInfo[3])
     
-    classes = @getCellClasses(x, y)
-    if _(classes).include('impassable') or _(classes).include('passable')
+    classes = @underlayMatrix.get(x, y).attr('class').split(' ')
+    if _(classes).include('impassable')
       @clear()
       return
+    else if _(classes).include('passable')
+      if not @playerMatrix.get(x, y).hasClass('occupied')
+        @clear()
+        return
     if _(classes).include('moveable')
       level.activePlayer?.moveTo(x, y)
     

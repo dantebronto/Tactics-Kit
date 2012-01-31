@@ -1,8 +1,9 @@
-/* DO NOT MODIFY. This file was compiled Mon, 30 Jan 2012 05:17:19 GMT from
+/* DO NOT MODIFY. This file was compiled Tue, 31 Jan 2012 02:11:41 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/moveable.coffee
  */
 
 (function() {
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   window.Moveable = (function() {
     function Moveable() {}
     Moveable.prototype.initMovement = function() {
@@ -27,7 +28,6 @@
           return level.showCellAs(type, x, y);
         }
       });
-      level.hideCellAs('passable', this.x, this.y);
       return matrix;
     };
     Moveable.prototype.findNeighbors = function(x, y, matrix, speed) {
@@ -46,18 +46,23 @@
       return matrix;
     };
     Moveable.prototype.moveTo = function(x, y) {
-      var res;
+      var results;
       console.log("" + this.name + " moving to " + x + " " + y);
-      res = this.findShortestPathTo(x, y);
-      this.subtractAp(res.length);
-      this.updateInfo();
-      this.getElem().unbind('click');
-      this.hide();
-      this.x = x;
-      this.y = y;
-      level.clear();
-      this.show();
-      return this.bindElemClicked();
+      results = this.findShortestPathTo(x, y);
+      _(results).each(__bind(function(res) {
+        return level.queue(1000, __bind(function() {
+          this.getElem().unbind('click');
+          this.subtractAp(1);
+          this.updateInfo();
+          this.hide();
+          this.x = res.pos.x;
+          this.y = res.pos.y;
+          level.clear();
+          this.show();
+          return this.bindElemClicked();
+        }, this));
+      }, this));
+      return level.animate();
     };
     return Moveable;
   })();

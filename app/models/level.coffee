@@ -6,7 +6,8 @@ class window.Level
     @inventory = opts.inventory or new Inventory()
     @players = opts.players or []
     @enemies = opts.enemies or []
-    @eventDispatch = $('')
+    @eventDispatch = $({})
+    @anim = $({}) # animation queue
     @activePlayer = null
     
     @animationSpeed = opts.animationSpeed or 500
@@ -34,29 +35,23 @@ class window.Level
   # @on 'turnEnd', @onTurnEnd, gameOver, etc
   
   initCharacters: ->
-    if @players.length > 0
-      @add(player) for player in @players
-      
-    if @enemies.length > 0
-      @add enemy for enemy in @enemies
+    @add player for player in @players if @players.length > 0
+    @add enemy  for enemy  in @enemies if @enemies.length > 0
+  
+  queue: (delay, fn) ->
+    # make `delay` optional arg
+    if typeof delay == 'function'
+      fn = delay 
+      delay = 0
+    @anim.queue('lvl', => fn(); setTimeout((=> @anim.dequeue('lvl')), delay))
+    @
+  
+  animate: -> 
+    # kickoff the first animation
+    @anim.dequeue('lvl')
+    @
   
   initAnimationQueue: ->
-    @aQ = []
-    setInterval((=> @tick()), @animationSpeed)
-  
-  animate: (args) ->
-    if typeof(args) == 'object'
-      @aQ.push arg for arg in args
-    else
-      @aQ.push args
-  
-  tick: ->
-    return unless @aQ.length > 0
-    if typeof(@aQ[0]) == 'function'
-      @aQ[0]()
-    else
-      @aQ[0] -= @animationSpeed
-    @aQ.shift()
   
 # class window.Level
 #   constructor: (opts) ->

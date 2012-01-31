@@ -41,7 +41,7 @@
       this.accuracy = this.opts.accuracy || 80 + Math.floor(this.level * 0.19);
       this.strength = this.opts.strength || this.level;
       this.weapon = this.opts.weapon || new Weapon();
-      this.eventDispatch = $('');
+      this.eventDispatch = $({});
       this.onCreate = this.opts.onCreate || function() {};
       this.onTurnStart = this.opts.onTurnStart || function() {};
       this.onTurnEnd = this.opts.onTurnEnd || function() {};
