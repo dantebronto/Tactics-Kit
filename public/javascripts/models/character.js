@@ -1,6 +1,11 @@
 (function() {
   var __slice = Array.prototype.slice, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   window.Character = (function() {
+    Character.findByPosition = function(x, y) {
+      return _(level.players).select(function(player) {
+        return player.x === x && player.y === y;
+      })[0];
+    };
     Character.mixin = function() {
       var key, mixin, mixins, value, _i, _len, _results;
       mixins = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
@@ -60,18 +65,15 @@
       console.log("" + this.name + " selected");
       level.clear();
       level.activePlayer = this;
-      return this.showMovableCells();
+      this.showMovableCells();
+      return this.showAttackableCells();
     };
     Character.prototype.bindInfoClicked = function() {
       return this.info.bind('click', __bind(function() {
         return this.characterSelected();
       }, this));
     };
-    Character.prototype.bindElemClicked = function() {
-      return this.getElem().bind('click', __bind(function() {
-        return this.characterSelected();
-      }, this));
-    };
+    Character.prototype.bindElemClicked = function() {};
     Character.prototype.getElem = function() {
       return level.getElem(this);
     };

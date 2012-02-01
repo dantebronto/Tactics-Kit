@@ -22,9 +22,10 @@ class window.Level
   getElem: (obj) -> @map.getElem obj
   canMoveTo: (x, y) -> @map.canMoveTo(x, y)
   canWalkOn: (x, y) -> @map.canWalkOn(x, y)
+  canAttack: (x, y) -> @map.canAttack(x, y)
   showCellAs: (type, x, y) -> @map.showCellAs type, x, y
   hideCellAs: (type, x, y) -> @map.hideCellAs type, x, y
-  clear: -> @map.clear()
+  clear: (x, y) -> @map.clear(x, y)
   
   # TODO: add @eventDispatch and these to evented mixin
   on: (event, cb) -> @eventDispatch.bind(event, cb)

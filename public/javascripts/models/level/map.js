@@ -102,16 +102,28 @@
     Map.prototype.canWalkOn = function(x, y) {
       return this.terrainMatrix.get(x, y) <= 10;
     };
+    Map.prototype.canAttack = function(x, y) {
+      return this.occupiedAt(x, y);
+    };
     Map.prototype.showCellAs = function(type, x, y) {
       return this.underlayMatrix.get(x, y).addClass(type);
     };
     Map.prototype.hideCellAs = function(type, x, y) {
       return this.underlayMatrix.get(x, y).removeClass(type);
     };
-    Map.prototype.clear = function() {
-      return this.underlayMatrix.each(function() {
-        return this.removeClass('passable impassable moveable');
-      });
+    Map.prototype.hideCellAs = function(type, x, y) {
+      return this.underlayMatrix.get(x, y).removeClass(type);
+    };
+    Map.prototype.clear = function(x, y) {
+      var classes;
+      classes = 'passable impassable moveable attackable';
+      if (x && y) {
+        return this.underlayMatrix.get(x, y).removeClass(classes);
+      } else {
+        return this.underlayMatrix.each(function() {
+          return this.removeClass(classes);
+        });
+      }
     };
     Map.prototype.bindClicked = function() {
       return this.elem.bind('click', __bind(function(e) {
@@ -119,22 +131,29 @@
       }, this));
     };
     Map.prototype.handleMapClicked = function(e) {
-      var classes, overlayInfo, x, y, _ref;
+      var char, classes, overlayInfo, underlayCell, x, y, _ref, _ref2;
       overlayInfo = e.target.id.split("-");
       x = Number(overlayInfo[2]);
       y = Number(overlayInfo[3]);
-      classes = this.underlayMatrix.get(x, y).attr('class').split(' ');
-      if (_(classes).include('impassable')) {
+      underlayCell = this.underlayMatrix.get(x, y);
+      classes = _(underlayCell.attr('class').split(' '));
+      if (classes.include('impassable') || classes.include('passable')) {
         this.clear();
         return;
-      } else if (_(classes).include('passable')) {
-        if (!this.playerMatrix.get(x, y).hasClass('occupied')) {
-          this.clear();
-          return;
+      }
+      if (classes.include('attackable')) {
+        if ((_ref = level.activePlayer) != null) {
+          _ref.attack(x, y);
         }
       }
-      if (_(classes).include('moveable')) {
-        return (_ref = level.activePlayer) != null ? _ref.moveTo(x, y) : void 0;
+      if (this.playerMatrix.get(x, y).hasClass('occupied')) {
+        char = Character.findByPosition(x, y);
+        if (!classes.include('attackable')) {
+          char.characterSelected();
+        }
+      }
+      if (classes.include('moveable')) {
+        return (_ref2 = level.activePlayer) != null ? _ref2.moveTo(x, y) : void 0;
       }
     };
     return Map;

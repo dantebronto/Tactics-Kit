@@ -1,5 +1,10 @@
 class window.Character
   
+  @findByPosition: (x, y) ->
+    _(level.players).select( (player) ->
+      player.x == x and player.y == y
+    )[0]
+  
   @mixin: (mixins...) ->
     for mixin in mixins
       for key, value of mixin::
@@ -51,9 +56,10 @@ class window.Character
     level.clear()
     level.activePlayer = @
     @showMovableCells()
+    @showAttackableCells()
   
   bindInfoClicked: -> @info.bind 'click', => @characterSelected()
-  bindElemClicked: -> @getElem().bind 'click', => @characterSelected()
+  bindElemClicked: -> #@getElem().bind 'click', => @characterSelected()
   
   getElem: -> level.getElem @
   
@@ -61,7 +67,7 @@ class window.Character
     @info = $(TMPL.characterInfo(@))
     @info.hide()
     level.map.info.find('ul').append @info
-    @info.fadeIn('slow')
+    @info.fadeIn 'slow'
   
   updateInfo: -> 
     @info.html($(TMPL.characterInfo(@)).html())

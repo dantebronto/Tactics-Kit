@@ -77,11 +77,18 @@ class Level.Map
   
   canMoveTo: (x, y) -> @canWalkOn(x, y) and not @occupiedAt(x, y)
   canWalkOn: (x, y) -> @terrainMatrix.get(x, y) <= 10
+  canAttack: (x, y) -> @occupiedAt(x, y)
   
   showCellAs: (type, x, y) -> @underlayMatrix.get(x, y).addClass type
   hideCellAs: (type, x, y) -> @underlayMatrix.get(x, y).removeClass type
+  hideCellAs: (type, x, y) -> @underlayMatrix.get(x, y).removeClass type
   
-  clear: -> @underlayMatrix.each -> @removeClass 'passable impassable moveable'
+  clear: (x, y) -> 
+    classes = 'passable impassable moveable attackable'
+    if x and y
+      @underlayMatrix.get(x, y).removeClass classes
+    else
+      @underlayMatrix.each -> @removeClass classes
   
   bindClicked: -> @elem.bind 'click', (e) => @handleMapClicked(e)
   
@@ -90,14 +97,18 @@ class Level.Map
     x = Number(overlayInfo[2])
     y = Number(overlayInfo[3])
     
-    classes = @underlayMatrix.get(x, y).attr('class').split(' ')
-    if _(classes).include('impassable')
+    underlayCell = @underlayMatrix.get(x, y)
+    classes = _(underlayCell.attr('class').split(' '))
+    
+    if classes.include('impassable') or classes.include('passable')
       @clear()
       return
-    else if _(classes).include('passable')
-      if not @playerMatrix.get(x, y).hasClass('occupied')
-        @clear()
-        return
-    if _(classes).include('moveable')
-      level.activePlayer?.moveTo(x, y)
+    
+    level.activePlayer?.attack(x, y) if classes.include('attackable')
+    
+    if @playerMatrix.get(x, y).hasClass('occupied')
+      char = Character.findByPosition(x, y)
+      char.characterSelected() unless classes.include('attackable')
+    
+    level.activePlayer?.moveTo(x, y) if classes.include('moveable')
     

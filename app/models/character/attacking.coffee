@@ -1,50 +1,25 @@
 class window.Attacking
   
-  # showAttackableCells: ->
-  #   return if @apLeft <= 0
-  #   speed = @apLeft
-  #   matrix = Level.Matrix.newFilledMatrix level.map.rowCount, level.map.colCount
-  #   matrix = @findNeighbors(@x, @y, matrix, speed-1)
-  #   matrix.set @x, @y, 0
-  #   matrix.each (x, y) ->
-  #     if Number(this) == 1
-  #       level.showCellAs('moveable', x, y)
-  #     else
-  #       type = if level.canWalkOn(x, y) then 'passable' else 'impassable'
-  #       level.showCellAs(type, x, y)
-  #       matrix
-  
-        # //   get_attack_matrix: function(opts){
-        # //     if( !opts)
-        # //       opts = {};
-        # //     var self = this;
-        # //     var x = opts.x || self.x;
-        # //     var y = opts.y || self.y;
-        # //     
-        # //     matrix = Matrix.new_filled_matrix(self.map.rows, self.map.cols);
-        # //     matrix = self.find_neighbors({
-        # //       x: x, y: y,
-        # //       matrix: matrix,
-        # //       speed: self.weapon.range,
-        # //       is_attacking: true
-        # //     });
-        # //     
-        # //     if( self.weapon.is_ranged )
-        # //       matrix = self.find_neighbors({
-        # //         x: x, y: y,
-        # //         matrix: matrix,
-        # //         speed: self.weapon.dead_range,
-        # //         fill_with: 0,
-        # //         is_attacking: true
-        # //       });
-        # //     
-        # //     matrix.set(x, y, 0);
-        # //     
-        # //     return matrix;
-        # //   },
-  
   initAttacking: ->
+  
+  showAttackableCells: ->
+    return if @apLeft <= 0
+    speed = @apLeft
+    matrix = Level.Matrix.newFilledMatrix level.map.rowCount, level.map.colCount
+    matrix = @findNeighbors(@x, @y, matrix, @weapon.range, true)
+    matrix.set @x, @y, 0
+    matrix.each (x, y) ->
+      if Number(this) == 1
+        level.clear(x, y)
+        level.showCellAs('attackable', x, y)
     
+    # if @weapon.isRanged
+      # re-run find neighbors with a speed of @weapon.deadZone
+      # matrix.each, mark as 0
+    matrix
+  
+  attack: ->
+    alert 'cukinf attack!!!'
     # //   attack: function(x, y){
     # //     var self = this;
     # //     
@@ -54,43 +29,6 @@ class window.Attacking
     # //     self.deal_damage(x, y);  
     # //     self.map.remove_clickables();
     # //     self.subtract_ap(self.speed);
-    # //   },
-    # //   bind_events: function(elem){
-    # //     var self = this;
-    # //     if( !elem )
-    # //       elem = self.map.player_cell(self.x, self.y)
-    # //     
-    # //     elem
-    # //       .haloContext(self, self.get_context_menu)
-    # //       // .mouseover(function(){ level.show_stats('players', self.level_id)})
-    # //       // .mouseout(function(){  level.show_stats('players'); })
-    # //       .click(function(){
-    # //         elem.unbind('mouseover');
-    # // //        level.show_stats('players');
-    # //         self.map.remove_clickables();
-    # //       });
-    # //   },
-    # //   calculate_attack: function(battle){
-    # //     var self = this;
-    # //     var attack_matrix = self.get_attack_matrix();
-    # //     
-    # //     attack_matrix.each(function(x, y){
-    # //       if( this.e(x, y) == 1 ){
-    # //         self.map.underlay_cell(x, y)
-    # //           .addClass('attackable pointer')
-    # //           .click(function(){
-    # //             if ( self.is_player )
-    # //               if ( battle ){
-    # //                 level.animation_queue.push(function(){ self.attack(x, y); });
-    # //                 level.animation_queue.push('noop');
-    # //                 level.animation_queue.push('noop');
-    # //                 level.animation_queue.push(function(){ self.attack(x, y); });
-    # //               } else {
-    # //                 self.attack(x, y);
-    # //               }
-    # //           });
-    # //       }
-    # //     });
     # //   },
     # //   deal_damage: function(x, y){
     # //     var hits;
@@ -124,16 +62,6 @@ class window.Attacking
     # //     
     # //     level.map.stat_cell(x, y).html(hits).show();
     # //     hits.shake(3, 3, 180).fadeOut(200 * level.animation_speed);
-    # //   },
-
-    # //   move: function(x, y){
-    # //     
-    # //     this.remove_from_map();
-    # //     
-    # //     if( this.x == x && this.y == y)
-    # //       this.show();
-    # //     else
-    # //       this.animate_movement(x, y);
     # //   },
     # //   roll_dice: function(){
     # //     return Math.floor((Math.random() * 3 + 1));

@@ -18,18 +18,20 @@ class window.Moveable
         level.showCellAs(type, x, y)
         matrix
   
-  findNeighbors: (x, y, matrix, speed) ->
+  # TODO: move out into common lib shared by Attacking and Moveable
+  findNeighbors: (x, y, matrix, speed, attacking=false) ->
     surrounds = [ 
       [ x, y-1 ], [ x+1, y-1 ], [ x+1, y ], [ x+1, y+1 ],
       [ x, y+1 ], [ x-1, y+1 ], [ x-1, y ], [ x-1, y-1 ] 
     ]
+    levelFn = if attacking then 'canAttack' else 'canMoveTo'
     
     for i in [0..7]
       x = surrounds[i][0]
       y = surrounds[i][1]
-      if level.canMoveTo(x, y)
+      if level[levelFn](x, y)
         matrix.set(x, y, 1)
-        matrix = @findNeighbors(x, y, matrix, speed-1) if speed > 0
+        matrix = @findNeighbors(x, y, matrix, speed-1, attacking) if speed > 0
     matrix
   
   moveTo: (x, y) ->

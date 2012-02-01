@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Tue, 31 Jan 2012 15:09:12 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 01 Feb 2012 00:04:55 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/moveable.coffee
  */
 
@@ -30,16 +30,20 @@
         }
       });
     };
-    Moveable.prototype.findNeighbors = function(x, y, matrix, speed) {
-      var i, surrounds;
+    Moveable.prototype.findNeighbors = function(x, y, matrix, speed, attacking) {
+      var i, levelFn, surrounds;
+      if (attacking == null) {
+        attacking = false;
+      }
       surrounds = [[x, y - 1], [x + 1, y - 1], [x + 1, y], [x + 1, y + 1], [x, y + 1], [x - 1, y + 1], [x - 1, y], [x - 1, y - 1]];
+      levelFn = attacking ? 'canAttack' : 'canMoveTo';
       for (i = 0; i <= 7; i++) {
         x = surrounds[i][0];
         y = surrounds[i][1];
-        if (level.canMoveTo(x, y)) {
+        if (level[levelFn](x, y)) {
           matrix.set(x, y, 1);
           if (speed > 0) {
-            matrix = this.findNeighbors(x, y, matrix, speed - 1);
+            matrix = this.findNeighbors(x, y, matrix, speed - 1, attacking);
           }
         }
       }

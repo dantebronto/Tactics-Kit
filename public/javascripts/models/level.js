@@ -35,14 +35,17 @@
     Level.prototype.canWalkOn = function(x, y) {
       return this.map.canWalkOn(x, y);
     };
+    Level.prototype.canAttack = function(x, y) {
+      return this.map.canAttack(x, y);
+    };
     Level.prototype.showCellAs = function(type, x, y) {
       return this.map.showCellAs(type, x, y);
     };
     Level.prototype.hideCellAs = function(type, x, y) {
       return this.map.hideCellAs(type, x, y);
     };
-    Level.prototype.clear = function() {
-      return this.map.clear();
+    Level.prototype.clear = function(x, y) {
+      return this.map.clear(x, y);
     };
     Level.prototype.on = function(event, cb) {
       return this.eventDispatch.bind(event, cb);
