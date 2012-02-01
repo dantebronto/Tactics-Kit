@@ -29,7 +29,7 @@ if Level? then do ->
   ]
   
   window.p1 = new Player 
-    x: 3, y: 3, name: 'd00d'
+    x: 3, y: 13, name: 'd00d'
   
   window.p2 = new Player 
     x: 4, y: 3, name: 'lady'

@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 01 Feb 2012 00:04:55 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 01 Feb 2012 01:11:00 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/moveable.coffee
  */
 
@@ -61,9 +61,9 @@
           this.hide();
           this.x = res.pos.x;
           this.y = res.pos.y;
-          level.clear();
           this.show();
-          return this.bindElemClicked();
+          this.bindElemClicked();
+          return this.characterSelected();
         }, this));
       }, this));
       return level.animate();

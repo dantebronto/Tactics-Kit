@@ -5,6 +5,7 @@
         opts = {};
       }
       this.range = opts.range || 1;
+      this.attack = opts.attack || 1;
     }
     return Weapon;
   })();

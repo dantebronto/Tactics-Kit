@@ -18,18 +18,20 @@ class window.Attacking
       # matrix.each, mark as 0
     matrix
   
-  attack: ->
-    alert 'cukinf attack!!!'
-    # //   attack: function(x, y){
-    # //     var self = this;
-    # //     
-    # //     if( self.ap_left < self.speed )
-    # //       return; // not enough ap
-    # //     
-    # //     self.deal_damage(x, y);  
-    # //     self.map.remove_clickables();
-    # //     self.subtract_ap(self.speed);
-    # //   },
+  attack: (x, y) ->
+    return if @apLeft <= 0
+    console.log "#{@name} is attacking #{x} #{y}!"
+    @doDamage(x, y)
+    @subtractAp(2)
+    @characterSelected()
+    
+  doDamage: (x, y) ->
+    console.log 'attack hit' unless @didMiss()
+  
+  didMiss: ->
+    missPercent = Math.floor((Math.random()*100+1))
+    missPercent > @accuracy
+  
     # //   deal_damage: function(x, y){
     # //     var hits;
     # //     var dmg = 0;

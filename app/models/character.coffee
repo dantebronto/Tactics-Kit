@@ -42,6 +42,8 @@ class window.Character
     @onTurnStart = @opts.onTurnStart or ->
     @onTurnEnd = @opts.onTurnEnd or ->
     @onDeath = @opts.onDeath or ->
+    # beforeAttack, afterAttack
+    # beforeMove, afterMove
     
     $ => @bindEvents()
     

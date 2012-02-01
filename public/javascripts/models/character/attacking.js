@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 01 Feb 2012 00:27:05 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 01 Feb 2012 01:07:44 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/attacking.coffee
  */
 
@@ -23,8 +23,24 @@
       });
       return matrix;
     };
-    Attacking.prototype.attack = function() {
-      return alert('cukinf attack!!!');
+    Attacking.prototype.attack = function(x, y) {
+      if (this.apLeft <= 0) {
+        return;
+      }
+      console.log("" + this.name + " is attacking " + x + " " + y + "!");
+      this.doDamage(x, y);
+      this.subtractAp(2);
+      return this.characterSelected();
+    };
+    Attacking.prototype.doDamage = function(x, y) {
+      if (!this.didMiss()) {
+        return console.log('attack hit');
+      }
+    };
+    Attacking.prototype.didMiss = function() {
+      var missPercent;
+      missPercent = Math.floor(Math.random() * 100 + 1);
+      return missPercent > this.accuracy;
     };
     return Attacking;
   })();

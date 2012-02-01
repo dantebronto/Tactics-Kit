@@ -45,8 +45,8 @@ class window.Moveable
         @hide()
         @x = res.pos.x
         @y = res.pos.y
-        level.clear()
         @show()
         @bindElemClicked()
+        @characterSelected()
       )
     level.animate()
