@@ -15,6 +15,11 @@ class window.Level
     
     $ =>
       @initCharacters()
+      @win = $ window
+      @stage = $ '#stage'
+      @info = $ '#info'
+      @bindWindowResize()
+      @win.trigger('resize')
   
   # TODO: have level mixin map functions?
   add: (obj) -> @map.add obj # TODO: assign ids, add to Qs
@@ -53,6 +58,11 @@ class window.Level
     # kickoff the first animation
     @anim.dequeue('lvl')
     @
+  
+  bindWindowResize: ->
+    @win.resize =>
+      @stage.css('height', @win.height()+'px')
+      @info.css('height', @win.height()+'px')
   
   initAnimationQueue: ->
   

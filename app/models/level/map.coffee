@@ -29,6 +29,7 @@ class Level.Map
         backgroundImage: "url(#{@backgroundImage})"
       ).fadeIn('slow')
     @info.css('height', "#{@height}px")
+    # @elem.css('height', '100px')
   
   createCells: ->
     for cellType in @cellTypes

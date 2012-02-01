@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 01 Feb 2012 01:11:00 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 01 Feb 2012 23:32:07 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/moveable.coffee
  */
 
@@ -54,16 +54,16 @@
       console.log("" + this.name + " moving to " + x + " " + y);
       results = this.findShortestPathTo(x, y);
       _(results).each(__bind(function(res) {
-        return level.queue(500, __bind(function() {
+        return level.queue(1000, __bind(function() {
           this.getElem().unbind('click');
           this.subtractAp(1);
           this.updateInfo();
           this.hide();
           this.x = res.pos.x;
           this.y = res.pos.y;
-          this.show();
           this.bindElemClicked();
-          return this.characterSelected();
+          this.characterSelected();
+          return this.show();
         }, this));
       }, this));
       return level.animate();

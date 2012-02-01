@@ -17,7 +17,12 @@
       this.animationSpeed = opts.animationSpeed || 500;
       this.initAnimationQueue();
       $(__bind(function() {
-        return this.initCharacters();
+        this.initCharacters();
+        this.win = $(window);
+        this.stage = $('#stage');
+        this.info = $('#info');
+        this.bindWindowResize();
+        return this.win.trigger('resize');
       }, this));
     }
     Level.prototype.add = function(obj) {
@@ -88,6 +93,12 @@
     Level.prototype.animate = function() {
       this.anim.dequeue('lvl');
       return this;
+    };
+    Level.prototype.bindWindowResize = function() {
+      return this.win.resize(__bind(function() {
+        this.stage.css('height', this.win.height() + 'px');
+        return this.info.css('height', this.win.height() + 'px');
+      }, this));
     };
     Level.prototype.initAnimationQueue = function() {};
     return Level;

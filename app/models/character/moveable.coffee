@@ -38,15 +38,15 @@ class window.Moveable
     console.log "#{@name} moving to #{x} #{y}"
     results = @findShortestPathTo(x, y)
     _(results).each (res) =>
-      level.queue(500, =>
+      level.queue(1000, =>
         @getElem().unbind 'click'
         @subtractAp(1)
         @updateInfo()
         @hide()
         @x = res.pos.x
         @y = res.pos.y
-        @show()
         @bindElemClicked()
         @characterSelected()
+        @show()
       )
     level.animate()
