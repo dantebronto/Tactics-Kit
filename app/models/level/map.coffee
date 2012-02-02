@@ -94,7 +94,9 @@ class Level.Map
   bindClicked: -> @elem.bind 'click', (e) => @handleMapClicked(e)
   
   handleMapClicked: (e) ->
-    overlayInfo = e.target.id.split("-")
+    target = $(e.target)
+    id = if target.attr('id') then target.attr('id') else target.parent().attr('id')
+    overlayInfo = id.split("-")
     x = Number(overlayInfo[2])
     y = Number(overlayInfo[3])
     

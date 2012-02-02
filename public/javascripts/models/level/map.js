@@ -132,8 +132,10 @@
       }, this));
     };
     Map.prototype.handleMapClicked = function(e) {
-      var char, classes, overlayInfo, underlayCell, x, y, _ref, _ref2;
-      overlayInfo = e.target.id.split("-");
+      var char, classes, id, overlayInfo, target, underlayCell, x, y, _ref, _ref2;
+      target = $(e.target);
+      id = target.attr('id') ? target.attr('id') : target.parent().attr('id');
+      overlayInfo = id.split("-");
       x = Number(overlayInfo[2]);
       y = Number(overlayInfo[3]);
       underlayCell = this.underlayMatrix.get(x, y);

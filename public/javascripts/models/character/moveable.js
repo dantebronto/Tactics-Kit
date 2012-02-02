@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Thu, 02 Feb 2012 00:02:50 GMT from
+/* DO NOT MODIFY. This file was compiled Thu, 02 Feb 2012 03:44:35 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/moveable.coffee
  */
 
@@ -17,7 +17,7 @@
       }
       speed = this.apLeft;
       matrix = Level.Matrix.newFilledMatrix(level.map.rowCount, level.map.colCount);
-      matrix = this.findNeighbors(this.x, this.y, matrix, speed - 1);
+      matrix = this.findMoveableNeighbors(this.x, this.y, matrix, speed - 1);
       matrix.set(this.x, this.y, 0);
       return matrix.each(function(x, y) {
         var type;
@@ -30,13 +30,9 @@
         }
       });
     };
-    Moveable.prototype.findNeighbors = function(x, y, matrix, speed, attacking) {
-      var i, levelFn, surrounds;
-      if (attacking == null) {
-        attacking = false;
-      }
+    Moveable.prototype.findMoveableNeighbors = function(x, y, matrix, speed) {
+      var i, surrounds;
       surrounds = [[x, y - 1], [x + 1, y - 1], [x + 1, y], [x + 1, y + 1], [x, y + 1], [x - 1, y + 1], [x - 1, y], [x - 1, y - 1]];
-      levelFn = attacking ? 'canAttack' : 'canMoveTo';
       for (i = 0; i <= 7; i++) {
         x = surrounds[i][0];
         if (x < 0) {
@@ -52,10 +48,12 @@
         if (y > level.map.rowCount) {
           y = level.map.rowCount;
         }
-        if (level[levelFn](x, y)) {
-          matrix.set(x, y, 1);
+        if (level.canMoveTo(x, y)) {
+          if (matrix.get(x, y) !== 1) {
+            matrix.set(x, y, 1);
+          }
           if (speed > 0) {
-            matrix = this.findNeighbors(x, y, matrix, speed - 1, attacking);
+            matrix = this.findMoveableNeighbors(x, y, matrix, speed - 1);
           }
         }
       }

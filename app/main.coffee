@@ -34,6 +34,10 @@ if Level? then do ->
   window.p2 = new Player 
     x: 4, y: 3, name: 'lady'
     sprite: '/images/girl.gif'
+    weapon: new Weapon 
+      range: 15
+  
+  setInterval((-> p2.addAp(4)), 3000)
   
   window.e1 = new Enemy 
     x: 4, y: 14, 

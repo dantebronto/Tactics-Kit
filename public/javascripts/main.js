@@ -12,8 +12,14 @@
         x: 4,
         y: 3,
         name: 'lady',
-        sprite: '/images/girl.gif'
+        sprite: '/images/girl.gif',
+        weapon: new Weapon({
+          range: 15
+        })
       });
+      setInterval((function() {
+        return p2.addAp(4);
+      }), 3000);
       window.e1 = new Enemy({
         x: 4,
         y: 14,

@@ -54,6 +54,7 @@
       $(__bind(function() {
         return this.bindEvents();
       }, this));
+      this;
     }
     Character.prototype.addedToLevel = function() {
       this.drawInfo();

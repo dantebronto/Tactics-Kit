@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Tue, 31 Jan 2012 15:35:57 GMT from
+/* DO NOT MODIFY. This file was compiled Thu, 02 Feb 2012 02:38:06 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/enemy.coffee
  */
 
@@ -13,9 +13,13 @@
   };
   window.Enemy = (function() {
     __extends(Enemy, Character);
-    function Enemy() {
-      Enemy.__super__.constructor.apply(this, arguments);
+    function Enemy(opts) {
+      Enemy.__super__.constructor.call(this, opts);
     }
+    Enemy.prototype.addedToLevel = function() {
+      Enemy.__super__.addedToLevel.call(this);
+      return this.info.find('button').hide();
+    };
     return Enemy;
   })();
 }).call(this);

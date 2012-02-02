@@ -45,8 +45,11 @@ class window.Character
     # beforeAttack, afterAttack
     # beforeMove, afterMove
     
-    $ => @bindEvents()
+    $ =>
+      @bindEvents()
     
+    @
+  
   addedToLevel: ->
     @drawInfo()
     @bindInfoClicked()

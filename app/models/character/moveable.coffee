@@ -8,7 +8,7 @@ class window.Moveable
     return if @apLeft <= 0
     speed = @apLeft
     matrix = Level.Matrix.newFilledMatrix level.map.rowCount, level.map.colCount
-    matrix = @findNeighbors(@x, @y, matrix, speed-1)
+    matrix = @findMoveableNeighbors(@x, @y, matrix, speed-1)
     matrix.set @x, @y, 0
     matrix.each (x, y) ->
       if Number(this) == 1
@@ -18,13 +18,11 @@ class window.Moveable
         level.showCellAs(type, x, y)
         matrix
   
-  # TODO: move out into common lib shared by Attacking and Moveable
-  findNeighbors: (x, y, matrix, speed, attacking=false) ->
+  findMoveableNeighbors: (x, y, matrix, speed) ->
     surrounds = [ 
       [ x, y-1 ], [ x+1, y-1 ], [ x+1, y ], [ x+1, y+1 ],
       [ x, y+1 ], [ x-1, y+1 ], [ x-1, y ], [ x-1, y-1 ] 
     ]
-    levelFn = if attacking then 'canAttack' else 'canMoveTo'
     
     for i in [0..7]
       x = surrounds[i][0]
@@ -35,9 +33,9 @@ class window.Moveable
       y = 0 if y < 0
       y = level.map.rowCount if y > level.map.rowCount
       
-      if level[levelFn](x, y)
-        matrix.set(x, y, 1)
-        matrix = @findNeighbors(x, y, matrix, speed-1, attacking) if speed > 0
+      if level.canMoveTo(x, y)
+        matrix.set(x, y, 1) unless matrix.get(x, y) is 1
+        matrix = @findMoveableNeighbors(x, y, matrix, speed-1) if speed > 0
     matrix
   
   moveTo: (x, y) ->
