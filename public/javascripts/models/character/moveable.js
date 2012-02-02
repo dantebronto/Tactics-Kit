@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 01 Feb 2012 23:32:07 GMT from
+/* DO NOT MODIFY. This file was compiled Thu, 02 Feb 2012 00:02:50 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/moveable.coffee
  */
 
@@ -39,7 +39,19 @@
       levelFn = attacking ? 'canAttack' : 'canMoveTo';
       for (i = 0; i <= 7; i++) {
         x = surrounds[i][0];
+        if (x < 0) {
+          x = 0;
+        }
+        if (x > level.map.colCount) {
+          x = level.map.colCount;
+        }
         y = surrounds[i][1];
+        if (y < 0) {
+          y = 0;
+        }
+        if (y > level.map.rowCount) {
+          y = level.map.rowCount;
+        }
         if (level[levelFn](x, y)) {
           matrix.set(x, y, 1);
           if (speed > 0) {

@@ -1,4 +1,4 @@
-# TODO: refactor out this madness
+# TODO: refactor this madness
 `
 Array.prototype.removeGraphNode = function(obj) {
  for(var i=0;i<this.length;i++) {
@@ -109,7 +109,13 @@ class AStar
     
     for i in [0..7]
       x = surrounds[i][0]
+      x = 0 if x < 0
+      x = level.map.colCount if x > level.map.colCount
+
       y = surrounds[i][1]
+      y = 0 if y < 0
+      y = level.map.rowCount if y > level.map.rowCount
+      
       ret.push got if got = @grid.get(x, y)
     ret
   

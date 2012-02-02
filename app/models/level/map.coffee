@@ -73,8 +73,8 @@ class Level.Map
       return @enemyMatrix.get(obj.x, obj.y)
   
   occupiedAt: (x, y) ->
-    @playerMatrix.get(x, y).hasClass('occupied') or
-    @enemyMatrix.get(x, y).hasClass('occupied')
+    @playerMatrix.get(x, y)?.hasClass('occupied') or
+    @enemyMatrix.get(x, y)?.hasClass('occupied')
   
   canMoveTo: (x, y) -> @canWalkOn(x, y) and not @occupiedAt(x, y)
   canWalkOn: (x, y) -> @terrainMatrix.get(x, y) <= 10

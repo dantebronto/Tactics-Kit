@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Mon, 30 Jan 2012 04:18:42 GMT from
+/* DO NOT MODIFY. This file was compiled Thu, 02 Feb 2012 00:02:50 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/path_finding.coffee
  */
 
@@ -110,7 +110,19 @@ Array.prototype.findGraphNode = function(obj) {
       surrounds = [[x, y - 1], [x + 1, y - 1], [x + 1, y], [x + 1, y + 1], [x, y + 1], [x - 1, y + 1], [x - 1, y], [x - 1, y - 1]];
       for (i = 0; i <= 7; i++) {
         x = surrounds[i][0];
+        if (x < 0) {
+          x = 0;
+        }
+        if (x > level.map.colCount) {
+          x = level.map.colCount;
+        }
         y = surrounds[i][1];
+        if (y < 0) {
+          y = 0;
+        }
+        if (y > level.map.rowCount) {
+          y = level.map.rowCount;
+        }
         if (got = this.grid.get(x, y)) {
           ret.push(got);
         }

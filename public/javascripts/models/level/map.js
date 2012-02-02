@@ -94,7 +94,8 @@
       }
     };
     Map.prototype.occupiedAt = function(x, y) {
-      return this.playerMatrix.get(x, y).hasClass('occupied') || this.enemyMatrix.get(x, y).hasClass('occupied');
+      var _ref, _ref2;
+      return ((_ref = this.playerMatrix.get(x, y)) != null ? _ref.hasClass('occupied') : void 0) || ((_ref2 = this.enemyMatrix.get(x, y)) != null ? _ref2.hasClass('occupied') : void 0);
     };
     Map.prototype.canMoveTo = function(x, y) {
       return this.canWalkOn(x, y) && !this.occupiedAt(x, y);

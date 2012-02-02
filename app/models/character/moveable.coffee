@@ -28,7 +28,13 @@ class window.Moveable
     
     for i in [0..7]
       x = surrounds[i][0]
+      x = 0 if x < 0
+      x = level.map.colCount if x > level.map.colCount
+      
       y = surrounds[i][1]
+      y = 0 if y < 0
+      y = level.map.rowCount if y > level.map.rowCount
+      
       if level[levelFn](x, y)
         matrix.set(x, y, 1)
         matrix = @findNeighbors(x, y, matrix, speed-1, attacking) if speed > 0
