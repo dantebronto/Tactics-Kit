@@ -1,7 +1,7 @@
 class AnimationHelper
   
   # Amount of shakes, Shake distance, Time duration
-  @shake: (intShakes, intDistance, intDuration) ->
+  $.fn.shake = (intShakes, intDistance, intDuration) ->
     @each ->
       elem = $(this)
       elem.css position:'relative'

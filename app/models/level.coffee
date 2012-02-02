@@ -19,7 +19,7 @@ class window.Level
       @stage = $ '#stage'
       @info = $ '#info'
       @bindWindowResize()
-      @win.trigger('resize')
+      @win.trigger 'resize'
   
   # TODO: have level mixin map functions?
   add: (obj) -> @map.add obj # TODO: assign ids, add to Qs
@@ -38,12 +38,16 @@ class window.Level
   
   # @on 'create', @onCreate
   # @on 'turnStart', @onTurnStart
-  # @on 'turnEnd', @onTurnEnd, gameOver, etc
+  # @on 'turnEnd', @onTurnEnd 
+  # @on 'gameOver' @onGameOver
+  # etc...
   
   initCharacters: ->
     @add player for player in @players if @players.length > 0
     @add enemy  for enemy  in @enemies if @enemies.length > 0
   
+  initAnimationQueue: ->
+    
   queue: (delay, fn) ->
     # make `delay` optional arg
     if typeof delay == 'function'
@@ -63,8 +67,6 @@ class window.Level
     @win.resize =>
       @stage.css('height', @win.height()+'px')
       @info.css('height', @win.height()+'px')
-  
-  initAnimationQueue: ->
   
 # class window.Level
 #   constructor: (opts) ->

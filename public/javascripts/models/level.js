@@ -77,6 +77,7 @@
         return _results;
       }
     };
+    Level.prototype.initAnimationQueue = function() {};
     Level.prototype.queue = function(delay, fn) {
       if (typeof delay === 'function') {
         fn = delay;
@@ -100,7 +101,6 @@
         return this.info.css('height', this.win.height() + 'px');
       }, this));
     };
-    Level.prototype.initAnimationQueue = function() {};
     return Level;
   })();
 }).call(this);

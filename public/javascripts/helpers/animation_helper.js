@@ -2,7 +2,7 @@
   var AnimationHelper;
   AnimationHelper = (function() {
     function AnimationHelper() {}
-    AnimationHelper.shake = function(intShakes, intDistance, intDuration) {
+    $.fn.shake = function(intShakes, intDistance, intDuration) {
       this.each(function() {
         var elem, x, _i, _len, _results;
         elem = $(this);
