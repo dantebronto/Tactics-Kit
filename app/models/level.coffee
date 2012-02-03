@@ -21,9 +21,19 @@ class window.Level
       @bindWindowResize()
       @win.trigger 'resize'
   
+  remove: (obj) ->
+    @players = _(@players).filter (player) => obj != player
+    @enemies = _(@enemies).filter (enemy) =>  obj != enemy
+    
+    if @players.length == 0
+      @gameOver()
+    else if @enemies.length == 0
+      @next()
+    
+    obj.hide() if obj.hide
+  
   # TODO: have level mixin map functions?
   add: (obj) -> @map.add obj # TODO: assign ids, add to Qs
-  remove: (obj) -> @map.remove obj
   getElem: (obj) -> @map.getElem obj
   canMoveTo: (x, y) -> @map.canMoveTo(x, y)
   canWalkOn: (x, y) -> @map.canWalkOn(x, y)
@@ -67,6 +77,12 @@ class window.Level
     @win.resize =>
       @stage.css('height', @win.height()+'px')
       @info.css('height', @win.height()+'px')
+      
+  gameOver: ->
+    console.log 'You have fallen in battle...'
+    $('body').fadeOut 5000, -> location.reload(true)
+  
+  next: -> alert 'You win!'
   
 # class window.Level
 #   constructor: (opts) ->
@@ -195,109 +211,5 @@ class window.Level
 #     
 #     if ( chars.length == 0 )
 #       this.game_over();
-#   },
-#   game_over: function(){
-#     alert('You have fallen in battle...');
-#     $('#map, #info').fadeOut(6000, function(){
-#       location.reload(true);
-#     });
-#   },
-#   show_stats: function(type, the_id){
-#     
-#     var close_stats = $('<a href="javascript:void(0)" id="close_stats">close</a>');
-#     close_stats.one('click', function(){ level.info_div.hide(); $('#info_toggles').show(); });
-#     
-#     level.info_div.html(close_stats);
-#     
-#     var chars = type == 'players' ? this.players : this.enemies;
-# 
-#     var stats = $('#stats_list');
-#     
-#     if( !stats.length )
-#       stats = $('<div></div>').attr('id', 'stats_list').appendTo(level.info_div);
-#     
-#     var ul, they, total_str;
-#     
-#     for( var i=0; i < chars.length; i++ ){
-#       they = chars[i];
-#       total_str = (Number(they.strength) + Number(they.weapon.attack));
-#       
-#       ul  = '<ul id=stats_' + they.level_id + '>';
-#       ul += '<li>Name: ' + they.name     + '</li>';
-#       ul += '<li>HP: '   + they.hp_left  + '/' + they.hp + '</li>';
-#       if ( they.is_player ){
-#         if ( they.ap_left >= 1 )
-#           ul += '<li>AP: <b>'   + they.ap_left  + '</b>/' + they.ap + '</li>';
-#         else
-#           ul += '<li>AP: '   + they.ap_left  + '/' + they.ap + '</li>';
-#       }
-#       
-#       ul += '<li>ST: '   + total_str     + '</li>';
-#       ul += '<li>SP: '   + they.speed    + '</li>';
-#       ul += '<li>LVL: '  + they.level    + '</li>';
-#       ul += '</ul>';
-#       
-#       ul = $(ul);
-#       if ( the_id == they.level_id )
-#         ul.addClass('selected');
-#         
-#       stats.append(ul);
-#     }
-#   },
-#   save_party: function(){
-#     if ( localStorage ){
-#       localStorage.inventory = JSON.stringify(level.players[0].inventory);
-#       $.each(level.players, function(){ this.map = null }); // remove circular reference
-#       localStorage.players = JSON.stringify(level.players);
-#     }
-#   },
-#   load_party: function(positions){
-#     
-#     var inventory, catan, claudia, players, pos;
-#     
-#     if ( typeof positions == 'undefined' ){ positions = [ { x: 4, y: 3 }, { x: 3, y: 3 } ]; }
-#     
-#     if ( localStorage && localStorage.players ){
-#       
-#       inventory = new Inventory(JSON.parse(localStorage.inventory));
-#       players = JSON.parse(localStorage.players);
-#       level.players = [];
-#       
-#       $.each(players, function(){
-#         pos = positions.pop();
-#         this.x = pos.x;
-#         this.y = pos.y;
-#         this.map = level.map;
-#         this.inventory = inventory;
-#         level.players.push(new Character(this));
-#       });
-#       level.active_player = level.players[0];
-#       
-#     } else { // create a new party, none stored 
-#       
-#       inventory = new Inventory( [ ['Potion', 3] ] );
-#       pos = positions.pop();
-#       catan = new Character({ map: level.map, x: pos.x, y: pos.y });
-#       pos = positions.pop();
-#       claudia = new Character({ 
-#         sprite: '/images/girl.gif', name: 'Claudia', 
-#         weapon: new Weapon({ range: 3, attack: 1, is_ranged: true, dead_range: 1, name: 'Weak Bow' }),
-#         hp: 45, map: level.map, x: pos.x, y: pos.y,
-#       });
-#       claudia.inventory = inventory;
-#       catan.inventory = inventory;
-#       level.players = [catan, claudia];
-#       level.active_player = level.players[0];
-#     }
-#   },
-#   next: function(){
-#     this.end_function();
-#     this.save_party();
-#     
-#     var current_level = Number(location.pathname.replace('/', '').replace('.html', ''));
-#     if( isNaN(current_level) ){ current_level = 1; }
-#     if( current_level + 1 > 2 ){ return false; }
-#     
-#     window.location = String(current_level + 1) + '.html';
 #   },
 # });`

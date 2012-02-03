@@ -30,9 +30,7 @@ class window.LifeForce
       top: "#{(50 - @spriteImageHeight)/2}px"
       position: 'absolute'
     level.map.overlayMatrix.get(@x, @y).append ghost
-    
     ghostClone = ghost.clone()
     level.map.overlayMatrix.get(@x, @y).append ghostClone
-    
     ghost.animate({ top: '-=200px', opacity: 0 }, 2000, -> ghost.remove())
     ghostClone.fadeOut(5000, -> ghostClone.remove())

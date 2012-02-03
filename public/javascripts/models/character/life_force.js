@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Fri, 03 Feb 2012 04:25:11 GMT from
+/* DO NOT MODIFY. This file was compiled Fri, 03 Feb 2012 04:28:36 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/life_force.coffee
  */
 

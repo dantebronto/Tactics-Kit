@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Fri, 03 Feb 2012 04:24:18 GMT from
+/* DO NOT MODIFY. This file was compiled Fri, 03 Feb 2012 04:58:42 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character.coffee
  */
 

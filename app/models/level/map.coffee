@@ -58,12 +58,8 @@ class Level.Map
      .attr 'id', "#{type}-cell-#{x}-#{y}"
   
   add: (obj) ->
-    if obj.constructor == Player or obj.constructor == Enemy
-      obj.show()
-      obj.addedToLevel()
-  
-  remove: (obj) ->
-    obj.hide() if obj.constructor == Player or obj.constructor == Enemy
+    obj.show() if obj.show
+    obj.addedToLevel() if obj.addedToLevel
   
   getElem: (obj) ->
     if obj.constructor == Player
