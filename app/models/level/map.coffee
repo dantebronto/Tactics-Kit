@@ -63,8 +63,7 @@ class Level.Map
       obj.addedToLevel()
   
   remove: (obj) ->
-    if obj.constructor == Player
-      obj.hide()
+    obj.hide() if obj.constructor == Player or obj.constructor == Enemy
   
   getElem: (obj) ->
     if obj.constructor == Player

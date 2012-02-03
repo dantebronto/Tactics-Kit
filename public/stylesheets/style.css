@@ -14,7 +14,7 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; overflow: hidden; ma
 
 #map { border-top: thin solid #666; border-left: thin solid #666; float:left; }
 #info { float:left; width: 210px; height: 100%; overflow: auto; padding:3px;}
-.cell { background-color:transparent; width: 50px; height: 50px; display:inline; float:left; border-right: thin solid #666; border-bottom: thin solid #666; text-align:center; }
+.cell { background-color:transparent; width: 50px; height: 50px; display:inline; float:left; border-right: thin solid #666; border-bottom: thin solid #666; text-align:center; position: relative; }
 
 .attackable { background-image: url(/images/attackable.png); cursor: pointer; }
 .moveable { background-image: url(/images/moveable.png); cursor: pointer; }
@@ -24,10 +24,13 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; overflow: hidden; ma
 .pointer { cursor: pointer; }
 
 #info .character-info { display: inline-block; height: 100px; width: 180px; font-size: 11px; margin: 0 0 5px; position: relative; padding: 0 2px; background-color: gray; border: medium black solid; border-radius: 6px; padding: 3px; }
-#info .character-info .stat-bar-holder { width: 179px; position:relative; }
+#info .stat-bar-holder { width: 128px; position:relative; float:right; }
+#info .sprite { width: 50px; height: 50px; top: -5px; position:relative; }
+#info .sprite img { display: block; margin: 0 auto; }
+#info .name { text-align:center; font-weight:bold; }
 #info .stat-bar { display: block; height: 12px; position: absolute; z-index: 1; left: 0; border-radius: 5px;}
-#info .hp { background: none repeat scroll 0 0 red; top: 10px; }
-#info .ap { background: none repeat scroll 0 0 blue; top: 25px; }
+#info .hp { background: none repeat scroll 0 0 red; top: 5px; }
+#info .ap { background: none repeat scroll 0 0 blue; top: 20px; }
 
 #stage { overflow:auto; }
 

@@ -33,6 +33,7 @@ if Level? then do ->
   
   window.p2 = new Player 
     x: 4, y: 3, name: 'lady'
+    strength: 20
     sprite: '/images/girl.gif'
     weapon: new Weapon 
       range: 15

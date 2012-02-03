@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Thu, 02 Feb 2012 05:00:25 GMT from
+/* DO NOT MODIFY. This file was compiled Fri, 03 Feb 2012 00:17:01 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/attacking.coffee
  */
 
@@ -58,10 +58,18 @@
     Attacking.prototype.animateDamage = function(x, y, dmg) {
       var hits;
       hits = dmg.length === 1 || dmg === 'miss' ? $("<h6>" + dmg + "</h6>") : dmg.length === 2 ? $("<h5>" + dmg + "</h5>") : dmg.length >= 3 ? (dmg = Number(dmg), dmg >= 750 ? $("<h1>" + dmg + "</h1>") : dmg >= 500 ? $("<h2>" + dmg + "</h2>") : dmg >= 250 ? $("<h3>" + dmg + "</h3>") : void 0) : $("<h4>" + dmg + "</h4>");
-      level.queue(function() {
-        return level.map.statMatrix.get(x, y).html(hits).show().shake(3, 3, 180).fadeOut(1200);
-      });
-      return level.animate();
+      return level.queue(__bind(function() {
+        var _ref;
+        level.map.statMatrix.get(x, y).append(hits).show();
+        if (dmg !== 'miss') {
+          if ((_ref = Character.findByPosition(x, y)) != null) {
+            _ref.subtractHp(Number(dmg));
+          }
+        }
+        return hits.show().shake(3, 3, 180).fadeOut(1500, function() {
+          return $(this).remove();
+        });
+      }, this)).animate();
     };
     Attacking.prototype.didMiss = function() {
       var missPercent;

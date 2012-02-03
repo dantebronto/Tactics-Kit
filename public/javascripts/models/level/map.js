@@ -81,7 +81,7 @@
       }
     };
     Map.prototype.remove = function(obj) {
-      if (obj.constructor === Player) {
+      if (obj.constructor === Player || obj.constructor === Enemy) {
         return obj.hide();
       }
     };

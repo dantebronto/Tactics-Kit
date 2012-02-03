@@ -18,6 +18,21 @@ class window.LifeForce
   die: ->
     @trigger 'die'
     @info.fadeOut 'slow'
+    @animateDeath()
     @remove()
     level.clear()
     level.remove @
+  
+  animateDeath: ->
+    ghost = @spriteImage.clone()
+    ghost.css
+      left: "#{(50 - @spriteImageWidth)/2}px"
+      top: "#{(50 - @spriteImageHeight)/2}px"
+      position: 'absolute'
+    level.map.overlayMatrix.get(@x, @y).append ghost
+    
+    ghostClone = ghost.clone()
+    level.map.overlayMatrix.get(@x, @y).append ghostClone
+    
+    ghost.animate({ top: '-=200px', opacity: 0 }, 2000, -> ghost.remove())
+    ghostClone.fadeOut(5000, -> ghostClone.remove())

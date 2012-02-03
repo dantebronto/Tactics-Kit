@@ -1,8 +1,8 @@
 class window.Character
   
   @findByPosition: (x, y) ->
-    _(level.players).select( (player) ->
-      player.x == x and player.y == y
+    _(level.players.concat level.enemies).select( (char) ->
+      char.x == x and char.y == y
     )[0]
   
   @mixin: (mixins...) ->
@@ -19,6 +19,7 @@ class window.Character
   
   constructor: (@opts={}) ->
     @name = @opts.name or 'Catan'
+    @sprite = @opts.sprite or '/images/alien.gif'
     @inventory = @opts.inventory or new Inventory()
     @level = @opts.level or 1
     
@@ -28,8 +29,6 @@ class window.Character
     @initAttacking()
     @initExperience()
     @initPathFinding()
-    
-    @sprite = @opts.sprite or '/images/bar.gif'
     
     @accuracy = @opts.accuracy or 80+Math.floor(@level*0.19)
     @strength = @opts.strength or @level
@@ -47,13 +46,18 @@ class window.Character
     
     $ =>
       @bindEvents()
-    
     @
+  
+  initSprite: ->
+    @spriteImage = @info.find('img')
+    @spriteImage.load =>
+      @spriteImageWidth = @spriteImage.width()
+      @spriteImageHeight = @spriteImage.height()
   
   addedToLevel: ->
     @drawInfo()
+    @initSprite()
     @bindInfoClicked()
-    @bindElemClicked()
     @trigger 'create'
   
   characterSelected: ->
@@ -64,7 +68,6 @@ class window.Character
     @showAttackableCells()
   
   bindInfoClicked: -> @info.bind 'click', => @characterSelected()
-  bindElemClicked: -> #@getElem().bind 'click', => @characterSelected()
   
   getElem: -> level.getElem @
   
@@ -85,6 +88,8 @@ class window.Character
     @on 'turnStart', @onTurnStart
     @on 'turnEnd', @onTurnEnd
     @on 'die', @onDeath
+  
+  remove: -> @hide()
   
   hide: ->
     @getElem()

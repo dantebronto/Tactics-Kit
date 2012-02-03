@@ -49,7 +49,6 @@ class window.Moveable
         @hide()
         @x = res.pos.x
         @y = res.pos.y
-        @bindElemClicked()
         @characterSelected()
         @show()
       )

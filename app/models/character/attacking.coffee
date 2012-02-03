@@ -31,7 +31,7 @@ class window.Attacking
     @doDamage(x, y)
     @subtractAp(2)
     @characterSelected()
-    
+  
   doDamage: (x, y) ->
     dmg = 0
     _(@strength + @weapon.attack).times => dmg += @rollDice()
@@ -54,9 +54,11 @@ class window.Attacking
      else
        $ "<h4>#{dmg}</h4>"
     
-    level.queue ->
-      level.map.statMatrix.get(x, y).html(hits).show().shake(3, 3, 180).fadeOut(1200)
-    level.animate()
+    level.queue(=>
+      level.map.statMatrix.get(x, y).append(hits).show()
+      Character.findByPosition(x, y)?.subtractHp(Number(dmg)) unless dmg == 'miss'
+      hits.show().shake(3, 3, 180).fadeOut 1500, -> $(@).remove()
+    ).animate()
   
   didMiss: ->
     missPercent = Math.floor((Math.random()*100+1))
