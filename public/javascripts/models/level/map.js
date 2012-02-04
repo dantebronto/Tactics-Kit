@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Fri, 03 Feb 2012 05:03:30 GMT from
+/* DO NOT MODIFY. This file was compiled Fri, 03 Feb 2012 05:14:54 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/level/map.coffee
  */
 
@@ -88,8 +88,11 @@
     };
 
     Map.prototype.getElem = function(obj) {
-      if (obj.constructor === Player) return this.playerMatrix.get(obj.x, obj.y);
-      if (obj.constructor === Enemy) return this.enemyMatrix.get(obj.x, obj.y);
+      if (obj.constructor === Player) {
+        return this.playerMatrix.get(obj.x, obj.y);
+      } else if (obj.constructor === Enemy) {
+        return this.enemyMatrix.get(obj.x, obj.y);
+      }
     };
 
     Map.prototype.occupiedAt = function(x, y) {

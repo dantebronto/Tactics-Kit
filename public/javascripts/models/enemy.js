@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Fri, 03 Feb 2012 05:03:29 GMT from
+/* DO NOT MODIFY. This file was compiled Fri, 03 Feb 2012 05:14:54 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/enemy.coffee
  */
 
@@ -15,17 +15,10 @@
     }
 
     Enemy.prototype.addedToLevel = function() {
-      Enemy.__super__.addedToLevel.call(this);
+      this.drawInfo();
+      this.initSprite();
+      this.trigger('create');
       return this.info.find('button').hide();
-    };
-
-    Enemy.prototype.die = function() {
-      this.trigger('die');
-      this.info.fadeOut('slow');
-      this.animateDeath();
-      this.remove();
-      level.clear();
-      return level.remove(this);
     };
 
     return Enemy;

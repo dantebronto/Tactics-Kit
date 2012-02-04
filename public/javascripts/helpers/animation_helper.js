@@ -1,29 +1,31 @@
+/* DO NOT MODIFY. This file was compiled Sat, 04 Feb 2012 02:14:24 GMT from
+ * /Users/kellenpresley/source/rpgQuery/app/helpers/animation_helper.coffee
+ */
+
 (function() {
   var AnimationHelper;
+
   AnimationHelper = (function() {
+
     function AnimationHelper() {}
-    $.fn.shake = function(intShakes, intDistance, intDuration) {
-      this.each(function() {
-        var elem, x, _i, _len, _results;
-        elem = $(this);
-        elem.css({
-          position: 'relative'
-        });
-        _results = [];
-        for (_i = 0, _len = intShakes.length; _i < _len; _i++) {
-          x = intShakes[_i];
-          _results.push(elem.animate({
-            left: intDistance * -1
-          }, (intDuration / intShakes) / 4).animate({
-            left: intDistance
-          }, (intDuration / intShakes) / 2).animate({
-            left: 0
-          }, (intDuration / intShakes) / 4));
-        }
-        return _results;
+
+    
+  $.fn.shake = function ( times, distance, duration, callback ) {
+      return this.css({ position: 'relative' }).each( function () {            
+          for ( var i = 0, t = duration / times; i < times; i+= 1 ) {
+              $( this ).
+                  animate({ left: -distance }, t / 3 ).
+                  animate({ left:  distance }, t / 3 ).
+                  animate({ left:         0 }, t / 4 );
+          }
+
+          $( this ).show( callback );
       });
-      return this;
-    };
+  };
+  ;
+
     return AnimationHelper;
+
   })();
+
 }).call(this);

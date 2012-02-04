@@ -114,67 +114,9 @@ class window.Level
 #     else if !@active_player
 #       @active_enemy.calculate_turn() # activate next enemy
 #   
-#   load_info_toggles: ->
-#     $('#info_toggles').show()
-#     $('#player_info_toggle').bind 'click', ->
-#       $('#info_toggles').hide()
-#       level.show_stats('players')
-#       level.info_div.show()
-#     
-#     $('#enemy_info_toggle').bind 'click', ->
-#       $('#info_toggles').hide();
-#       level.show_stats('enemies')
-#       level.info_div.show()
-#   
 #   activate_players: -> player.bind_events() for player in @players
 #   restore_enemies: -> enemy.has_gone = false for enemy in @enemies
 #   restore_players: -> player.ap_left = player.ap for player in @players
-#   
-#   draw: ->
-#     @animation_queue[0]() if typeof @animation_queue[0] == 'function'
-#     @animation_queue.shift()
-#     setTimeout((=> @draw()), 500 * @animation_speed) 
-#   
-#   assign_ids: ->
-#     chars = @enemies.concat(@players);
-#     for i in chars.length
-#       chars[i].level_id = i
-#       @higest_id = i
-#   
-#   load_party: (positions) ->
-#     positions ?= [ { x: 4, y: 3 }, { x: 3, y: 3 } ]
-#     
-#     if localStorage and localStorage.players
-#       
-#       inventory = new Inventory(JSON.parse(localStorage.inventory))
-#       players = JSON.parse(localStorage.players)
-#       level.players = []
-#       
-#       $.each players, () ->
-#         pos = positions.pop()
-#         @x = pos.x
-#         @y = pos.y
-#         @map = level.map
-#         @inventory = inventory
-#         level.players.push(new Character(this))
-#         
-#         level.active_player = level.players[0]
-#     else
-#       # create a new party, none stored
-#       inventory = new Inventory( [ ['Potion', 3] ] )
-#       pos = positions.pop()
-#       catan = new Character
-#         map: level.map, x: pos.x, y: pos.y
-#       pos = positions.pop()
-#       claudia = new Character
-#         sprite: '/images/girl.gif', name: 'Claudia'
-#         hp: 45, map: level.map, x: pos.x, y: pos.y
-#         weapon: new Weapon
-#           range: 3, attack: 1, is_ranged: true, dead_range: 1, name: 'Weak Bow'
-#       claudia.inventory = inventory
-#       catan.inventory = inventory
-#       level.players = [catan, claudia]
-#       level.active_player = level.players[0]
 #   
 #   reset_turn: ->
 #     @restore_players()
@@ -183,33 +125,7 @@ class window.Level
 #     @turn += 1
 #     @turn_function()
 # 
-# `var cuipl = Class.extend({
 #   distribute_exp: function(amt){
 #     var chars = this.players;
 #     for(var i = chars.length - 1; i >= 0; i--)
 #       chars[i].add_exp(amt);
-#   },
-#   remove_enemy: function(enemy){
-#     var chars = level.enemies;
-#     var to_remove;
-#     
-#     for (var i = chars.length - 1; i >= 0; i--)
-#       if( chars[i].x == enemy.x && chars[i].y == enemy.y ){
-#         to_remove = chars.splice(i, 1)
-#         this.active_enemy = null;
-#       }
-#   },
-#   remove_player: function(player){
-#     var chars = level.players;
-#     var to_remove;
-# 
-#     for (var i = chars.length - 1; i >= 0; i--)
-#       if( chars[i].x == player.x && chars[i].y == player.y ){
-#         to_remove = chars.splice(i, 1)
-#         this.active_player = null;
-#       }
-#     
-#     if ( chars.length == 0 )
-#       this.game_over();
-#   },
-# });`

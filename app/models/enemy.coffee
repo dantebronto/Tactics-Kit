@@ -3,16 +3,10 @@ class window.Enemy extends Character
     super(opts)
   
   addedToLevel: ->
-    super()
+    @drawInfo()
+    @initSprite()
+    @trigger 'create'
     @info.find('button').hide()
-  
-  die: ->
-    @trigger 'die'
-    @info.fadeOut 'slow'
-    @animateDeath()
-    @remove()
-    level.clear()
-    level.remove @
   
     # // var enemy_level_id = 99;
     # // 
