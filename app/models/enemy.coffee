@@ -8,6 +8,24 @@ class window.Enemy extends Character
     @trigger 'create'
     @info.find('button').hide()
   
+  # enemy.defineStrategy ->
+  #   attack
+  #   defend
+  #   protect
+  #   range
+  #
+  findTarget: ->
+  
+  specialMove: (chancePct, cb) ->
+  
+  die: ->
+    super()
+    @distributeExperience()
+  
+  distributeExperience: ->
+    _(level.players).each (player) =>
+      player.addExp @exp
+  
     # // var enemy_level_id = 99;
     # // 
     # // var Enemy = Character.extend({

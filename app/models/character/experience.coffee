@@ -1,12 +1,12 @@
 class window.Experience
   
   initExperience: ->
-    @exp = @opts.exp or 0
+    @exp = @opts.exp or Math.floor(@hp*1.3)
     @expNext = @opts.expNext or Math.floor(@hp*1.3)
     @levelUp = @opts.onLevelUp or @onLevelUp
   
   addExp: (amt) ->
-    for i in [1..amt]
+    _(amt).times =>
       @exp += 1
       @expNext -= 1
       @levelUp() if @expNext <= 0

@@ -37,7 +37,7 @@ if Level? then do ->
     sprite: '/images/girl.gif'
     weapon: new Weapon 
       range: 15
-  
+
   setInterval((-> p2.addAp(4)), 3000)
   
   window.e1 = new Enemy 

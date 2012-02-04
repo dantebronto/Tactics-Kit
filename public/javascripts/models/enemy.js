@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Fri, 03 Feb 2012 05:14:54 GMT from
+/* DO NOT MODIFY. This file was compiled Sat, 04 Feb 2012 03:05:49 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/enemy.coffee
  */
 
@@ -19,6 +19,22 @@
       this.initSprite();
       this.trigger('create');
       return this.info.find('button').hide();
+    };
+
+    Enemy.prototype.findTarget = function() {};
+
+    Enemy.prototype.specialMove = function(chancePct, cb) {};
+
+    Enemy.prototype.die = function() {
+      Enemy.__super__.die.call(this);
+      return this.distributeExperience();
+    };
+
+    Enemy.prototype.distributeExperience = function() {
+      var _this = this;
+      return _(level.players).each(function(player) {
+        return player.addExp(_this.exp);
+      });
     };
 
     return Enemy;

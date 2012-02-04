@@ -17,3 +17,15 @@ p. You may need to require rubygems if using Ruby 1.8.x
 <pre>ruby -rubygems app.rb</pre>
 
 p. From here you can simply hit http://localhost:4567/ to begin playing. Enjoy!
+
+
+
+h1. Ad Ranking Engine
+
+p. Upvote or downvote of ads.
+
+p. User user preferences to build a demographic profile. 
+
+p. Deliver highly targeted ads and potentially gather, process, and resell user data
+
+p. Need to figure out ad revenue numbers and calculate average and recurring revenue per user

@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Fri, 03 Feb 2012 05:12:07 GMT from
+/* DO NOT MODIFY. This file was compiled Sat, 04 Feb 2012 16:59:27 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/level.coffee
  */
 
@@ -129,11 +129,14 @@
     };
 
     Level.prototype.bindWindowResize = function() {
-      var _this = this;
-      return this.win.resize(function() {
+      var debounced, resizeFn,
+        _this = this;
+      resizeFn = function() {
         _this.stage.css('height', _this.win.height() + 'px');
         return _this.info.css('height', _this.win.height() + 'px');
-      });
+      };
+      debounced = _.debounce(resizeFn, 500);
+      return this.win.resize(debounced);
     };
 
     Level.prototype.gameOver = function() {
