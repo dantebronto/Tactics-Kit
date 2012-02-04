@@ -74,9 +74,12 @@ class window.Level
     @
   
   bindWindowResize: ->
-    @win.resize =>
+    resizeFn = =>
       @stage.css('height', @win.height()+'px')
       @info.css('height', @win.height()+'px')
+    
+    debounced = _.debounce(resizeFn, 500)
+    @win.resize debounced
       
   gameOver: ->
     console.log 'You have fallen in battle...'
@@ -125,7 +128,3 @@ class window.Level
 #     @turn += 1
 #     @turn_function()
 # 
-#   distribute_exp: function(amt){
-#     var chars = this.players;
-#     for(var i = chars.length - 1; i >= 0; i--)
-#       chars[i].add_exp(amt);
