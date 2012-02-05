@@ -38,18 +38,25 @@ class window.Moveable
         matrix = @findMoveableNeighbors(x, y, matrix, speed-1) if speed > 0
     matrix
   
-  moveTo: (x, y) ->
+  moveTo: (x, y, cb) ->
     console.log "#{@name} moving to #{x} #{y}"
     results = @findShortestPathTo(x, y)
+    
+    # remove the last position if can't move to it
+    lastPos = results[results.length-1]?.pos
+    results.pop() unless level.canMoveTo(lastPos.x, lastPos.y)
+    
+    lastPos = results[results.length-1]?.pos
+    
     _(results).each (res) =>
-      level.queue(1000, =>
+      level.queue(=>
         @getElem().unbind 'click'
-        @subtractAp(1)
+        @subtractAp 1
         @updateInfo()
         @hide()
         @x = res.pos.x
         @y = res.pos.y
         @characterSelected()
         @show()
-      )
-    level.animate()
+        cb() if cb and lastPos == res.pos
+      ).queue(1000)

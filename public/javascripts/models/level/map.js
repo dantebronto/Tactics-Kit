@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Fri, 03 Feb 2012 05:14:54 GMT from
+/* DO NOT MODIFY. This file was compiled Sun, 05 Feb 2012 23:05:21 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/level/map.coffee
  */
 
@@ -145,6 +145,7 @@
 
     Map.prototype.handleMapClicked = function(e) {
       var char, classes, id, overlayInfo, target, underlayCell, x, y, _ref, _ref2;
+      if (level.anim.length > 0) return;
       target = $(e.target);
       id = target.attr('id') ? target.attr('id') : target.parent().attr('id');
       overlayInfo = id.split("-");
@@ -156,15 +157,15 @@
         this.clear();
         return;
       }
-      if (classes.include('attackable')) {
-        if ((_ref = level.activePlayer) != null) _ref.attack(x, y);
+      if (classes.include('attackable') && this.statMatrix.get(x, y).find(':header').length === 0) {
+        if ((_ref = level.activeCharacter) != null) _ref.attack(x, y);
       }
       if (this.playerMatrix.get(x, y).hasClass('occupied')) {
         char = Character.findByPosition(x, y);
         if (!classes.include('attackable')) char.characterSelected();
       }
       if (classes.include('moveable')) {
-        return (_ref2 = level.activePlayer) != null ? _ref2.moveTo(x, y) : void 0;
+        return (_ref2 = level.activeCharacter) != null ? _ref2.moveTo(x, y) : void 0;
       }
     };
 

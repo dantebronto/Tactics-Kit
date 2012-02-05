@@ -37,8 +37,6 @@ if Level? then do ->
     sprite: '/images/girl.gif'
     weapon: new Weapon 
       range: 15
-
-  setInterval((-> p2.addAp(4)), 3000)
   
   window.e1 = new Enemy 
     x: 4, y: 14, 
@@ -57,5 +55,5 @@ if Level? then do ->
       height: 816
       backgroundImage: '/images/test-map.jpg'
       selector: '#map'
-    players: [p1, p2]
+    players: [p1]
     enemies: [e1, e2]

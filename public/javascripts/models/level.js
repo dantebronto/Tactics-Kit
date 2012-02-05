@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Sat, 04 Feb 2012 16:59:27 GMT from
+/* DO NOT MODIFY. This file was compiled Sun, 05 Feb 2012 22:32:45 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/level.coffee
  */
 
@@ -16,17 +16,18 @@
       this.players = opts.players || [];
       this.enemies = opts.enemies || [];
       this.eventDispatch = $({});
-      this.anim = $({});
-      this.activePlayer = null;
-      this.animationSpeed = opts.animationSpeed || 500;
+      this.anim = [];
+      this.animationInterval = opts.animationInterval || 100;
       this.initAnimationQueue();
+      this.activeCharacter = null;
       $(function() {
         _this.initCharacters();
         _this.win = $(window);
         _this.stage = $('#stage');
         _this.info = $('#info');
         _this.bindWindowResize();
-        return _this.win.trigger('resize');
+        _this.win.trigger('resize');
+        return _this.startNextCharacter();
       });
     }
 
@@ -106,26 +107,26 @@
       }
     };
 
-    Level.prototype.initAnimationQueue = function() {};
-
-    Level.prototype.queue = function(delay, fn) {
+    Level.prototype.initAnimationQueue = function() {
       var _this = this;
-      if (typeof delay === 'function') {
-        fn = delay;
-        delay = 0;
-      }
-      this.anim.queue('lvl', function() {
-        fn();
-        return setTimeout((function() {
-          return _this.anim.dequeue('lvl');
-        }), delay);
-      });
+      return setInterval((function() {
+        return _this.nextTick();
+      }), this.animationInterval);
+    };
+
+    Level.prototype.queue = function(delayOrFn) {
+      if (delayOrFn == null) delayOrFn = 0;
+      this.anim.push(delayOrFn);
       return this;
     };
 
-    Level.prototype.animate = function() {
-      this.anim.dequeue('lvl');
-      return this;
+    Level.prototype.nextTick = function() {
+      if (typeof this.anim[0] === 'number') {
+        this.anim[0] -= this.animationInterval;
+        if (this.anim[0] <= 0) return this.anim.shift();
+      } else if (typeof this.anim[0] === 'function') {
+        return this.anim.shift()();
+      }
     };
 
     Level.prototype.bindWindowResize = function() {
@@ -143,6 +144,30 @@
       console.log('You have fallen in battle...');
       return $('body').fadeOut(5000, function() {
         return location.reload(true);
+      });
+    };
+
+    Level.prototype.startNextCharacter = function() {
+      var nextChar,
+        _this = this;
+      console.log('snc');
+      console.log("" + e1.name + " has " + e1.apLeft + " ap left");
+      nextChar = _(this.players.concat(this.enemies)).filter(function(char) {
+        return !char.hasGone();
+      })[0];
+      if (nextChar != null) {
+        return nextChar.startTurn();
+      } else {
+        return this.queue(function() {
+          _this.restoreCharacters();
+          return _this.startNextCharacter();
+        });
+      }
+    };
+
+    Level.prototype.restoreCharacters = function() {
+      return _(this.players.concat(this.enemies)).each(function(char) {
+        return char.addAp(char.ap);
       });
     };
 

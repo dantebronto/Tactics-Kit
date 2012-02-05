@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Sat, 04 Feb 2012 03:05:49 GMT from
+/* DO NOT MODIFY. This file was compiled Sun, 05 Feb 2012 22:45:06 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/enemy.coffee
  */
 
@@ -21,7 +21,45 @@
       return this.info.find('button').hide();
     };
 
-    Enemy.prototype.findTarget = function() {};
+    Enemy.prototype.startTurn = function() {
+      var _this = this;
+      return level.queue(1000).queue(function() {
+        return _this.characterSelected();
+      }).queue(function() {
+        return _this.act();
+      });
+    };
+
+    Enemy.prototype.act = function() {
+      var _this = this;
+      return level.queue(1000).queue(function() {
+        var distanceToTarget, target;
+        target = _this.findTarget();
+        distanceToTarget = _this.chebyshevDistance(target.x, target.y);
+        if (distanceToTarget <= _this.weapon.range) {
+          return _this.attack(target.x, target.y);
+        } else {
+          return _this.moveTo(target.x, target.y);
+        }
+      }).queue(function() {
+        if (_this.apLeft) {
+          return _this.act();
+        } else {
+          return level.startNextCharacter();
+        }
+      });
+    };
+
+    Enemy.prototype.findTarget = function() {
+      var player, weakestPlayer, _i, _len, _ref;
+      weakestPlayer = level.players[0];
+      _ref = level.players;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        player = _ref[_i];
+        if (player.hpLeft < weakestPlayer.hpLeft) weakestPlayer = player;
+      }
+      return weakestPlayer;
+    };
 
     Enemy.prototype.specialMove = function(chancePct, cb) {};
 

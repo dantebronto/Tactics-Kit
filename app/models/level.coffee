@@ -7,11 +7,12 @@ class window.Level
     @players = opts.players or []
     @enemies = opts.enemies or []
     @eventDispatch = $({})
-    @anim = $({}) # animation queue
-    @activePlayer = null
     
-    @animationSpeed = opts.animationSpeed or 500
+    @anim = [] # animation queue
+    @animationInterval = opts.animationInterval or 100
     @initAnimationQueue()
+    
+    @activeCharacter = null
     
     $ =>
       @initCharacters()
@@ -20,6 +21,7 @@ class window.Level
       @info = $ '#info'
       @bindWindowResize()
       @win.trigger 'resize'
+      @startNextCharacter()
   
   remove: (obj) ->
     @players = _(@players).filter (player) => obj != player
@@ -56,22 +58,18 @@ class window.Level
     @add player for player in @players if @players.length > 0
     @add enemy  for enemy  in @enemies if @enemies.length > 0
   
-  initAnimationQueue: ->
-    
-  queue: (delay, fn) ->
-    # make `delay` optional arg
-    if typeof delay == 'function'
-      fn = delay 
-      delay = 0
-    @anim.queue('lvl', => 
-      fn()
-      setTimeout((=> @anim.dequeue('lvl')), delay))
+  initAnimationQueue: -> setInterval((=> @nextTick()), @animationInterval)
+  
+  queue: (delayOrFn=0) ->
+    @anim.push delayOrFn
     @
   
-  animate: -> 
-    # kickoff the first animation
-    @anim.dequeue('lvl')
-    @
+  nextTick: ->
+    if typeof @anim[0] == 'number'
+      @anim[0] -= @animationInterval
+      @anim.shift() if @anim[0] <= 0
+    else if typeof @anim[0] == 'function'
+      @anim.shift()()
   
   bindWindowResize: ->
     resizeFn = =>
@@ -84,6 +82,19 @@ class window.Level
   gameOver: ->
     console.log 'You have fallen in battle...'
     $('body').fadeOut 5000, -> location.reload(true)
+  
+  startNextCharacter: ->
+    console.log 'snc'
+    console.log "#{e1.name} has #{e1.apLeft} ap left"
+    nextChar = _(@players.concat(@enemies)).filter((char) -> not char.hasGone())[0]
+    if nextChar?
+      nextChar.startTurn()
+    else
+      @queue =>
+        @restoreCharacters()
+        @startNextCharacter()
+  
+  restoreCharacters: -> _(@players.concat(@enemies)).each (char) -> char.addAp(char.ap)
   
   next: -> alert 'You win!'
   

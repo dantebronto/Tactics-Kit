@@ -35,7 +35,7 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; overflow: hidden; ma
 #stage { overflow:auto; }
 
 /* hit points */
-.cell.stat { color:white; font-family:arial; text-shadow: 2px 2px 0 #333333; }
+.cell.stat { color:white; font-family:arial; text-shadow: 2px 2px 0 #333333; z-index:1; }
 .cell.stat h6 { font-size: 1.5em; padding-top: 30px; margin-top: 15px;  }
 .cell.stat h5 { font-size: 2em; padding-top: 30px; margin-top: 15px;  }
 .cell.stat h4 { font-size: 2.5em; padding-top: 25px; margin-left: -3px; margin-top: 15px; }

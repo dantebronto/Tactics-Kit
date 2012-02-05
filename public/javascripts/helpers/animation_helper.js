@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Sat, 04 Feb 2012 02:14:24 GMT from
+/* DO NOT MODIFY. This file was compiled Sun, 05 Feb 2012 20:22:40 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/helpers/animation_helper.coffee
  */
 

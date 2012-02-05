@@ -89,6 +89,7 @@ class Level.Map
   bindClicked: -> @elem.bind 'click', (e) => @handleMapClicked(e)
   
   handleMapClicked: (e) ->
+    return if level.anim.length > 0
     target = $(e.target)
     id = if target.attr('id') then target.attr('id') else target.parent().attr('id')
     overlayInfo = id.split("-")
@@ -102,11 +103,12 @@ class Level.Map
       @clear()
       return
     
-    level.activePlayer?.attack(x, y) if classes.include('attackable')
+    if classes.include('attackable') and @statMatrix.get(x, y).find(':header').length == 0
+      level.activeCharacter?.attack(x, y)
     
     if @playerMatrix.get(x, y).hasClass('occupied')
       char = Character.findByPosition(x, y)
       char.characterSelected() unless classes.include('attackable')
     
-    level.activePlayer?.moveTo(x, y) if classes.include('moveable')
+    level.activeCharacter?.moveTo(x, y) if classes.include('moveable')
     

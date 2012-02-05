@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Sat, 04 Feb 2012 02:51:03 GMT from
+/* DO NOT MODIFY. This file was compiled Sun, 05 Feb 2012 22:47:53 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/main.coffee
  */
 
@@ -23,9 +23,6 @@
           range: 15
         })
       });
-      setInterval((function() {
-        return p2.addAp(4);
-      }), 3000);
       window.e1 = new Enemy({
         x: 4,
         y: 14,
@@ -46,7 +43,7 @@
           backgroundImage: '/images/test-map.jpg',
           selector: '#map'
         },
-        players: [p1, p2],
+        players: [p1],
         enemies: [e1, e2]
       });
     })();

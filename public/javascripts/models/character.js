@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Fri, 03 Feb 2012 04:58:42 GMT from
+/* DO NOT MODIFY. This file was compiled Sat, 04 Feb 2012 22:35:39 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character.coffee
  */
 
@@ -89,9 +89,8 @@
     };
 
     Character.prototype.characterSelected = function() {
-      console.log("" + this.name + " selected");
       level.clear();
-      level.activePlayer = this;
+      level.activeCharacter = this;
       this.showMovableCells();
       return this.showAttackableCells();
     };

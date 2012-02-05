@@ -61,9 +61,8 @@ class window.Character
     @trigger 'create'
   
   characterSelected: ->
-    console.log "#{@name} selected"
     level.clear()
-    level.activePlayer = @
+    level.activeCharacter = @
     @showMovableCells()
     @showAttackableCells()
   

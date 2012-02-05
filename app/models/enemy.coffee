@@ -13,8 +13,29 @@ class window.Enemy extends Character
   #   defend
   #   protect
   #   range
-  #
+  
+  startTurn: ->
+    level.queue(1000).queue(=> @characterSelected()).queue => @act()
+  
+  act: ->
+    level.queue(1000).queue(=>
+      target = @findTarget()
+      distanceToTarget = @chebyshevDistance target.x, target.y
+      if distanceToTarget <= @weapon.range
+        @attack target.x, target.y
+      else
+        @moveTo target.x, target.y
+    ).queue =>
+      if @apLeft
+        @act()
+      else
+        level.startNextCharacter()
+  
   findTarget: ->
+    weakestPlayer = level.players[0]
+    for player in level.players
+      weakestPlayer = player if player.hpLeft < weakestPlayer.hpLeft
+    weakestPlayer
   
   specialMove: (chancePct, cb) ->
   
@@ -22,9 +43,7 @@ class window.Enemy extends Character
     super()
     @distributeExperience()
   
-  distributeExperience: ->
-    _(level.players).each (player) =>
-      player.addExp @exp
+  distributeExperience: -> _(level.players).each (player) => player.addExp @exp
   
     # // var enemy_level_id = 99;
     # // 
@@ -41,11 +60,6 @@ class window.Enemy extends Character
     # //     self.set_movement_queue();
     # //     self.set_attack_queue();
     # //     self.queue_animations();
-    # //   },
-    # //   die: function(){
-    # //     this.remove_from_map();
-    # //     level.distribute_exp(this.exp);
-    # //     level.remove_enemy(this);
     # //   },
     # //   highlight_attack: function(){
     # //     var self = this;
@@ -188,11 +202,4 @@ class window.Enemy extends Character
     # //     });
     # //     return target;
     # //   },
-    # //   target_player: function(){
-    # //     var weakest_player = level.players[0];
-    # //     for( var i=level.players.length - 1; i >= 0; i-- )
-    # //       if ( level.players[i].hp_left < weakest_player.hp_left )
-    # //         weakest_player = level.players[i];
-    # //     return weakest_player;
-    # //   }
     # // });

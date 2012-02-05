@@ -11,10 +11,10 @@ class window.Actionable
   
   subtractAp: (amt) ->
     @apLeft -= amt
-    if @apLeft < 0
-      @apLeft = 0
-      @endTurn()
+    @endTurn() if @apLeft <= 0
     @updateInfo()
   
+  startTurn: -> console.log "It's #{@name}'s turn"
+  
   hasGone: -> @apLeft == 0
-  endTurn: -> @subtractAp(@apLeft)
+  endTurn: -> level.startNextCharacter()
