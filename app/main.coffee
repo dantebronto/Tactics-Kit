@@ -30,6 +30,7 @@ if Level? then do ->
   
   window.p1 = new Player 
     x: 3, y: 13, name: 'd00d'
+    isBot: true
   
   window.p2 = new Player 
     x: 4, y: 3, name: 'lady'

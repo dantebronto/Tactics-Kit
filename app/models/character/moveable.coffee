@@ -50,6 +50,7 @@ class window.Moveable
     
     _(results).each (res) =>
       level.queue(=>
+        return if @apLeft <= 0
         @getElem().unbind 'click'
         @subtractAp 1
         @updateInfo()
@@ -59,4 +60,4 @@ class window.Moveable
         @characterSelected()
         @show()
         cb() if cb and lastPos == res.pos
-      ).queue(1000)
+      ).queue(250)

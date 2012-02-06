@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Sun, 05 Feb 2012 23:10:34 GMT from
+/* DO NOT MODIFY. This file was compiled Mon, 06 Feb 2012 03:38:05 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/attacking.coffee
  */
 
@@ -41,14 +41,11 @@
     };
 
     Attacking.prototype.attack = function(x, y, cb) {
-      if (this.apLeft <= 0) return;
-      console.log("" + this.name + " is attacking " + x + " " + y + "!");
-      this.doDamage(x, y, cb);
-      this.subtractAp(2);
-      return this.characterSelected();
+      if (this.apLeft < 2) return;
+      return this.doDamage(x, y);
     };
 
-    Attacking.prototype.doDamage = function(x, y, cb) {
+    Attacking.prototype.doDamage = function(x, y) {
       var dmg,
         _this = this;
       dmg = 0;
@@ -56,24 +53,33 @@
         return dmg += _this.rollDice();
       });
       if (this.didMiss()) dmg = 'miss';
-      return this.animateDamage(x, y, dmg, cb);
+      return this.animateDamage(x, y, dmg);
     };
 
-    Attacking.prototype.animateDamage = function(x, y, dmg, cb) {
+    Attacking.prototype.animateDamage = function(x, y, dmg) {
       var hits,
         _this = this;
       hits = dmg.length === 1 || dmg === 'miss' ? $("<h6>" + dmg + "</h6>") : dmg.length === 2 ? $("<h5>" + dmg + "</h5>") : dmg.length >= 3 ? (dmg = Number(dmg), dmg >= 750 ? $("<h1>" + dmg + "</h1>") : dmg >= 500 ? $("<h2>" + dmg + "</h2>") : dmg >= 250 ? $("<h3>" + dmg + "</h3>") : void 0) : $("<h4>" + dmg + "</h4>");
       return level.queue(function() {
-        var _ref;
+        var character, offset;
+        if (_this.apLeft <= 0) return;
         level.map.statMatrix.get(x, y).append(hits).show();
+        character = Character.findByPosition(x, y);
+        offset = (50 - hits.width()) / 2;
+        hits.css({
+          position: 'absolute',
+          left: "" + offset + "px"
+        });
         if (dmg !== 'miss') {
-          if ((_ref = Character.findByPosition(x, y)) != null) {
-            _ref.subtractHp(Number(dmg));
-          }
+          if (character != null) character.subtractHp(Number(dmg));
+          console.log("" + _this.name + " attacks " + (character != null ? character.name : void 0) + " and does " + dmg + " damage");
+        } else {
+          console.log("" + _this.name + " attacked " + (character != null ? character.name : void 0) + " and missed");
         }
-        return hits.show().shake(3, 3, 180).fadeOut(1000, function() {
-          $(this).remove();
-          if (cb) return cb();
+        _this.subtractAp(2);
+        _this.characterSelected();
+        return hits.show().shake(3, 3, 180, (function() {}), offset).fadeOut(500, function() {
+          return hits.remove();
         });
       });
     };

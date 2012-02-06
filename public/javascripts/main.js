@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Sun, 05 Feb 2012 22:47:53 GMT from
+/* DO NOT MODIFY. This file was compiled Mon, 06 Feb 2012 03:21:35 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/main.coffee
  */
 
@@ -11,7 +11,8 @@
       window.p1 = new Player({
         x: 3,
         y: 13,
-        name: 'd00d'
+        name: 'd00d',
+        isBot: true
       });
       window.p2 = new Player({
         x: 4,

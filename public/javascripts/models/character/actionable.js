@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Sat, 04 Feb 2012 22:41:08 GMT from
+/* DO NOT MODIFY. This file was compiled Mon, 06 Feb 2012 03:01:32 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/actionable.coffee
  */
 
@@ -10,7 +10,8 @@
 
     Actionable.prototype.initAp = function() {
       this.ap = this.opts.ap || Math.floor(4 + this.level * 0.07);
-      return this.apLeft = this.ap;
+      this.apLeft = this.ap;
+      return this.hasGone = false;
     };
 
     Actionable.prototype.addAp = function(amt) {
@@ -21,7 +22,10 @@
 
     Actionable.prototype.subtractAp = function(amt) {
       this.apLeft -= amt;
-      if (this.apLeft <= 0) this.endTurn();
+      if (this.apLeft <= 0) {
+        this.hasGone = true;
+        level.startNextCharacter();
+      }
       return this.updateInfo();
     };
 
@@ -29,12 +33,9 @@
       return console.log("It's " + this.name + "'s turn");
     };
 
-    Actionable.prototype.hasGone = function() {
-      return this.apLeft === 0;
-    };
-
     Actionable.prototype.endTurn = function() {
-      return level.startNextCharacter();
+      this.subtractAp(this.apLeft);
+      return level.clear();
     };
 
     return Actionable;

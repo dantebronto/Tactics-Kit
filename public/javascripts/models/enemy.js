@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Sun, 05 Feb 2012 22:45:06 GMT from
+/* DO NOT MODIFY. This file was compiled Mon, 06 Feb 2012 02:14:49 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/enemy.coffee
  */
 
@@ -17,13 +17,12 @@
     Enemy.prototype.addedToLevel = function() {
       this.drawInfo();
       this.initSprite();
-      this.trigger('create');
-      return this.info.find('button').hide();
+      return this.trigger('create');
     };
 
     Enemy.prototype.startTurn = function() {
       var _this = this;
-      return level.queue(1000).queue(function() {
+      return level.queue(100).queue(function() {
         return _this.characterSelected();
       }).queue(function() {
         return _this.act();
@@ -32,7 +31,7 @@
 
     Enemy.prototype.act = function() {
       var _this = this;
-      return level.queue(1000).queue(function() {
+      return level.queue(100).queue(function() {
         var distanceToTarget, target;
         target = _this.findTarget();
         distanceToTarget = _this.chebyshevDistance(target.x, target.y);
@@ -42,10 +41,10 @@
           return _this.moveTo(target.x, target.y);
         }
       }).queue(function() {
-        if (_this.apLeft) {
+        if (_this.apLeft > 1) {
           return _this.act();
         } else {
-          return level.startNextCharacter();
+          return _this.endTurn();
         }
       });
     };
@@ -62,11 +61,6 @@
     };
 
     Enemy.prototype.specialMove = function(chancePct, cb) {};
-
-    Enemy.prototype.die = function() {
-      Enemy.__super__.die.call(this);
-      return this.distributeExperience();
-    };
 
     Enemy.prototype.distributeExperience = function() {
       var _this = this;

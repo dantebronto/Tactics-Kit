@@ -20,6 +20,7 @@ class window.LifeForce
     @info.fadeOut 'slow'
     @animateDeath()
     @remove()
+    @distributeExperience()
     level.clear()
     level.remove @
   

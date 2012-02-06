@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Sat, 04 Feb 2012 22:35:39 GMT from
+/* DO NOT MODIFY. This file was compiled Mon, 06 Feb 2012 03:18:02 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character.coffee
  */
 
@@ -52,6 +52,7 @@
       this.sprite = this.opts.sprite || '/images/alien.gif';
       this.inventory = this.opts.inventory || new Inventory();
       this.level = this.opts.level || 1;
+      this.isBot = this.opts.isBot || false;
       this.initAp();
       this.initHp();
       this.initMovement();

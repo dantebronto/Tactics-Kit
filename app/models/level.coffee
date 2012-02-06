@@ -9,7 +9,7 @@ class window.Level
     @eventDispatch = $({})
     
     @anim = [] # animation queue
-    @animationInterval = opts.animationInterval or 100
+    @animationInterval = opts.animationInterval or 50
     @initAnimationQueue()
     
     @activeCharacter = null
@@ -78,15 +78,13 @@ class window.Level
     
     debounced = _.debounce(resizeFn, 500)
     @win.resize debounced
-      
+  
   gameOver: ->
     console.log 'You have fallen in battle...'
-    $('body').fadeOut 5000, -> location.reload(true)
+    $('body').fadeOut 5000, -> location.reload true
   
   startNextCharacter: ->
-    console.log 'snc'
-    console.log "#{e1.name} has #{e1.apLeft} ap left"
-    nextChar = _(@players.concat(@enemies)).filter((char) -> not char.hasGone())[0]
+    nextChar = _(@players.concat(@enemies)).filter((char) -> not char.hasGone)[0]
     if nextChar?
       nextChar.startTurn()
     else
@@ -94,48 +92,9 @@ class window.Level
         @restoreCharacters()
         @startNextCharacter()
   
-  restoreCharacters: -> _(@players.concat(@enemies)).each (char) -> char.addAp(char.ap)
+  restoreCharacters: -> 
+    _(@players.concat(@enemies)).each (char) ->
+      char.hasGone = false
+      char.addAp char.ap
   
   next: -> alert 'You win!'
-  
-# class window.Level
-#   constructor: (opts) ->
-#     @map = opts.map
-#     @info_div = $('#info')
-#     @animation_speed = 0.5
-#     @animation_queue = [] # new Array()
-#     @turn = 1
-#     @turn_function = ->
-#     @highest_id = 0
-#     @draw()
-#   
-#   next_active_enemy: ->
-#     for enemy in @enemies
-#       return enemy unless enemy.has_gone 
-#   
-#   next_active_player: ->
-#     for player in @players
-#       return player unless player.has_gone
-#   
-#   show_current_turn: ->
-#     @active_enemy = @next_active_enemy()
-#     @active_player = @next_active_player()
-#     
-#     @next() if level.enemies.length == 0
-#     
-#     if !@active_player and !@active_enemy
-#       @reset_turn()
-#     else if !@active_player
-#       @active_enemy.calculate_turn() # activate next enemy
-#   
-#   activate_players: -> player.bind_events() for player in @players
-#   restore_enemies: -> enemy.has_gone = false for enemy in @enemies
-#   restore_players: -> player.ap_left = player.ap for player in @players
-#   
-#   reset_turn: ->
-#     @restore_players()
-#     @restore_enemies()
-#     @activate_players()
-#     @turn += 1
-#     @turn_function()
-# 

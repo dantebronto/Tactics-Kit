@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Fri, 03 Feb 2012 04:28:36 GMT from
+/* DO NOT MODIFY. This file was compiled Mon, 06 Feb 2012 02:08:17 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/life_force.coffee
  */
 
@@ -32,6 +32,7 @@
       this.info.fadeOut('slow');
       this.animateDeath();
       this.remove();
+      this.distributeExperience();
       level.clear();
       return level.remove(this);
     };

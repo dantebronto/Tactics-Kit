@@ -3,6 +3,7 @@ class window.Actionable
   initAp: ->
     @ap = @opts.ap or Math.floor(4+@level*0.07)
     @apLeft = @ap
+    @hasGone = false
   
   addAp: (amt) ->
     @apLeft += amt
@@ -11,10 +12,14 @@ class window.Actionable
   
   subtractAp: (amt) ->
     @apLeft -= amt
-    @endTurn() if @apLeft <= 0
+    if @apLeft <= 0
+      @hasGone = true
+      level.startNextCharacter()
     @updateInfo()
   
   startTurn: -> console.log "It's #{@name}'s turn"
   
-  hasGone: -> @apLeft == 0
-  endTurn: -> level.startNextCharacter()
+  endTurn: -> 
+    @subtractAp @apLeft
+    level.clear()
+    

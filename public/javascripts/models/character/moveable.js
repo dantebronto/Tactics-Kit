@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Sun, 05 Feb 2012 22:30:34 GMT from
+/* DO NOT MODIFY. This file was compiled Mon, 06 Feb 2012 03:19:39 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/moveable.coffee
  */
 
@@ -62,6 +62,7 @@
       lastPos = (_ref2 = results[results.length - 1]) != null ? _ref2.pos : void 0;
       return _(results).each(function(res) {
         return level.queue(function() {
+          if (_this.apLeft <= 0) return;
           _this.getElem().unbind('click');
           _this.subtractAp(1);
           _this.updateInfo();
@@ -71,7 +72,7 @@
           _this.characterSelected();
           _this.show();
           if (cb && lastPos === res.pos) return cb();
-        }).queue(1000);
+        }).queue(250);
       });
     };
 

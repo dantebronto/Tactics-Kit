@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Sun, 05 Feb 2012 22:32:45 GMT from
+/* DO NOT MODIFY. This file was compiled Mon, 06 Feb 2012 03:07:43 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/level.coffee
  */
 
@@ -17,7 +17,7 @@
       this.enemies = opts.enemies || [];
       this.eventDispatch = $({});
       this.anim = [];
-      this.animationInterval = opts.animationInterval || 100;
+      this.animationInterval = opts.animationInterval || 50;
       this.initAnimationQueue();
       this.activeCharacter = null;
       $(function() {
@@ -150,10 +150,8 @@
     Level.prototype.startNextCharacter = function() {
       var nextChar,
         _this = this;
-      console.log('snc');
-      console.log("" + e1.name + " has " + e1.apLeft + " ap left");
       nextChar = _(this.players.concat(this.enemies)).filter(function(char) {
-        return !char.hasGone();
+        return !char.hasGone;
       })[0];
       if (nextChar != null) {
         return nextChar.startTurn();
@@ -167,6 +165,7 @@
 
     Level.prototype.restoreCharacters = function() {
       return _(this.players.concat(this.enemies)).each(function(char) {
+        char.hasGone = false;
         return char.addAp(char.ap);
       });
     };

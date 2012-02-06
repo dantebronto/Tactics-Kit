@@ -26,19 +26,16 @@ class window.Attacking
   chebyshevDistance: (x, y) -> _([ Math.abs(@x - x), Math.abs(@y - y) ]).max()
   
   attack: (x, y, cb) ->
-    return if @apLeft <= 0
-    console.log "#{@name} is attacking #{x} #{y}!"
-    @doDamage x, y, cb
-    @subtractAp 2
-    @characterSelected()
+    return if @apLeft < 2
+    @doDamage x, y
   
-  doDamage: (x, y, cb) ->
+  doDamage: (x, y) ->
     dmg = 0
     _(@strength + @weapon.attack).times => dmg += @rollDice()
     dmg = 'miss' if @didMiss()
-    @animateDamage(x, y, dmg, cb)
+    @animateDamage(x, y, dmg)
     
-  animateDamage: (x, y, dmg, cb) ->
+  animateDamage: (x, y, dmg) ->
     hits = if dmg.length is 1 or dmg is 'miss'
       $ "<h6>#{dmg}</h6>"
     else if dmg.length is 2
@@ -54,12 +51,26 @@ class window.Attacking
      else
        $ "<h4>#{dmg}</h4>"
     
-    level.queue =>
+    level.queue(=>
+      return if @apLeft <= 0
       level.map.statMatrix.get(x, y).append(hits).show()
-      Character.findByPosition(x, y)?.subtractHp(Number(dmg)) unless dmg == 'miss'
-      hits.show().shake(3, 3, 180).fadeOut 1000, -> 
-        $(@).remove()
-        cb() if cb
+      character = Character.findByPosition(x, y)
+      offset = (50 - hits.width())/2
+      hits.css
+        position: 'absolute' 
+        left: "#{offset}px"
+      
+      unless dmg == 'miss'
+        character?.subtractHp(Number(dmg))
+        console.log "#{@name} attacks #{character?.name} and does #{dmg} damage"
+      else
+        console.log "#{@name} attacked #{character?.name} and missed"
+      @subtractAp 2
+      @characterSelected()
+      
+      hits.show().shake(3, 3, 180, (->), offset).fadeOut 500, =>
+        hits.remove()
+    )
   
   didMiss: ->
     missPercent = Math.floor((Math.random()*100+1))
