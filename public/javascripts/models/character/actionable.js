@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Mon, 06 Feb 2012 03:01:32 GMT from
+/* DO NOT MODIFY. This file was compiled Tue, 07 Feb 2012 01:13:08 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/actionable.coffee
  */
 
@@ -21,9 +21,11 @@
     };
 
     Actionable.prototype.subtractAp = function(amt) {
+      if (amt == null) amt = 0;
       this.apLeft -= amt;
       if (this.apLeft <= 0) {
         this.hasGone = true;
+        level.anim = [];
         level.startNextCharacter();
       }
       return this.updateInfo();

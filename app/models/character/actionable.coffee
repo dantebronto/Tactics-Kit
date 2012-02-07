@@ -10,10 +10,11 @@ class window.Actionable
     @apLeft = @ap if @apLeft > @ap
     @updateInfo()
   
-  subtractAp: (amt) ->
+  subtractAp: (amt=0) ->
     @apLeft -= amt
     if @apLeft <= 0
       @hasGone = true
+      level.anim = []
       level.startNextCharacter()
     @updateInfo()
   

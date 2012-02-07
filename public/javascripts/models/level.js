@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Mon, 06 Feb 2012 03:07:43 GMT from
+/* DO NOT MODIFY. This file was compiled Tue, 07 Feb 2012 01:25:24 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/level.coffee
  */
 
@@ -116,13 +116,13 @@
 
     Level.prototype.queue = function(delayOrFn) {
       if (delayOrFn == null) delayOrFn = 0;
-      this.anim.push(delayOrFn);
+      if (this.anim[0] !== delayOrFn) this.anim.push(delayOrFn);
       return this;
     };
 
     Level.prototype.nextTick = function() {
       if (typeof this.anim[0] === 'number') {
-        this.anim[0] -= this.animationInterval;
+        this.anim[0] -= 1;
         if (this.anim[0] <= 0) return this.anim.shift();
       } else if (typeof this.anim[0] === 'function') {
         return this.anim.shift()();
@@ -142,6 +142,13 @@
 
     Level.prototype.gameOver = function() {
       console.log('You have fallen in battle...');
+      return $('body').fadeOut(5000, function() {
+        return location.reload(true);
+      });
+    };
+
+    Level.prototype.next = function() {
+      console.log('You win!');
       return $('body').fadeOut(5000, function() {
         return location.reload(true);
       });
@@ -168,10 +175,6 @@
         char.hasGone = false;
         return char.addAp(char.ap);
       });
-    };
-
-    Level.prototype.next = function() {
-      return alert('You win!');
     };
 
     return Level;

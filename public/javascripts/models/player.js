@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Mon, 06 Feb 2012 03:18:02 GMT from
+/* DO NOT MODIFY. This file was compiled Mon, 06 Feb 2012 05:05:12 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/player.coffee
  */
 
@@ -40,16 +40,19 @@
 
     Player.prototype.act = function() {
       var _this = this;
-      return level.queue(100).queue(function() {
+      level.queue(function() {
         var distanceToTarget, target;
-        target = _this.findTarget();
-        distanceToTarget = _this.chebyshevDistance(target.x, target.y);
-        if (distanceToTarget <= _this.weapon.range) {
-          return _this.attack(target.x, target.y);
-        } else {
-          return _this.moveTo(target.x, target.y);
+        if (target = _this.findTarget()) {
+          if (!target) return;
+          distanceToTarget = _this.chebyshevDistance(target.x, target.y);
+          if (distanceToTarget <= _this.weapon.range) {
+            return _this.attack(target.x, target.y);
+          } else {
+            return _this.moveTo(target.x, target.y);
+          }
         }
-      }).queue(function() {
+      });
+      return level.queue(function() {
         if (_this.apLeft > 1) {
           return _this.act();
         } else {

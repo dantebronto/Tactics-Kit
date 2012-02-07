@@ -51,10 +51,11 @@ class window.Attacking
      else
        $ "<h4>#{dmg}</h4>"
     
-    level.queue(=>
+    level.queue(50).queue(=>
       return if @apLeft <= 0
       level.map.statMatrix.get(x, y).append(hits).show()
       character = Character.findByPosition(x, y)
+      
       offset = (50 - hits.width())/2
       hits.css
         position: 'absolute' 

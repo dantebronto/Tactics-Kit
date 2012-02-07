@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Mon, 06 Feb 2012 03:38:05 GMT from
+/* DO NOT MODIFY. This file was compiled Tue, 07 Feb 2012 01:39:33 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/attacking.coffee
  */
 
@@ -60,7 +60,7 @@
       var hits,
         _this = this;
       hits = dmg.length === 1 || dmg === 'miss' ? $("<h6>" + dmg + "</h6>") : dmg.length === 2 ? $("<h5>" + dmg + "</h5>") : dmg.length >= 3 ? (dmg = Number(dmg), dmg >= 750 ? $("<h1>" + dmg + "</h1>") : dmg >= 500 ? $("<h2>" + dmg + "</h2>") : dmg >= 250 ? $("<h3>" + dmg + "</h3>") : void 0) : $("<h4>" + dmg + "</h4>");
-      return level.queue(function() {
+      return level.queue(50).queue(function() {
         var character, offset;
         if (_this.apLeft <= 0) return;
         level.map.statMatrix.get(x, y).append(hits).show();

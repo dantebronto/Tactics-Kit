@@ -29,15 +29,16 @@ if Level? then do ->
   ]
   
   window.p1 = new Player 
-    x: 3, y: 13, name: 'd00d'
+    x: 3, y: 3, name: 'd00d'
     isBot: true
   
   window.p2 = new Player 
     x: 4, y: 3, name: 'lady'
     strength: 20
     sprite: '/images/girl.gif'
+    isBot: true
     weapon: new Weapon 
-      range: 15
+      range: 3
   
   window.e1 = new Enemy 
     x: 4, y: 14, 
@@ -48,6 +49,7 @@ if Level? then do ->
     x: 3, y: 14
     name: 'Ninja'
     sprite: '/images/ninja.gif'
+    strength: 20
   
   window.level = new Level
     map:
@@ -56,5 +58,6 @@ if Level? then do ->
       height: 816
       backgroundImage: '/images/test-map.jpg'
       selector: '#map'
-    players: [p1]
+    players: [p1, p2]
     enemies: [e1, e2]
+    animationInterval: 5

@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Mon, 06 Feb 2012 02:14:49 GMT from
+/* DO NOT MODIFY. This file was compiled Tue, 07 Feb 2012 01:23:56 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/enemy.coffee
  */
 
@@ -22,7 +22,7 @@
 
     Enemy.prototype.startTurn = function() {
       var _this = this;
-      return level.queue(100).queue(function() {
+      return level.queue(function() {
         return _this.characterSelected();
       }).queue(function() {
         return _this.act();
@@ -31,9 +31,10 @@
 
     Enemy.prototype.act = function() {
       var _this = this;
-      return level.queue(100).queue(function() {
+      return level.queue(function() {
         var distanceToTarget, target;
         target = _this.findTarget();
+        if (!target) return;
         distanceToTarget = _this.chebyshevDistance(target.x, target.y);
         if (distanceToTarget <= _this.weapon.range) {
           return _this.attack(target.x, target.y);

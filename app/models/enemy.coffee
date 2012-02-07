@@ -8,11 +8,12 @@ class window.Enemy extends Character
     @trigger 'create'
   
   startTurn: ->
-    level.queue(100).queue(=> @characterSelected()).queue => @act()
+    level.queue(=> @characterSelected()).queue => @act()
   
   act: ->
-    level.queue(100).queue(=>
+    level.queue(=>
       target = @findTarget()
+      return unless target
       distanceToTarget = @chebyshevDistance target.x, target.y
       if distanceToTarget <= @weapon.range
         @attack target.x, target.y

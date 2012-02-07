@@ -39,7 +39,6 @@ class window.Moveable
     matrix
   
   moveTo: (x, y, cb) ->
-    console.log "#{@name} moving to #{x} #{y}"
     results = @findShortestPathTo(x, y)
     
     # remove the last position if can't move to it
@@ -47,17 +46,19 @@ class window.Moveable
     results.pop() unless level.canMoveTo(lastPos.x, lastPos.y)
     
     lastPos = results[results.length-1]?.pos
-    
-    _(results).each (res) =>
+    # @levelPoints = 4
+    # @levelPoints -= 
+    _(results[0..3]).each (res) =>
       level.queue(=>
         return if @apLeft <= 0
-        @getElem().unbind 'click'
         @subtractAp 1
+        @getElem().unbind 'click'
         @updateInfo()
         @hide()
         @x = res.pos.x
         @y = res.pos.y
         @characterSelected()
         @show()
-        cb() if cb and lastPos == res.pos
-      ).queue(250)
+        if lastPos == res.pos
+          cb() if cb?
+      ).queue(2)

@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Mon, 06 Feb 2012 03:19:39 GMT from
+/* DO NOT MODIFY. This file was compiled Tue, 07 Feb 2012 00:56:11 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/models/character/moveable.coffee
  */
 
@@ -55,24 +55,23 @@
     Moveable.prototype.moveTo = function(x, y, cb) {
       var lastPos, results, _ref, _ref2,
         _this = this;
-      console.log("" + this.name + " moving to " + x + " " + y);
       results = this.findShortestPathTo(x, y);
       lastPos = (_ref = results[results.length - 1]) != null ? _ref.pos : void 0;
       if (!level.canMoveTo(lastPos.x, lastPos.y)) results.pop();
       lastPos = (_ref2 = results[results.length - 1]) != null ? _ref2.pos : void 0;
-      return _(results).each(function(res) {
+      return _(results.slice(0, 4)).each(function(res) {
         return level.queue(function() {
           if (_this.apLeft <= 0) return;
-          _this.getElem().unbind('click');
           _this.subtractAp(1);
+          _this.getElem().unbind('click');
           _this.updateInfo();
           _this.hide();
           _this.x = res.pos.x;
           _this.y = res.pos.y;
           _this.characterSelected();
           _this.show();
-          if (cb && lastPos === res.pos) return cb();
-        }).queue(250);
+          if (lastPos === res.pos) if (cb != null) return cb();
+        }).queue(2);
       });
     };
 

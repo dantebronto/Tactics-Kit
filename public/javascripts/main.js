@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Mon, 06 Feb 2012 03:21:35 GMT from
+/* DO NOT MODIFY. This file was compiled Tue, 07 Feb 2012 01:40:17 GMT from
  * /Users/kellenpresley/source/rpgQuery/app/main.coffee
  */
 
@@ -10,7 +10,7 @@
       terrain = [[15, 15, 15, 15, 15, 15, 15, 15], [15, 15, 15, 15, 15, 15, 15, 15], [15, 15, 15, 15, 15, 15, 15, 15], [15, 15, 15, 10, 10, 15, 15, 15], [15, 15, 10, 10, 10, 10, 15, 15], [15, 15, 10, 10, 10, 10, 15, 15], [15, 15, 10, 15, 10, 10, 15, 15], [15, 15, 10, 10, 10, 10, 15, 15], [15, 15, 10, 10, 10, 10, 15, 15], [15, 15, 10, 10, 10, 10, 15, 15], [15, 15, 10, 10, 10, 10, 15, 15], [15, 15, 10, 10, 10, 10, 15, 15], [15, 15, 10, 10, 10, 10, 15, 15], [15, 15, 10, 10, 10, 10, 15, 15], [15, 15, 10, 10, 10, 10, 15, 15], [15, 15, 15, 15, 15, 15, 15, 15]];
       window.p1 = new Player({
         x: 3,
-        y: 13,
+        y: 3,
         name: 'd00d',
         isBot: true
       });
@@ -20,8 +20,9 @@
         name: 'lady',
         strength: 20,
         sprite: '/images/girl.gif',
+        isBot: true,
         weapon: new Weapon({
-          range: 15
+          range: 3
         })
       });
       window.e1 = new Enemy({
@@ -34,7 +35,8 @@
         x: 3,
         y: 14,
         name: 'Ninja',
-        sprite: '/images/ninja.gif'
+        sprite: '/images/ninja.gif',
+        strength: 20
       });
       return window.level = new Level({
         map: {
@@ -44,8 +46,9 @@
           backgroundImage: '/images/test-map.jpg',
           selector: '#map'
         },
-        players: [p1],
-        enemies: [e1, e2]
+        players: [p1, p2],
+        enemies: [e1, e2],
+        animationInterval: 5
       });
     })();
   }

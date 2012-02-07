@@ -14,6 +14,8 @@ class window.Level
     
     @activeCharacter = null
     
+    # setInterval((=> console.log @anim[0]), 100)
+    
     $ =>
       @initCharacters()
       @win = $ window
@@ -61,12 +63,14 @@ class window.Level
   initAnimationQueue: -> setInterval((=> @nextTick()), @animationInterval)
   
   queue: (delayOrFn=0) ->
-    @anim.push delayOrFn
+    @anim.push delayOrFn if @anim[0] != delayOrFn
     @
   
   nextTick: ->
+    # unless typeof @anim[0] == 'function'
+    #   console.log @anim[0]
     if typeof @anim[0] == 'number'
-      @anim[0] -= @animationInterval
+      @anim[0] -= 1
       @anim.shift() if @anim[0] <= 0
     else if typeof @anim[0] == 'function'
       @anim.shift()()
@@ -83,6 +87,10 @@ class window.Level
     console.log 'You have fallen in battle...'
     $('body').fadeOut 5000, -> location.reload true
   
+  next: -> 
+    console.log 'You win!'
+    $('body').fadeOut 5000, -> location.reload true
+  
   startNextCharacter: ->
     nextChar = _(@players.concat(@enemies)).filter((char) -> not char.hasGone)[0]
     if nextChar?
@@ -96,5 +104,3 @@ class window.Level
     _(@players.concat(@enemies)).each (char) ->
       char.hasGone = false
       char.addAp char.ap
-  
-  next: -> alert 'You win!'

@@ -10,14 +10,15 @@ class window.Player extends Character
     level.queue(=> @characterSelected()).queue(=> @act()) if @isBot
   
   act: ->
-    level.queue(100).queue(=>
-      target = @findTarget()
-      distanceToTarget = @chebyshevDistance target.x, target.y
-      if distanceToTarget <= @weapon.range
-        @attack target.x, target.y
-      else
-        @moveTo target.x, target.y
-    ).queue =>
+    level.queue =>
+      if target = @findTarget()
+        return unless target
+        distanceToTarget = @chebyshevDistance target.x, target.y
+        if distanceToTarget <= @weapon.range
+          @attack target.x, target.y
+        else
+          @moveTo target.x, target.y
+    level.queue =>
       if @apLeft > 1 then @act() else @endTurn()
   
   findTarget: ->
