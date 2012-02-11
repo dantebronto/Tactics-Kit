@@ -52,7 +52,7 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; overflow: hidden; ma
   overflow:auto;
   padding-left: 20px;
   list-style-type: square;
-  padding-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 #console li {

@@ -1,9 +1,9 @@
 class window.Player extends Character
   distributeExperience: -> _(level.enemies).each (enemy) => enemy.addExp @exp
   
-  startTurn: ->
-    super()
-    level.queue(=> @characterSelected()).queue(=> @act()) if @isBot
+  startTurn: (oneTurnBot=false)->
+    super(oneTurnBot)
+    level.queue(=> @characterSelected()).queue(=> @act()) if @isBot or oneTurnBot
   
   act: ->
     level.queue =>

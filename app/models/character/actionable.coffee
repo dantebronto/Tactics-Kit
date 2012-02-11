@@ -17,7 +17,8 @@ class window.Actionable
       level.queue(=> level.startNextCharacter())
     @updateInfo()
   
-  startTurn: -> console.log "It's #{@name}'s turn"
+  startTurn: (oneTurnBot=false) ->
+    console.log "It's #{@name}'s turn" unless oneTurnBot
   
   endTurn: -> 
     @subtractAp @apLeft
