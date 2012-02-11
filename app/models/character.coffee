@@ -23,6 +23,7 @@ class window.Character
     @inventory = @opts.inventory or new Inventory()
     @level = @opts.level or 1
     @isBot = @opts.isBot or false
+    @specials = @opts.specials or []
     
     @initAp()
     @initHp()

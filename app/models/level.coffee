@@ -9,21 +9,21 @@ class window.Level
     @eventDispatch = $({})
     
     @anim = [] # animation queue
-    @animationInterval = opts.animationInterval or 50
-    @initAnimationQueue()
+    @animationInterval = opts.animationInterval or 250
+    @load = @queue
     
     @activeCharacter = null
-    
-    # setInterval((=> console.log @anim[0]), 100)
     
     $ =>
       @initCharacters()
       @win = $ window
       @stage = $ '#stage'
       @info = $ '#info'
+      @console = $ '#console'
       @bindWindowResize()
       @win.trigger 'resize'
       @startNextCharacter()
+      @initAnimationQueue()
   
   remove: (obj) ->
     @players = _(@players).filter (player) => obj != player
@@ -67,17 +67,16 @@ class window.Level
     @
   
   nextTick: ->
-    # unless typeof @anim[0] == 'function'
-    #   console.log @anim[0]
     if typeof @anim[0] == 'number'
       @anim[0] -= 1
       @anim.shift() if @anim[0] <= 0
     else if typeof @anim[0] == 'function'
       @anim.shift()()
+      @anim[0] -= 1 if typeof @anim[0] == 'number'
   
   bindWindowResize: ->
     resizeFn = =>
-      @stage.css('height', @win.height()+'px')
+      @stage.css('height', (@win.height()-80)+'px')
       @info.css('height', @win.height()+'px')
     
     debounced = _.debounce(resizeFn, 500)
@@ -92,6 +91,7 @@ class window.Level
     $('body').fadeOut 5000, -> location.reload true
   
   startNextCharacter: ->
+    @anim = [] # clear animation queue, not sure if necessary anymore
     nextChar = _(@players.concat(@enemies)).filter((char) -> not char.hasGone)[0]
     if nextChar?
       nextChar.startTurn()
@@ -100,7 +100,7 @@ class window.Level
         @restoreCharacters()
         @startNextCharacter()
   
-  restoreCharacters: -> 
+  restoreCharacters: ->
     _(@players.concat(@enemies)).each (char) ->
       char.hasGone = false
       char.addAp char.ap

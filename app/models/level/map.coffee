@@ -90,11 +90,7 @@ class Level.Map
   
   handleMapClicked: (e) ->
     return if level.anim.length > 0
-    target = $(e.target)
-    id = if target.attr('id') then target.attr('id') else target.parent().attr('id')
-    overlayInfo = id.split("-")
-    x = Number(overlayInfo[2])
-    y = Number(overlayInfo[3])
+    [x, y] = $(e.target).getMatrixCoords()
     
     underlayCell = @underlayMatrix.get(x, y)
     classes = _(underlayCell.attr('class').split(' '))
@@ -103,12 +99,11 @@ class Level.Map
       @clear()
       return
     
-    if classes.include('attackable') and @statMatrix.get(x, y).find(':header').length == 0
+    if classes.include('attackable') and @canAttack(x, y)
       level.activeCharacter?.attack(x, y)
     
-    if @playerMatrix.get(x, y).hasClass('occupied')
-      char = Character.findByPosition(x, y)
-      char.characterSelected() unless classes.include('attackable')
+    if @playerMatrix.get(x, y).hasClass('occupied') and not classes.include('attackable')
+      Character.findByPosition(x, y)?.characterSelected()
     
     level.activeCharacter?.moveTo(x, y) if classes.include('moveable')
     

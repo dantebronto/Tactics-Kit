@@ -1,5 +1,10 @@
 class Level.Matrix
   
+  $.fn.getMatrixCoords = ->
+    id = if @attr('id') then @attr('id') else @parent().attr('id')
+    [z,z,x,y] = id.split("-")
+    [Number(x), Number(y)]
+  
   @distance: (p1, p2, q1, q2) -> 
     t1 = Math.pow((p1-q1), 2)
     t2 = Math.pow((p2-q2), 2)
@@ -20,7 +25,7 @@ class Level.Matrix
     @colCount = @raw[0].length
     @
   
-  get: (x=0, y=0) -> @raw[y][x] if @raw[x]? && @raw[y][x]?
+  get: (x=0, y=0) -> @raw[y][x] if @raw?[x]? && @raw?[y]?[x]?
   set: (x=0, y=0, value=0) -> @raw[y][x] = value; value
   
   debug: -> console.log(@raw[i]) for i in [0..@rowCount-1]
@@ -35,4 +40,5 @@ class Level.Matrix
   each: (fn) ->
     for y in [0..@rowCount-1]
       for x in [0..@colCount-1]
-        fn.call(@get(x,y), x, y)
+        elem = @get(x,y)
+        fn.call(elem, x, y, elem)

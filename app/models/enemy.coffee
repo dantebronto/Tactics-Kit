@@ -8,6 +8,7 @@ class window.Enemy extends Character
     @trigger 'create'
   
   startTurn: ->
+    super()
     level.queue(=> @characterSelected()).queue => @act()
   
   act: ->

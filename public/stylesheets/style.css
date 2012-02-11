@@ -23,7 +23,7 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; overflow: hidden; ma
 .healable { background-image: url(/images/healable.png); }
 .pointer { cursor: pointer; }
 
-#info .character-info { display: inline-block; height: 100px; width: 180px; font-size: 11px; margin: 0 0 5px; position: relative; padding: 0 2px; background-color: gray; border: medium black solid; border-radius: 6px; padding: 3px; }
+#info .character-info { display: inline-block; height: 100px; width: 180px; font-size: 11px; margin: 0 0 5px; position: relative; padding: 0 2px; padding-bottom: 7px; background-color: gray; border: medium black solid; border-radius: 6px; padding: 3px; }
 #info .stat-bar-holder { width: 128px; position:relative; float:right; }
 #info .sprite { width: 50px; height: 50px; top: -5px; position:relative; }
 #info .sprite img { display: block; margin: 0 auto; }
@@ -43,3 +43,18 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; overflow: hidden; ma
 .cell.stat h2 { font-size: 3.5em; padding-top: 20px; margin-left: -12px; margin-top: 15px; position:absolute !important;}
 .cell.stat h1 { font-size: 4em; padding-top: 20px; margin-left: -16px; margin-top: 15px; position:absolute !important;}
 /* end hit points */
+
+#console {
+  bottom: 0;
+  border: thin #CCC solid;
+  height: 80px;
+  background-color: #EEE;
+  overflow:auto;
+  padding-left: 20px;
+  list-style-type: square;
+  padding-bottom: 5px;
+}
+
+#console li {
+  padding:2px;
+}

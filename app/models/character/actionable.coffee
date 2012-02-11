@@ -14,8 +14,7 @@ class window.Actionable
     @apLeft -= amt
     if @apLeft <= 0
       @hasGone = true
-      level.anim = []
-      level.startNextCharacter()
+      level.queue(=> level.startNextCharacter())
     @updateInfo()
   
   startTurn: -> console.log "It's #{@name}'s turn"

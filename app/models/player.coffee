@@ -1,12 +1,8 @@
 class window.Player extends Character
   distributeExperience: -> _(level.enemies).each (enemy) => enemy.addExp @exp
   
-  addedToLevel: ->
-    @drawInfo()
-    @initSprite()
-    @trigger 'create'
-  
   startTurn: ->
+    super()
     level.queue(=> @characterSelected()).queue(=> @act()) if @isBot
   
   act: ->

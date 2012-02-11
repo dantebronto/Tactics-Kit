@@ -12,7 +12,6 @@ class window.Attacking
       if Number(this) == 1
         level.clear(x, y)
         level.showCellAs('attackable', x, y)
-    
     # if @weapon.isRanged
       # re-run find neighbors with a speed of @weapon.deadZone
       # matrix.each, mark as 0
@@ -25,17 +24,19 @@ class window.Attacking
   
   chebyshevDistance: (x, y) -> _([ Math.abs(@x - x), Math.abs(@y - y) ]).max()
   
-  attack: (x, y, cb) ->
+  attack: (x, y) ->
     return if @apLeft < 2
     @doDamage x, y
   
-  doDamage: (x, y) ->
-    dmg = 0
-    _(@strength + @weapon.attack).times => dmg += @rollDice()
-    dmg = 'miss' if @didMiss()
-    @animateDamage(x, y, dmg)
-    
-  animateDamage: (x, y, dmg) ->
+  doDamage: (x, y, dmg, apToSubtract) ->
+    dmg ?= 0
+    apToSubtract ?= 2
+    if dmg == 0
+      _(@strength + @weapon.attack).times => dmg += @rollDice()
+      dmg = 'miss' if @didMiss()
+    @animateDamage(x, y, dmg, apToSubtract)
+  
+  animateDamage: (x, y, dmg, apToSubtract) ->
     hits = if dmg.length is 1 or dmg is 'miss'
       $ "<h6>#{dmg}</h6>"
     else if dmg.length is 2
@@ -51,10 +52,12 @@ class window.Attacking
      else
        $ "<h4>#{dmg}</h4>"
     
-    level.queue(50).queue(=>
+    level.queue(5) if @isBot
+    level.queue(=>
       return if @apLeft <= 0
       level.map.statMatrix.get(x, y).append(hits).show()
       character = Character.findByPosition(x, y)
+      @subtractAp apToSubtract
       
       offset = (50 - hits.width())/2
       hits.css
@@ -64,9 +67,11 @@ class window.Attacking
       unless dmg == 'miss'
         character?.subtractHp(Number(dmg))
         console.log "#{@name} attacks #{character?.name} and does #{dmg} damage"
+        if character?.hpLeft == 0
+          console.log "#{@name} dispatched #{character.name}"
       else
         console.log "#{@name} attacked #{character?.name} and missed"
-      @subtractAp 2
+      
       @characterSelected()
       
       hits.show().shake(3, 3, 180, (->), offset).fadeOut 500, =>
