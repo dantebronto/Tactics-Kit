@@ -1,27 +1,21 @@
 class window.Player extends Character
+  
+  addDefaultSpecials: ->
+    Special.bindAuto @
+    Special.bindGuard @
+  
   distributeExperience: -> _(level.enemies).each (enemy) => enemy.addExp @exp
   
   startTurn: (oneTurnBot=false)->
     super(oneTurnBot)
     level.queue(=> @characterSelected()).queue(=> @act()) if @isBot or oneTurnBot
   
-  act: ->
-    level.queue =>
-      if target = @findTarget()
-        return unless target
-        distanceToTarget = @chebyshevDistance target.x, target.y
-        if distanceToTarget <= @weapon.range
-          @attack target.x, target.y
-        else
-          @moveTo target.x, target.y
-    level.queue =>
-      if @apLeft > 1 then @act() else @endTurn()
-  
   findTarget: ->
-    weakestEnemy = level.enemies[0]
-    for enemy in level.enemies
-      weakestEnemy = enemy if enemy.hpLeft < weakestEnemy.hpLeft
-    weakestEnemy
+    sorted = _(level.enemies).sortBy((enemy) -> enemy.hpLeft).reverse()
+    target = sorted[0] # weakest enemy
+    for enemy in sorted
+      target = enemy if @chebyshevDistance(enemy.x, enemy.y) <= @weapon.range
+    target
   
   # specialMove: (chancePct, cb) ->
   

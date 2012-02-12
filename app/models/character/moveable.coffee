@@ -38,19 +38,20 @@ class window.Moveable
         matrix = @findMoveableNeighbors(x, y, matrix, speed-1) if speed > 0
     matrix
   
-  moveTo: (x, y, cb) ->
-    results = @findShortestPathTo(x, y)
+  moveTo: (x, y, ignoreBlockers=false) ->
+    results = @findShortestPathTo(x, y, ignoreBlockers)
     
     # remove the last position if can't move to it
     lastPos = results[results.length-1]?.pos
-    results.pop() unless level.canMoveTo(lastPos.x, lastPos.y)
+    results.pop() if lastPos and !level.canMoveTo(lastPos.x, lastPos.y)
     
     lastPos = results[results.length-1]?.pos
-    # @levelPoints = 4
-    # @levelPoints -= 
-    _(results[0..3]).each (res) =>
+    blocked = false
+    
+    _(results[0..@apLeft]).each (res) =>
       level.queue(=>
-        return if @apLeft <= 0
+        blocked = true unless level.canMoveTo(res.x, res.y)
+        return if @apLeft <= 0 or blocked
         @subtractAp 1
         @getElem().unbind 'click'
         @updateInfo()
@@ -62,3 +63,5 @@ class window.Moveable
         if lastPos == res.pos
           cb() if cb?
       ).queue(2)
+    
+    results

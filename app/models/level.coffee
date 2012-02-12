@@ -11,6 +11,7 @@ class window.Level
     @anim = [] # animation queue
     @animationInterval = opts.animationInterval or 250
     @load = @queue
+    @start = @startNextCharacter
     
     @activeCharacter = null
     

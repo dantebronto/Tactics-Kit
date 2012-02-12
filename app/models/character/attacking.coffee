@@ -53,30 +53,31 @@ class window.Attacking
        $ "<h4>#{dmg}</h4>"
     
     level.queue(5) if @isBot
-    
-    return if @apLeft <= 0
-    level.map.statMatrix.get(x, y).append(hits).show()
-    character = Character.findByPosition(x, y)
-    
-    level.queue(=> @subtractAp( apToSubtract))
-    
-    offset = (50 - hits.width())/2
-    hits.css
-      position: 'absolute' 
-      left: "#{offset}px"
-    
-    unless dmg == 'miss'
-      character?.subtractHp(Number(dmg))
-      console.log "#{@name} attacks #{character?.name} and does #{dmg} damage"
-      if character?.hpLeft == 0
-        console.log "#{@name} dispatched #{character.name}"
-    else
-      console.log "#{@name} attacked #{character?.name} and missed"
-    
-    @characterSelected()
-    
-    hits.show().shake(3, 3, 180, (->), offset).fadeOut 500, =>
-      hits.remove()
+    level.queue => 
+      return if @apLeft <= 0
+      
+      @subtractAp apToSubtract
+      
+      level.map.statMatrix.get(x, y).append(hits).show()
+      character = Character.findByPosition(x, y)
+      
+      offset = (50 - hits.width())/2
+      hits.css
+        position: 'absolute' 
+        left: "#{offset}px"
+      
+      unless dmg == 'miss'
+        character?.subtractHp(Number(dmg))
+        console.log "#{@name} attacks #{character?.name} and does #{dmg} damage"
+        if character?.hpLeft == 0
+          console.log "#{@name} dispatched #{character.name}"
+      else
+        console.log "#{@name} attacked #{character?.name} and missed"
+      
+      @characterSelected()
+      
+      hits.show().shake(3, 3, 180, (->), offset).fadeOut 500, =>
+        hits.remove()
   
   didMiss: ->
     missPercent = Math.floor((Math.random()*100+1))

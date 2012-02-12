@@ -11,24 +11,13 @@ class window.Enemy extends Character
     super()
     level.queue(=> @characterSelected()).queue => @act()
   
-  act: ->
-    level.queue(=>
-      target = @findTarget()
-      return unless target
-      distanceToTarget = @chebyshevDistance target.x, target.y
-      if distanceToTarget <= @weapon.range
-        @attack target.x, target.y
-      else
-        @moveTo target.x, target.y
-    ).queue =>
-      if @apLeft > 1 then @act() else @endTurn()
-  
   findTarget: ->
-    weakestPlayer = level.players[0]
-    for player in level.players
-      weakestPlayer = player if player.hpLeft < weakestPlayer.hpLeft
-    weakestPlayer
+    sorted = _(level.players).sortBy (enemy) -> enemy.hpLeft
+    target = sorted[0] # weakest enemy
+    for enemy in sorted
+      target = enemy if @chebyshevDistance(enemy.x, enemy.y) <= @weapon.range
+    target
   
   specialMove: (chancePct, cb) ->
-    
+  
   distributeExperience: -> _(level.players).each (player) => player.addExp @exp

@@ -10,7 +10,7 @@ class Level.Map
     @colCount = @terrainMatrix.colCount
     
     @backgroundImage = opts.backgroundImage or '/images/test-map.jpg'
-    @cellTemplate = opts.cellTemplate or $ '<span class="cell"></span>'
+    @cellTemplate = $(opts.cellTemplate or '<span class="cell"></span>')
     @cellTypes = opts.cellTypes or ['map', 'underlay', 'item', 'enemy', 'player', 'stat', 'overlay']
     
     $ =>
@@ -29,7 +29,6 @@ class Level.Map
         backgroundImage: "url(#{@backgroundImage})"
       ).fadeIn('slow')
     @info.css('height', "#{@height}px")
-    # @elem.css('height', '100px')
   
   createCells: ->
     for cellType in @cellTypes
@@ -46,13 +45,18 @@ class Level.Map
     
     for type in @cellTypes
       cell = @cellFromTemplate(x, y, type)
+      
       @["#{type}Matrix"].set x, y, cell
-      if type == @cellTypes[0] then mapCell = cell else cell.appendTo lastCell
+      if type == @cellTypes[0]
+        mapCell = cell
+      else 
+        cell.appendTo lastCell
+      
       lastCell = cell
     mapCell
   
   cellFromTemplate: (x, y, type) ->
-    clone = $(@cellTemplate[0].cloneNode(true))
+    clone = @cellTemplate.clone()
     clone
      .addClass(type)
      .attr 'id', "#{type}-cell-#{x}-#{y}"
@@ -84,7 +88,7 @@ class Level.Map
     if x and y
       @underlayMatrix.get(x, y).removeClass classes
     else
-      @underlayMatrix.each -> @removeClass classes
+      @underlayMatrix.each (x, y, elem) -> elem?.removeClass classes
   
   bindClicked: -> @elem.bind 'click', (e) => @handleMapClicked(e)
   

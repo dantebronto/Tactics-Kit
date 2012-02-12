@@ -63,10 +63,28 @@ class window.Character
     @trigger 'create'
   
   characterSelected: ->
+    # unless @isBot
     level.clear()
     level.activeCharacter = @
     @showMovableCells()
     @showAttackableCells()
+  
+  act: ->
+    origX = @x
+    origY = @y
+    
+    level.queue =>
+      if target = @findTarget()
+        distanceToTarget = @chebyshevDistance target.x, target.y
+        if distanceToTarget <= @weapon.range
+          @attack target.x, target.y
+        else
+          @moveTo target.x, target.y
+          level.queue =>
+            if origX == @x and origY == @y
+              @endTurn()
+    level.queue =>
+      if @apLeft > 1 then @act() else @endTurn()
   
   bindInfoClicked: -> @info.bind 'click', => @characterSelected()
   

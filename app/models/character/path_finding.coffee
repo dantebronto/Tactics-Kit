@@ -42,9 +42,7 @@ class AStar
     openList.push start
     
     while openList.length > 0
-      if openList.length > 1000
-        console.log 'breaking'
-        break
+      break if openList.length > 1000
       
       # Grab the lowest f(x) to process next
       lowInd = 0
@@ -67,9 +65,9 @@ class AStar
       closedList.push currentNode
       
       for neighbor in @getNeighbors(currentNode)
-        # not a valid node to process, skip to next neighbor
         
-        if (closedList.findGraphNode(neighbor) or (not level.canMoveTo(neighbor.x, neighbor.y) and not @equals(neighbor.pos, end.pos)))
+        # not a valid node to process, skip to next neighbor
+        if ( closedList.findGraphNode(neighbor) or (level.map.terrainMatrix.get(neighbor.x, neighbor.y) == 15) and not @equals(neighbor.pos, end.pos) )
           continue
         
         # g score is the shortest distance from start to current node, we need to check if

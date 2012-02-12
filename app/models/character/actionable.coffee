@@ -22,5 +22,4 @@ class window.Actionable
   
   endTurn: -> 
     @subtractAp @apLeft
-    level.clear()
-    
+    level.clear()    

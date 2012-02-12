@@ -8,7 +8,13 @@ class MyApp < Sinatra::Base
   set :views, 'app/views'
   
   get '/', do
-    erb :'1.js'
+    @level = 1
+    erb :main
+  end
+  
+  get '/levels/:level/?' do
+    @level = params[:level] || 1
+    erb :main
   end
   
   run! if app_file == $0

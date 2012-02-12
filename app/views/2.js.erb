@@ -17,13 +17,6 @@ $('#map').
   css('height', '458px').
   css('background-image', 'url(/images/valley.jpg)');
 
-// playing with animation
-$('<img style="padding-left:3px" src="/images/turtle_man.gif"/>').
-  appendTo(level.map.stat_cell(3, 4)).
-  animate({ 'width': '50' }, 1500).
-  shake(2,5,10).
-  animate({ 'width': '0' }, 50);
-
 level.turn_function = function(){};
 level.end_function = function(){
   alert('You beat the game! (There are only 2 levels so far)');
