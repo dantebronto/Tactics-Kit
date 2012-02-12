@@ -55,6 +55,5 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; overflow: hidden; ma
   margin-bottom: 5px;
 }
 
-#console li {
-  padding:2px;
-}
+#console li {padding:2px;}
+.arrow {  position:absolute; top: -25px; width:30px; height:30px;  left:10px; opacity:0.7; }

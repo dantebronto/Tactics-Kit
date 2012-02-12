@@ -11,6 +11,7 @@ class window.Special
   
   bindButtonClicked: ->
     @character.info.on 'click', ".#{@buttonText}", (e) =>
+      @character.characterSelected()
       level.activeCharacter = @character
       level.clear()
       @action.call @

@@ -82,7 +82,8 @@ class window.Level
       @anim[0] -= 1
       @anim.shift() if @anim[0] <= 0
     else if typeof @anim[0] == 'function'
-      @anim.shift()()
+      # fns don't count against timeout period, but still occur in order
+      @anim.shift()() while typeof @anim[0] == 'function' 
       @anim[0] -= 1 if typeof @anim[0] == 'number'
   
   bindWindowResize: ->

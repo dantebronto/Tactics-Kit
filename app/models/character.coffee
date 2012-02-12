@@ -63,7 +63,9 @@ class window.Character
     @trigger 'create'
   
   characterSelected: ->
-    # unless @isBot
+    level.map.elem.find('img.arrow').remove()
+    arrow = $ "<img class='arrow' src='/images/arrow.png' />"
+    level.map.overlayMatrix.get(@x, @y).prepend arrow
     level.clear()
     level.activeCharacter = @
     @showMovableCells()
@@ -74,15 +76,15 @@ class window.Character
     origY = @y
     
     level.queue =>
-      if target = @findTarget()
-        distanceToTarget = @chebyshevDistance target.x, target.y
-        if distanceToTarget <= @weapon.range
-          @attack target.x, target.y
-        else
-          @moveTo target.x, target.y
-          level.queue =>
-            if origX == @x and origY == @y
-              @endTurn()
+      target = @findTarget()
+      distanceToTarget = @chebyshevDistance target.x, target.y
+      if distanceToTarget <= @weapon.range
+        @attack target.x, target.y
+      else
+        @moveTo target.x, target.y
+        level.queue =>
+          console.log 'in q'
+          @endTurn() if origX == @x and origY == @y # didn't move somehow got blocked
     level.queue =>
       if @apLeft > 1 then @act() else @endTurn()
   

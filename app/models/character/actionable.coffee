@@ -14,12 +14,13 @@ class window.Actionable
     @apLeft -= amt
     if @apLeft <= 0
       @hasGone = true
-      level.queue(=> level.startNextCharacter())
+      level.queue(=> level.clear(); level.startNextCharacter())
     @updateInfo()
   
   startTurn: (oneTurnBot=false) ->
+    @characterSelected()
     console.log "It's #{@name}'s turn" unless oneTurnBot
   
-  endTurn: -> 
+  endTurn: ->
     @subtractAp @apLeft
     level.clear()    

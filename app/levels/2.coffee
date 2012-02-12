@@ -7,7 +7,7 @@ window.p2 = new Player
   x: 6, y: 4, name: 'lady'
   strength: 20
   sprite: '/images/girl.gif'
-  isBot: true
+  # isBot: true
   level: 10
   weapon: new Weapon 
     range: 3
@@ -70,7 +70,7 @@ window.level = new Level
     selector: '#map'
   players: [p1, p2]
   enemies: [e1, e2, e3, e4, e5, e6]
-  animationInterval: 200
+  animationInterval: 150
   
 level.queue =>
   p1.addDefaultSpecials()
