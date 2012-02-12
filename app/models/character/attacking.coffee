@@ -34,7 +34,9 @@ class window.Attacking
     if dmg == 0
       _(@strength + @weapon.attack).times => dmg += @rollDice()
       dmg = 'miss' if @didMiss()
+    @beforeDoDamage(dmg)
     @animateDamage(x, y, dmg, apToSubtract)
+    @afterDoDamage(dmg)
   
   animateDamage: (x, y, dmg, apToSubtract) ->
     hits = if dmg.length is 1 or dmg is 'miss'
@@ -52,7 +54,7 @@ class window.Attacking
      else
        $ "<h4>#{dmg}</h4>"
     
-    level.queue(5) if @isBot
+    level.queue(5) unless apToSubtract == 0
     level.queue => 
       return if @apLeft <= 0
       
@@ -76,8 +78,8 @@ class window.Attacking
       
       @characterSelected()
       
-      hits.show().shake(3, 3, 180, (->), offset).fadeOut 500, =>
-        hits.remove()
+      shakeTime = if dmg == 'miss' then 0 else 180
+      hits.css({top: -20}).show().shake(3, 3, shakeTime, (->), offset).animate({ top: 10 }).fadeOut 1000, => hits.remove()
   
   didMiss: ->
     missPercent = Math.floor((Math.random()*100+1))

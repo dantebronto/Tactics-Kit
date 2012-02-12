@@ -57,8 +57,8 @@ class window.Special
                   ex.css { width: '0px', height: '0px', position: 'absolute', left: 25, top: 25 }
                   level.map.statMatrix.get(point.x, point.y).prepend(ex)
                   ex.animate({ width: '+=50', height: '+=50', left: 0, top: 0 }, 50, ->
-                  ).shake(3,3,200).fadeOut 200, ->
                     char.doDamage(point.x, point.y, 25, 0)
+                  ).shake(3,3,200).fadeOut 200, ->
                     ex.remove()
                     level.queue(-> char.subtractAp(2)) if index == used.length - 1 # last hit
           onHover: (x,y) ->

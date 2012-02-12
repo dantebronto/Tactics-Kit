@@ -43,8 +43,10 @@ class window.Character
     @onTurnStart = @opts.onTurnStart or ->
     @onTurnEnd = @opts.onTurnEnd or ->
     @onDeath = @opts.onDeath or ->
-    # beforeAttack, afterAttack
-    # beforeMove, afterMove
+    @beforeDoDamage = @opts.beforeDoDamage or (dmg) -> dmg
+    @afterDoDamage = @opts.afterDoDamage or (dmg) -> dmg
+    @beforeMove = @opts.beforeMove or ->
+    @afterMove = @opts.afterMove or ->
     
     $ =>
       @bindEvents()
@@ -83,8 +85,7 @@ class window.Character
       else
         @moveTo target.x, target.y
         level.queue =>
-          console.log 'in q'
-          @endTurn() if origX == @x and origY == @y # didn't move somehow got blocked
+          @endTurn() if origX == @x and origY == @y # didn't move, somehow got blocked
     level.queue =>
       if @apLeft > 1 then @act() else @endTurn()
   

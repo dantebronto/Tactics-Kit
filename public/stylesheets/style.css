@@ -45,14 +45,16 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; overflow: hidden; ma
 /* end hit points */
 
 #console {
-  bottom: 0;
+  bottom: 0px;
   border: thin #CCC solid;
-  height: 80px;
+  height: 65px;
   background-color: #EEE;
-  overflow:auto;
-  padding-left: 20px;
+  overflow: auto;
+  padding-left: 24px;
   list-style-type: square;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+  position: relative;
+  padding-bottom: 15px;
 }
 
 #console li {padding:2px;}
