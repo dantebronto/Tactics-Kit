@@ -52,6 +52,14 @@ class window.Character
       @bindEvents()
     @
   
+  isTypeOf: (klazzString) ->
+    next_proto = @__proto__
+    retval = []
+    while next_proto.constructor.name != "Object"
+      retval.push next_proto.constructor.name
+      next_proto = next_proto.__proto__
+    _(retval).include(klazzString)
+  
   initSprite: ->
     @spriteImage = @info.find('img')
     @spriteImage.load =>

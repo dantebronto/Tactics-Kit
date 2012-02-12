@@ -66,9 +66,9 @@ class Level.Map
     obj.addedToLevel() if obj.addedToLevel
   
   getElem: (obj) ->
-    if obj.constructor == Player
+    if obj.isTypeOf 'Player'
       return @playerMatrix.get(obj.x, obj.y)
-    else if obj.constructor == Enemy
+    else if obj.isTypeOf 'Enemy'
       return @enemyMatrix.get(obj.x, obj.y)
   
   occupiedAt: (x, y) ->
