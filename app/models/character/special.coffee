@@ -22,14 +22,14 @@ class window.Special
     disabled = if @apCost > @character.apLeft then 'disabled' else ''
     "<button class='#{@buttonText}' #{disabled} type='button'>#{@buttonText}</button>"
   
-  @bindAuto = (char) ->
+  @bindAuto: (char) ->
     return if char.isBot
     new Special
       character: char
       buttonText: 'auto'
       action: => char.startTurn true
   
-  @bindGuard = (char) ->
+  @bindGuard: (char) ->
     return if char.isBot
     new Special
       apCost: 1
@@ -39,7 +39,7 @@ class window.Special
         console.log "#{char.name} is guarding"
         char.subtractAp char.apLeft
   
-  @bindBomb = (char) ->
+  @bindBomb: (char) ->
     new Special
       character: char
       buttonText: 'bomb'
@@ -57,12 +57,19 @@ class window.Special
                   ex.css { width: '0px', height: '0px', position: 'absolute', left: 25, top: 25 }
                   level.map.statMatrix.get(point.x, point.y).prepend(ex)
                   ex.animate({ width: '+=50', height: '+=50', left: 0, top: 0 }, 50, ->
-                    char.doDamage(point.x, point.y, 25, 0)
+                    char.doDamage(point.x, point.y, 0, 0)
                   ).shake(3,3,200).fadeOut 200, ->
                     ex.remove()
-                    level.queue(-> char.subtractAp(2)) if index == used.length - 1 # last hit
+                    level.queue(-> char.subtractAp(3); char.characterSelected()) if index == used.length - 1 # last hit
           onHover: (x,y) ->
             um = level.map.underlayMatrix
             for cell in [ um.get(x, y), um.get(x-1,y), um.get(x+1, y), um.get(x, y+1), um.get(x, y-1) ]
               cell?.addClass 'attackable'
         ).showArea()
+  
+  @bindEngineering: (char) =>
+  #   new Special
+  #     character: char
+  #     buttonText: 'engineering'
+  #     action: =>
+  #       # TODO: build a tower

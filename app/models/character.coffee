@@ -73,14 +73,35 @@ class window.Character
     @trigger 'create'
   
   characterSelected: ->
-    level.map.elem.find('img.arrow').remove()
-    arrow = $ "<img class='arrow' src='/images/arrow.png' />"
+    level.map.elem.find('img.turn-indicator').remove()
+    arrow = $ "<img class='turn-indicator' src='/images/arrow.png' />"
     level.map.overlayMatrix.get(@x, @y).prepend arrow
     level.clear()
     level.activeCharacter = @
     @showMovableCells()
     @showAttackableCells()
   
+  centerMapOnMe: ->
+    mapLeft = level.stage.position().left
+    myOffset = @getElem().offset()
+    myLeft = myOffset.left
+    myTop = myOffset.top
+    
+    mapScrollTop = level.stage.scrollTop()
+    mapHeight = level.stage.height()
+    mapScrollLeft = level.stage.scrollLeft()
+    mapWidth = level.stage.width()
+    
+    if myTop < 0
+      level.stage.scrollTop(mapScrollTop+myTop-(mapHeight/2))
+    else if myTop >= (mapScrollTop + mapHeight)
+      level.stage.scrollTop(mapScrollTop+(myTop-mapHeight/2))
+    
+    if myLeft < 0
+      level.stage.scrollLeft(mapScrollLeft+myLeft-(mapWidth/2))
+    else if myLeft >= (mapScrollLeft + mapWidth)
+      level.stage.scrollLeft(mapScrollLeft+myLeft-(mapWidth/2))
+    
   act: ->
     origX = @x
     origY = @y

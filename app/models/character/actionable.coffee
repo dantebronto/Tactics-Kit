@@ -18,6 +18,7 @@ class window.Actionable
     @updateInfo()
   
   startTurn: (oneTurnBot=false) ->
+    @centerMapOnMe()
     @characterSelected()
     console.log "It's #{@name}'s turn" unless oneTurnBot
   

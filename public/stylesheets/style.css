@@ -23,7 +23,7 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; overflow: hidden; ma
 .healable { background-image: url(/images/healable.png); }
 .pointer { cursor: pointer; }
 
-#info .character-info { display: inline-block; height: 100px; width: 180px; font-size: 11px; margin: 0 0 5px; position: relative; padding: 0 2px; padding-bottom: 7px; background-color: gray; border: medium black solid; border-radius: 6px; padding: 3px; }
+#info .character-info { display: inline-block; height: auto; width: 180px; font-size: 11px; margin: 0 0 5px; position: relative; padding: 0 2px; padding-bottom: 7px; background-color: gray; border: medium black solid; border-radius: 6px; padding: 3px; }
 #info .stat-bar-holder { width: 128px; position:relative; float:right; }
 #info .sprite { width: 50px; height: 50px; top: -5px; position:relative; }
 #info .sprite img { display: block; margin: 0 auto; }
@@ -58,4 +58,4 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; overflow: hidden; ma
 }
 
 #console li {padding:2px;}
-.arrow {  position:absolute; top: -25px; width:30px; height:30px;  left:10px; opacity:0.7; }
+img.turn-indicator {  position:absolute; top: -25px; width:30px; height:30px;  left:10px; opacity:0.7; }
