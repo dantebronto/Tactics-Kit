@@ -47,9 +47,12 @@ class window.Special
         (new Burstable
           activated: (x,y) =>
             used = []
-            level.map.underlayMatrix.each (x2, y2, el) =>
-              if el.hasClass('attackable') and Character.findByPosition(x2, y2)
-                used.push {x:x2, y:y2}
+            console.log level.map.elem.find('span.attackable')
+            level.map.elem.find('span.attackable').each (el) ->
+              [elx, ely] = $(@).getMatrixCoords()
+              used.push {x:elx, y:ely} if Character.findByPosition(elx, ely)
+            console.log used
+            
             if used.length > 0
               level.queue =>
                 _(used).each (point, index) ->
