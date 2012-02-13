@@ -4,7 +4,7 @@ window.p1 = new Player
   level: 10
 
 window.p2 = new Player 
-  x: 6, y: 4, name: 'lady'
+  x: 27, y: 4, name: 'lady'
   strength: 20
   sprite: '/images/girl.gif'
   isBot: true
