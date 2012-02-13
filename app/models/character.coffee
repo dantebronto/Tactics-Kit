@@ -92,8 +92,6 @@ class window.Character
     mapScrollLeft = level.stage.scrollLeft()
     mapWidth = level.stage.width()
     
-    console.log myTop, myLeft
-    
     # if myTop < 0
     # level.stage.scrollTop(mapScrollTop+myTop-(mapHeight/2))
     # else if myTop >= (mapScrollTop + mapHeight - 40)

@@ -101,7 +101,11 @@ class Level.Map
     
     if classes.include('impassable') or classes.include('passable')      
       @clear()
-      Character.findByPosition(x, y)?.characterSelected(true)
+      if char = Character.findByPosition(x, y)
+        if char.isTypeOf 'Enemy'
+          char.centerMapOnMe()
+        else
+          char.characterSelected(true)
       return
     
     if classes.include('attackable') and @canAttack(x, y)
