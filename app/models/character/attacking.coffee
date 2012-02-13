@@ -2,11 +2,12 @@ class window.Attacking
   
   initAttacking: ->
   
-  showAttackableCells: ->
+  showAttackableCells: (preview=false) ->
+    level.clear() if preview
     return if @apLeft <= 0
     speed = @apLeft
     matrix = Level.Matrix.newFilledMatrix level.map.rowCount, level.map.colCount, 0
-    matrix = @findAttackableNeighbors(@x, @y, matrix, @weapon.range)
+    matrix = @findAttackableNeighbors(@x, @y, matrix, @weapon.range, preview)
     matrix.set @x, @y, 0
     matrix.each (x, y) ->
       if Number(this) == 1
@@ -17,9 +18,11 @@ class window.Attacking
       # matrix.each, mark as 0
     matrix
   
-  findAttackableNeighbors: (x, y, matrix, range) ->
+  findAttackableNeighbors: (x, y, matrix, range, preview=false) ->
     matrix.each (x, y) =>
-      matrix.set(x, y, 1) if level.canAttack(x, y) and @chebyshevDistance(x, y) <= range
+      inRange = @chebyshevDistance(x, y) <= range
+      attackable = level.canAttack(x, y)
+      matrix.set(x, y, 1) if (preview and inRange) or (inRange and attackable)
     matrix
   
   chebyshevDistance: (x, y) -> _([ Math.abs(@x - x), Math.abs(@y - y) ]).max()
@@ -54,7 +57,6 @@ class window.Attacking
      else
        $ "<h4>#{dmg}</h4>"
     
-    level.queue(5) if @isBot
     level.queue => 
       return if @apLeft <= 0
       
@@ -79,13 +81,9 @@ class window.Attacking
       @characterSelected()
       
       shakeTime = if dmg == 'miss' then 0 else 180
-      hits.
-        css({top: -20}).
-        show().
-        shake(3, 3, shakeTime, (->), offset).
-        animate({ top: 10 }).
-        fadeOut 1000, => 
-          hits.remove()
+      hits.show()
+      setTimeout((-> hits.remove()), level.animationInterval*4)
+    level.queue(5)
   
   didMiss: ->
     missPercent = Math.floor((Math.random()*100+1))

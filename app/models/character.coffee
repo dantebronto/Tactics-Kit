@@ -72,14 +72,14 @@ class window.Character
     @bindInfoClicked()
     @trigger 'create'
   
-  characterSelected: ->
+  characterSelected: (secondary=false) ->
     level.map.elem.find('img.turn-indicator').remove()
     arrow = $ "<img class='turn-indicator' src='/images/arrow.png' />"
     level.map.overlayMatrix.get(@x, @y).prepend arrow
     level.clear()
     level.activeCharacter = @
     @showMovableCells()
-    @showAttackableCells()
+    @showAttackableCells(secondary)
   
   centerMapOnMe: ->
     mapLeft = level.stage.position().left
@@ -92,15 +92,17 @@ class window.Character
     mapScrollLeft = level.stage.scrollLeft()
     mapWidth = level.stage.width()
     
-    if myTop < 0
-      level.stage.scrollTop(mapScrollTop+myTop-(mapHeight/2))
-    else if myTop >= (mapScrollTop + mapHeight)
-      level.stage.scrollTop(mapScrollTop+(myTop-mapHeight/2))
+    console.log myTop, myLeft
     
-    if myLeft < 0
-      level.stage.scrollLeft(mapScrollLeft+myLeft-(mapWidth/2))
-    else if myLeft >= (mapScrollLeft + mapWidth)
-      level.stage.scrollLeft(mapScrollLeft+myLeft-(mapWidth/2))
+    # if myTop < 0
+    # level.stage.scrollTop(mapScrollTop+myTop-(mapHeight/2))
+    # else if myTop >= (mapScrollTop + mapHeight - 40)
+    level.stage.scrollTop(mapScrollTop+myTop-(mapHeight/2))
+    
+    # if myLeft < 120
+    # level.stage.scrollLeft(mapScrollLeft+myLeft-(mapWidth/2))
+    # else if myLeft >= (mapScrollLeft + mapWidth)
+    level.stage.scrollLeft(mapScrollLeft+myLeft-(mapWidth/2))
     
   act: ->
     origX = @x
@@ -118,7 +120,10 @@ class window.Character
     level.queue =>
       if @apLeft > 1 then @act() else @endTurn()
   
-  bindInfoClicked: -> @info.bind 'click', => @characterSelected()
+  bindInfoClicked: -> 
+    @info.bind 'click', => 
+      @centerMapOnMe()
+      @characterSelected()
   
   getElem: -> level.getElem @
   

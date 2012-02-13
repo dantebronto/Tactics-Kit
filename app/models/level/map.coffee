@@ -99,8 +99,9 @@ class Level.Map
     underlayCell = @underlayMatrix.get(x, y)
     classes = _(underlayCell.attr('class').split(' '))
     
-    if classes.include('impassable') or classes.include('passable')
+    if classes.include('impassable') or classes.include('passable')      
       @clear()
+      Character.findByPosition(x, y)?.characterSelected(true)
       return
     
     if classes.include('attackable') and @canAttack(x, y)

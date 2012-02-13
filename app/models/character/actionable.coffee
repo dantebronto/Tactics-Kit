@@ -18,9 +18,14 @@ class window.Actionable
     @updateInfo()
   
   startTurn: (oneTurnBot=false) ->
-    @centerMapOnMe()
-    @characterSelected()
     console.log "It's #{@name}'s turn" unless oneTurnBot
+    @centerMapOnMe()
+    if @isBot or oneTurnBot or @isTypeOf 'Enemy'
+      @showAttackableCells(true)
+      level.queue(2).queue => level.clear(); @characterSelected()
+    else
+      level.clear()
+      @characterSelected()
   
   endTurn: ->
     @subtractAp @apLeft

@@ -41,17 +41,16 @@ class window.Special
   
   @bindBomb: (char) ->
     new Special
+      apCost: 3
       character: char
       buttonText: 'bomb'
       action: =>
         (new Burstable
           activated: (x,y) =>
             used = []
-            console.log level.map.elem.find('span.attackable')
             level.map.elem.find('span.attackable').each (el) ->
               [elx, ely] = $(@).getMatrixCoords()
               used.push {x:elx, y:ely} if Character.findByPosition(elx, ely)
-            console.log used
             
             if used.length > 0
               level.queue =>
@@ -63,7 +62,10 @@ class window.Special
                     char.doDamage(point.x, point.y, 0, 0)
                   ).shake(3,3,200).fadeOut 200, ->
                     ex.remove()
-                    level.queue(-> char.subtractAp(3); char.characterSelected()) if index == used.length - 1 # last hit
+                    if index == used.length - 1 # last hit
+                      level.queue -> 
+                        char.subtractAp(3)
+                        char.characterSelected()
           onHover: (x,y) ->
             um = level.map.underlayMatrix
             for cell in [ um.get(x, y), um.get(x-1,y), um.get(x+1, y), um.get(x, y+1), um.get(x, y-1) ]
@@ -71,8 +73,8 @@ class window.Special
         ).showArea()
   
   @bindEngineering: (char) =>
-  #   new Special
-  #     character: char
-  #     buttonText: 'engineering'
-  #     action: =>
-  #       # TODO: build a tower
+    # new Special
+    #   character: char
+    #   buttonText: 'engineering'
+    #   action: =>
+    #     # TODO: build a tower

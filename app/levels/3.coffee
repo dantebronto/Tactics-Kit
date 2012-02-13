@@ -1,13 +1,13 @@
 window.p1 = new Player 
-  x: 3, y: 3, name: 'd00d'
-  isBot: true
+  x: 13, y: 21, name: 'd00d'
+  # isBot: true
   level: 10
 
 window.p2 = new Player 
   x: 6, y: 4, name: 'lady'
   strength: 20
   sprite: '/images/girl.gif'
-  # isBot: true
+  isBot: true
   level: 10
   weapon: new Weapon 
     range: 3
@@ -21,31 +21,25 @@ window.e1 = new Enemy
 window.e2 = new Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
-  x: 6, y: 7
+  x: 11, y: 29
   level: 5
 
 window.e3 = new Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
-  x: 6, y: 6
+  x: 12, y: 30
   level: 5
   
 window.e4 = new Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
-  x: 7, y: 6
+  x: 39, y: 16
   level: 5
   
 window.e5 = new Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
-  x: 11, y: 6
-  level: 5
-  
-window.e6 = new Enemy
-  sprite: '/images/penguin2.gif'
-  name: 'Robo Duck'
-  x: 11, y: 5
+  x: 21, y: 35
   level: 5
   
 # level 1
@@ -99,11 +93,13 @@ window.level = new Level
     backgroundImage: '/images/moathouse.jpg'
     selector: '#map'
   players: [p1, p2]
-  enemies: [e1 ] #, # e2, e3, e4, e5, e6]
-  animationInterval: 150
+  enemies: [e1, e2, e3, e4, e5]
+  animationInterval: 100
   
 level.queue =>
   p1.addDefaultSpecials()
   p2.addDefaultSpecials()
   Special.bindBomb(p2)
+  
+level.queue(5).queue => 
   level.start()

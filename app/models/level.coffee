@@ -30,7 +30,7 @@ class window.Level
     if console?.log?
       console.originalLog = console.log
       previousHeight = 80
-      console.log = (msg) ->
+      console.log = (msg...) ->
         console.originalLog(msg)
         list = level.console
         li = $ "<li> #{msg} </li>"

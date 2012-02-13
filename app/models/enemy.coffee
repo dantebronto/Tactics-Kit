@@ -5,7 +5,10 @@ class window.Enemy extends Character
   addedToLevel: ->
     @drawInfo()
     @initSprite()
+    @bindInfoClicked()
     @trigger 'create'
+  
+  bindInfoClicked: -> @info.bind 'click', => @centerMapOnMe()
   
   startTurn: ->
     super()
