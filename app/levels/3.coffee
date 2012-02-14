@@ -7,7 +7,7 @@ window.p2 = new Player
   x: 27, y: 4, name: 'lady'
   strength: 20
   sprite: '/images/girl.gif'
-  isBot: true
+  # isBot: true
   level: 10
   weapon: new Weapon 
     range: 3

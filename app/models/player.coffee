@@ -3,7 +3,6 @@ class window.Player extends Character
   addDefaultSpecials: ->
     Special.bindAuto @
     Special.bindGuard @
-    Special.bindEngineering @
   
   distributeExperience: -> _(level.enemies).each (enemy) => enemy.addExp @exp
   

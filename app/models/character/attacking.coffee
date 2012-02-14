@@ -80,9 +80,17 @@ class window.Attacking
       
       @characterSelected()
       
-      shakeTime = if dmg == 'miss' then 0 else 180
-      hits.show()
-      setTimeout((-> hits.remove()), level.animationInterval*4)
+      # shakeTime = if dmg == 'miss' then 0 else 180
+      
+      img = $('<img src="/images/red_dot.gif"/>')
+      oo = level.map.overlayMatrix.get(@x,@y).offset()
+      targoo = level.map.overlayMatrix.get(x,y).offset()
+      img.appendTo(level.map.elem)
+      img.css({position: 'absolute', top: oo.top+22, left: oo.left+22, width:12, height:12 }).
+        animate { top: targoo.top+22, left: targoo.left+22 }, level.animationInterval, 'swing', ->
+          img.hide()
+          hits.show()
+          setTimeout((-> hits.remove()), level.animationInterval*4)
     level.queue(5)
   
   didMiss: ->

@@ -22,6 +22,8 @@ class window.Special
     disabled = if @apCost > @character.apLeft then 'disabled' else ''
     "<button class='#{@buttonText}' #{disabled} type='button'>#{@buttonText}</button>"
   
+  # just some default/basic special moves listed below
+  
   @bindAuto: (char) ->
     return if char.isBot
     new Special
@@ -71,10 +73,3 @@ class window.Special
             for cell in [ um.get(x, y), um.get(x-1,y), um.get(x+1, y), um.get(x, y+1), um.get(x, y-1) ]
               cell?.addClass 'attackable'
         ).showArea()
-  
-  @bindEngineering: (char) =>
-    # new Special
-    #   character: char
-    #   buttonText: 'engineering'
-    #   action: =>
-    #     # TODO: build a tower

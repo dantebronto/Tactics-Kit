@@ -70,7 +70,7 @@ window.level = new Level
     selector: '#map'
   players: [p1, p2]
   enemies: [e1, e2, e3, e4, e5, e6]
-  animationInterval: 150
+  animationInterval: 200
   
 level.queue =>
   p1.addDefaultSpecials()

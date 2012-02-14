@@ -92,6 +92,7 @@ class window.Character
     mapScrollLeft = level.stage.scrollLeft()
     mapWidth = level.stage.width()
     
+    # TODO: figure out ranges to check
     # if myTop < 0
     # level.stage.scrollTop(mapScrollTop+myTop-(mapHeight/2))
     # else if myTop >= (mapScrollTop + mapHeight - 40)
