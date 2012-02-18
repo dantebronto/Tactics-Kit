@@ -1,10 +1,9 @@
 class window.Burstable
   
   constructor: (opts={}) ->
-    # TODO: implement turn start drawing vs onHover distinction
+    # you determine what you want to do here
+    # define onHover if there is one, else, the shape will persist
     
-    # you determine what you want to do here, the default is a small burst
-    # highlight cells as attackable within 2 chebyshev distance
     @type = opts.type or 'attackable'
     @onHover = opts.onHover #or @smallBurstShape
     @activated = opts.activated or (x,y) -> console.log "activated at #{x},#{y}"

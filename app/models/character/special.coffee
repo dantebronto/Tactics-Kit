@@ -25,19 +25,19 @@ class window.Special
   
   # just some default/basic special moves listed below
   
-  @bindAuto: (char) ->
+  @bindAuto: (char, buttonText='auto') ->
     return if char.isBot
     new Special
       character: char
-      buttonText: 'auto'
+      buttonText: buttonText
       action: => char.startTurn true
   
-  @bindGuard: (char) ->
+  @bindGuard: (char, buttonText='guard') ->
     return if char.isBot
     new Special
       apCost: 1
       character: char
-      buttonText: 'guard'
+      buttonText: buttonText
       action: => 
         console.log "#{char.name} is guarding"
         char.subtractAp char.apLeft

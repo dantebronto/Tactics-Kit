@@ -109,6 +109,7 @@ class window.Character
     
     level.queue =>
       target = @findTarget()
+      return unless target
       distanceToTarget = @chebyshevDistance target.x, target.y
       if distanceToTarget <= @weapon.range
         @attack target.x, target.y

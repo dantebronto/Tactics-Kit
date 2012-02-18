@@ -33,6 +33,12 @@ window.e2 = new Enemy
   sprite: '/images/ninja.gif'
   level: 1
 
+window.p4 = new Player
+  x:3, y: 7
+  name: 'Insanity Wolf'
+  sprite: '/images/wolf.png'
+  level: 2
+
 # level 1
 terrain = [ 
   [ 15, 15, 15, 15, 15, 15, 15, 15 ],
@@ -60,15 +66,21 @@ window.level = new Level
     height: 816
     backgroundImage: '/images/test-map.jpg'
     selector: '#map'
-  players: [p3]
+  players: [p3, p4]
   enemies: [e1, e2]
   animationInterval: 50
 
 level.queue =>
+  # create wolf
+  Special.bindAuto p4, 'attack'
+  Special.bindGuard p4, 'stay'
+  p4.showMovableCells = ->
+  p4.showAttackableCells = ->
+
+level.queue =>
   # p1.addDefaultSpecials()
   p3.addDefaultSpecials()
-  # new Engineer(p3)
-  
+    
   turretCount = 0
   window.special = new Special
     character: p3
@@ -90,6 +102,7 @@ level.queue =>
           
           if level.canMoveTo(x,y)
             pz = new Player
+              exp: 0
               x: x, y: y, name: 'turret'
               ap: 2
               sprite: '/images/turret.png'
@@ -108,24 +121,12 @@ level.queue =>
             p3.subtractAp 4
             turretCount += 1
             special.disabled = true if turretCount >= 2
-        
-        # onHover: (x,y) ->
-        
       ).showArea()
-      
-      # modal = $ """
-      # <div>
-      #   <button id='build-turret'>Build Turret</button>
-      # </div>
-      # """
-      # modal.find('#build-turret').bind 'click', ->
       
       $('body').one 'click', (e) =>
         level.clear()
         level.activeCharacter?.characterSelected()
       
-      # modal.dialog()
-  
   # Special.bindBomb(p2)
   
   # p3.extendWith('Special.Engineering')
