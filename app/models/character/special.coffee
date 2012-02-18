@@ -6,6 +6,7 @@ class window.Special
     @character.specials.push @
     @action = opts.action or ->
     @buttonText = opts.buttonText
+    @disabled = false
     @bindButtonClicked() if @buttonText
     @character.updateInfo()
   
@@ -19,7 +20,7 @@ class window.Special
   
   button: ->
     return if !@buttonText or @character.isBot
-    disabled = if @apCost > @character.apLeft then 'disabled' else ''
+    disabled = if ((@apCost > @character.apLeft) or @disabled) then 'disabled' else ''
     "<button class='#{@buttonText}' #{disabled} type='button'>#{@buttonText}</button>"
   
   # just some default/basic special moves listed below

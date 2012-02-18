@@ -34,7 +34,7 @@ class window.Level
         console.originalLog(msg)
         list = level.console
         li = $ "<li> #{msg} </li>"
-        list.append(li).animate scrollTop: previousHeight += (li.height() + 10)
+        list.append(li).scrollTop(previousHeight += (li.height() + 10))
   
   remove: (obj) ->
     @players = _(@players).filter (player) => obj != player
@@ -48,7 +48,9 @@ class window.Level
     obj.hide() if obj.hide
   
   # TODO: have level mixin map functions?
-  add: (obj) -> @map.add obj # TODO: assign ids, add to Qs
+  add: (obj) -> 
+    @players.push(obj) if obj.isTypeOf 'Player'
+    @map.add obj # TODO: assign ids, add to Qs
   getElem: (obj) -> @map.getElem obj
   canMoveTo: (x, y) -> @map.canMoveTo(x, y)
   canWalkOn: (x, y) -> @map.canWalkOn(x, y)

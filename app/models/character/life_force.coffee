@@ -17,6 +17,7 @@ class window.LifeForce
   
   die: ->
     @trigger 'die'
+    @onDeath()
     @info.fadeOut 'slow'
     @animateDeath()
     @remove()

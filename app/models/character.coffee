@@ -13,7 +13,7 @@ class window.Character
   Character.mixin Experience
   Character.mixin LifeForce
   Character.mixin Actionable
-  Character.mixin Moveable
+  Character.mixin Movable
   Character.mixin Attacking
   Character.mixin PathFinding
   
@@ -141,7 +141,7 @@ class window.Character
     @on 'create', @onCreate
     @on 'turnStart', @onTurnStart
     @on 'turnEnd', @onTurnEnd
-    @on 'die', @onDeath
+    # @on 'die', @onDeath
   
   remove: -> @hide()
   

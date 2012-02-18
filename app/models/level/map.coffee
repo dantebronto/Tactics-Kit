@@ -84,7 +84,7 @@ class Level.Map
   hideCellAs: (type, x, y) -> @underlayMatrix.get(x, y).removeClass type
   
   clear: (x, y) -> 
-    classes = 'passable impassable moveable attackable'
+    classes = 'passable impassable movable attackable healable'
     if x and y
       @underlayMatrix.get(x, y).removeClass classes
     else
@@ -114,5 +114,5 @@ class Level.Map
     if @playerMatrix.get(x, y).hasClass('occupied') and not classes.include('attackable')
       Character.findByPosition(x, y)?.characterSelected()
     
-    level.activeCharacter?.moveTo(x, y) if classes.include('moveable')
+    level.activeCharacter?.moveTo(x, y) if classes.include('movable')
     

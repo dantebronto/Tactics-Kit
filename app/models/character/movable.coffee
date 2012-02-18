@@ -1,4 +1,4 @@
-class window.Moveable
+class window.Movable
   
   initMovement: ->
     @x = @opts.x or 0
@@ -8,17 +8,17 @@ class window.Moveable
     return if @apLeft <= 0
     speed = @apLeft
     matrix = Level.Matrix.newFilledMatrix level.map.rowCount, level.map.colCount
-    matrix = @findMoveableNeighbors(@x, @y, matrix, speed-1)
+    matrix = @findMovableNeighbors(@x, @y, matrix, speed-1)
     matrix.set @x, @y, 0
     matrix.each (x, y) ->
       if Number(this) == 1
-        level.showCellAs('moveable', x, y)
+        level.showCellAs('movable', x, y)
       else
         type = if level.canWalkOn(x, y) then 'passable' else 'impassable'
         level.showCellAs(type, x, y)
         matrix
   
-  findMoveableNeighbors: (x, y, matrix, speed) ->
+  findMovableNeighbors: (x, y, matrix, speed) ->
     surrounds = [ 
       [ x, y-1 ], [ x+1, y-1 ], [ x+1, y ], [ x+1, y+1 ],
       [ x, y+1 ], [ x-1, y+1 ], [ x-1, y ], [ x-1, y-1 ] 
@@ -35,7 +35,7 @@ class window.Moveable
       
       if level.canMoveTo(x, y)
         matrix.set(x, y, 1) unless matrix.get(x, y) is 1
-        matrix = @findMoveableNeighbors(x, y, matrix, speed-1) if speed > 0
+        matrix = @findMovableNeighbors(x, y, matrix, speed-1) if speed > 0
     matrix
   
   moveTo: (x, y, ignoreBlockers=false) ->
