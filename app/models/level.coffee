@@ -14,6 +14,7 @@ class window.Level
     @start = @startNextCharacter
     
     @activeCharacter = null
+    window.level = @
     
     $ =>
       @initCharacters()

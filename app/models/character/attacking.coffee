@@ -82,12 +82,12 @@ class window.Attacking
       
       # shakeTime = if dmg == 'miss' then 0 else 180
       
-      img = $('<img src="/images/red_dot.gif"/>')
+      img = $('<img src="/images/burst.png" width="50" height="50" />')
       oo = level.map.overlayMatrix.get(@x,@y).offset()
       targoo = level.map.overlayMatrix.get(x,y).offset()
       img.appendTo(level.map.elem)
-      img.css({position: 'absolute', top: oo.top+22, left: oo.left+22, width:12, height:12 }).
-        animate { top: targoo.top+22, left: targoo.left+22 }, level.animationInterval, 'swing', ->
+      img.css({position: 'absolute', top: oo.top, left: oo.left, width:50, height:50 }).
+        animate { top: targoo.top, left: targoo.left }, level.animationInterval, 'swing', ->
           img.hide()
           hits.show()
           setTimeout((-> hits.remove()), level.animationInterval*4)

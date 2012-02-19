@@ -12,8 +12,6 @@ window.p2 = new Player
   weapon: new Weapon 
     range: 3
 
-class window.Engineer extends Player
-
 window.p3 = new Engineer
   x: 4, y: 5, name: 'Ace'
   strength: 5
@@ -33,10 +31,39 @@ window.e2 = new Enemy
   sprite: '/images/ninja.gif'
   level: 1
 
-window.p4 = new Player
+class WolfSpecial extends Special
+  button: ->
+    checked = if @character.autoAttackChecked() then "checked='checked'" else ""
+    """
+    <span>auto</span>
+    <input type='checkbox' class='auto-attack' #{checked}/>
+    #{super()}
+    """
+
+class Wolf extends Player
+  constructor: (opts) -> 
+    super opts
+    @sprite = opts.sprite or '/images/wolf.png'
+    @name = opts.name or 'Wolf'
+  
+  addedToLevel: ->
+    super()
+    
+    new WolfSpecial
+      character: @
+      buttonText: 'attack'
+      action: => @startTurn true
+    
+    Special.bindGuard @, 'stay'
+    @showMovableCells = ->
+    @showAttackableCells = ->
+  
+  autoAttackChecked: -> @info.find('input.auto-attack').is(':checked')
+  startTurn: -> if @autoAttackChecked() then super(true) else super
+
+window.p4 = new Wolf
   x:3, y: 7
   name: 'Insanity Wolf'
-  sprite: '/images/wolf.png'
   level: 2
 
 # level 1
@@ -59,7 +86,7 @@ terrain = [
   [ 15, 15, 15, 15, 15, 15, 15, 15 ]
 ]
 
-window.level = new Level
+level = new Level
   map:
     terrain: terrain
     width: 410
@@ -71,64 +98,10 @@ window.level = new Level
   animationInterval: 50
 
 level.queue =>
-  # create wolf
-  Special.bindAuto p4, 'attack'
-  Special.bindGuard p4, 'stay'
-  p4.showMovableCells = ->
-  p4.showAttackableCells = ->
-
-level.queue =>
   # p1.addDefaultSpecials()
   p3.addDefaultSpecials()
-    
-  turretCount = 0
-  window.special = new Special
-    character: p3
-    buttonText: 'turret'
-    apCost: 4
-    action: =>
-      if turretCount >= 2
-        special.disabled = true
-        return
-      
-      level.map.underlayMatrix.each (x,y) ->
-        inRange = _([ Math.abs(p3.x - x), Math.abs(p3.y - y) ]).max() < 3
-        if inRange and level.canMoveTo(x, y)
-          level.map.underlayMatrix.get(x,y)?.addClass 'healable'
-      
-      (new Burstable
-        type: 'healable'
-        activated: (x,y) =>
-          
-          if level.canMoveTo(x,y)
-            pz = new Player
-              exp: 0
-              x: x, y: y, name: 'turret'
-              ap: 2
-              sprite: '/images/turret.png'
-              isBot: true
-              level: 1
-              weapon: new Weapon
-              onDeath: =>
-                console.log 'death called (he said fuck you!)'
-                turretCount -= 1
-                turretCount = 0 if turretCount < 0
-                special.disabled = false if turretCount < 2
-            
-            pz.moveTo = ->
-            pz.showMovableCells = ->
-            level.add pz
-            p3.subtractAp 4
-            turretCount += 1
-            special.disabled = true if turretCount >= 2
-      ).showArea()
-      
-      $('body').one 'click', (e) =>
-        level.clear()
-        level.activeCharacter?.characterSelected()
-      
-  # Special.bindBomb(p2)
   
+  # Special.bindBomb(p2)
   # p3.extendWith('Special.Engineering')
   
   level.start()
