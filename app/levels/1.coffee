@@ -95,13 +95,10 @@ level = new Level
     selector: '#map'
   players: [p3, p4]
   enemies: [e1, e2]
-  animationInterval: 50
+  animationInterval: 200
 
 level.queue =>
   # p1.addDefaultSpecials()
   p3.addDefaultSpecials()
-  
   # Special.bindBomb(p2)
-  # p3.extendWith('Special.Engineering')
-  
   level.start()

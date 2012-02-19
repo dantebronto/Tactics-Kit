@@ -67,7 +67,7 @@ class AStar
       for neighbor in @getNeighbors(currentNode)
         
         # not a valid node to process, skip to next neighbor
-        if ( closedList.findGraphNode(neighbor) or (level.map.terrainMatrix.get(neighbor.x, neighbor.y) == 15) and not @equals(neighbor.pos, end.pos) )
+        if ( closedList.findGraphNode(neighbor) or (level.map.terrainMatrix.get(neighbor.x, neighbor.y) == 15) or !level.canMoveTo(neighbor.x, neighbor.y) and not @equals(neighbor.pos, end.pos) )
           continue
         
         # g score is the shortest distance from start to current node, we need to check if
