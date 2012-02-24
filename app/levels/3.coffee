@@ -12,6 +12,12 @@ window.p2 = new Player
   weapon: new Weapon 
     range: 3
 
+p3 = new Engineer
+  x: 10, y: 10
+  name: 'Ace'
+  level: 5
+  sprite: '/images/penguin.gif'
+
 window.e1 = new Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
@@ -92,14 +98,15 @@ window.level = new Level
     height: 1938
     backgroundImage: '/images/moathouse.jpg'
     selector: '#map'
-  players: [p1, p2]
+  players: [p1, p2, p3]
   enemies: [e1, e2, e3, e4, e5]
   animationInterval: 100
-  
+
 level.queue =>
   p1.addDefaultSpecials()
   p2.addDefaultSpecials()
+  p3.addDefaultSpecials()
   Special.bindBomb(p2)
-  
+
 level.queue(5).queue => 
   level.start()

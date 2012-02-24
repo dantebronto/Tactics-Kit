@@ -37,15 +37,15 @@ class window.Engineer extends Player
   class Engineer.Turret extends Player
     constructor: (opts) ->
       super opts
-      console.log opts
       @special = opts.special
       @creator = opts.creator
       @exp = opts.exp or 0
       @name = opts.name or 'Turret'
       @ap = opts.ap or 2
+      @apLeft = @ap
       @sprite = opts.sprite or '/images/turret.png'
       @isBot = opts.isBot or true
-      @weapon = opts.weapon or new Weapon
+      @weapon = opts.weapon or new Weapon(range: 3)
       @onDeath = opts.onDeath or =>
         @creator.turretCount -= 1
         @creator.turretCount = 0 if @creator.turretCount < 0

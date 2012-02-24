@@ -9,13 +9,7 @@ class window.Attacking
     matrix = Level.Matrix.newFilledMatrix level.map.rowCount, level.map.colCount, 0
     matrix = @findAttackableNeighbors(@x, @y, matrix, @weapon.range, preview)
     matrix.set @x, @y, 0
-    matrix.each (x, y) ->
-      if Number(this) == 1
-        level.clear(x, y)
-        level.showCellAs('attackable', x, y)
-    # if @weapon.isRanged
-      # re-run find neighbors with a speed of @weapon.deadZone
-      # matrix.each, mark as 0
+    matrix.each (x, y) -> level.showCellAs('attackable', x, y) if Number(this) == 1
     matrix
   
   findAttackableNeighbors: (x, y, matrix, range, preview=false) ->

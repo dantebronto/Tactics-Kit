@@ -12,6 +12,12 @@ window.p2 = new Player
   weapon: new Weapon 
     range: 3
 
+window.p3 = new Wolf
+  x:3, y: 7
+  isBot: true
+  name: 'Insanity Wolf'
+  level: 2
+
 window.e1 = new Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
@@ -68,7 +74,7 @@ window.level = new Level
     height: 458
     backgroundImage: '/images/valley.jpg'
     selector: '#map'
-  players: [p1, p2]
+  players: [p1, p2, p3]
   enemies: [e1, e2, e3, e4, e5, e6]
   animationInterval: 200
   

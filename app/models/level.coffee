@@ -8,6 +8,9 @@ class window.Level
     @enemies = opts.enemies or []
     @eventDispatch = $({})
     
+    @turnNum = 0
+    @turnStart = opts.turnStart or ->
+    
     @anim = [] # animation queue
     @animationInterval = opts.animationInterval or 250
     @load = @queue
@@ -111,7 +114,9 @@ class window.Level
     if nextChar?
       nextChar.startTurn()
     else
-      @queue =>
+      @queue => # next turn
+        @turnStart()
+        @turnNum += 1
         @restoreCharacters()
         @startNextCharacter()
   
