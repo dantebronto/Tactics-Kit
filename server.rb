@@ -7,7 +7,7 @@ class MyApp < Sinatra::Base
   
   set :views, 'app/views'
   
-  get '/', do
+  get '/' do
     @level = 1
     erb :main
   end
