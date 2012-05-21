@@ -1,54 +1,51 @@
-window.p1 = new Player 
-  x: 3, y: 3, name: 'd00d'
-  isBot: true
+p1 = new Player 
+  x: 2, y: 3, name: 'd00d'
   level: 10
 
-window.p2 = new Player 
+p2 = new Player 
   x: 6, y: 4, name: 'lady'
   strength: 20
   sprite: '/images/girl.gif'
-  isBot: true
   level: 10
   weapon: new Weapon 
     range: 3
 
-window.p3 = new Wolf
+p3 = new Wolf
   x:3, y: 7
-  isBot: true
   name: 'Insanity Wolf'
   level: 2
 
-window.e1 = new Enemy
+e1 = new Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
   x: 11, y: 1
   level: 5
 
-window.e2 = new Enemy
+e2 = new Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
   x: 6, y: 7
   level: 5
 
-window.e3 = new Enemy
+e3 = new Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
   x: 6, y: 6
   level: 5
   
-window.e4 = new Enemy
+e4 = new Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
   x: 7, y: 6
   level: 5
   
-window.e5 = new Enemy
+e5 = new Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
   x: 11, y: 6
   level: 5
   
-window.e6 = new Enemy
+e6 = new Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
   x: 11, y: 5

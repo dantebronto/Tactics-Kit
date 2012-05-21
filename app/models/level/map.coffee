@@ -109,7 +109,6 @@ class Level.Map
       return
     
     if classes.include('attackable') and @canAttack(x, y)
-      console.log level.activeCharacter
       level.activeCharacter?.attack(x, y)
     
     if @playerMatrix.get(x, y).hasClass('occupied') and not classes.include('attackable')
