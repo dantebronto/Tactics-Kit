@@ -99,7 +99,7 @@ class Level.Map
     underlayCell = @underlayMatrix.get(x, y)
     classes = _(underlayCell.attr('class').split(' '))
     
-    if classes.include('impassable') or classes.include('passable')      
+    if classes.include('impassable') or classes.include('passable') and !classes.include('attackable') 
       @clear()
       if char = Character.findByPosition(x, y)
         if char.isTypeOf 'Enemy'
@@ -109,6 +109,7 @@ class Level.Map
       return
     
     if classes.include('attackable') and @canAttack(x, y)
+      console.log level.activeCharacter
       level.activeCharacter?.attack(x, y)
     
     if @playerMatrix.get(x, y).hasClass('occupied') and not classes.include('attackable')
