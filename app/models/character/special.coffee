@@ -19,7 +19,7 @@ class window.Special
       e.stopPropagation()
   
   button: ->
-    return if !@buttonText or @character.isBot
+    return '' if !@buttonText or @character.isBot
     disabled = if ((@apCost > @character.apLeft) or @disabled) then 'disabled' else ''
     "<button class='#{@buttonText}' #{disabled} type='button'>#{@buttonText}</button>" 
   
