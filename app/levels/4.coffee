@@ -1,10 +1,10 @@
 p1 = new Player 
-  x: 3, y: 3, name: 'D00D'
+  x: 7, y: 1, name: 'D00D'
   # isBot: true
   level: 1
 
 p2 = new Player 
-  x: 4, y: 3, name: 'Lady'
+  x: 7, y: 2, name: 'Lady'
   sprite: '/images/girl.gif'
   # isBot: true
   level: 1
@@ -19,13 +19,13 @@ p2 = new Player
 #   weapon: new Weapon
 
 e1 = new Enemy 
-  x: 0, y: 0, 
+  x: 0, y: 1, 
   name: 'Turtle Man' 
   sprite: '/images/turtle-man.gif'
   level:1
 
 e2 = new Enemy 
-  x: 0, y: 1
+  x: 0, y: 2
   name: 'Ninja'
   sprite: '/images/ninja.gif'
   level: 1
