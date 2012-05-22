@@ -9,7 +9,7 @@ class Level.Map
     @rowCount = @terrainMatrix.rowCount
     @colCount = @terrainMatrix.colCount
     
-    @backgroundImage = opts.backgroundImage or '/images/test-map.jpg'
+    @backgroundImage = opts.backgroundImage
     @cellTemplate = $(opts.cellTemplate or '<span class="cell"></span>')
     @cellTypes = opts.cellTypes or ['map', 'underlay', 'item', 'enemy', 'player', 'stat', 'overlay']
     
