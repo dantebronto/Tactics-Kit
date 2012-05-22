@@ -23,11 +23,11 @@ class Level.Map
   setStyles: ->
     @elem
       .hide()
-      .css(
+      .css
         height: "#{@height}px"
         width: "#{@width}px"
-      ).show() #.fadeIn('slow')
-      
+      .show()
+    
     @info.css('height', "#{@height}px")
   
   createCells: ->

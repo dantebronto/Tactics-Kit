@@ -134,7 +134,10 @@ class window.Character
     level.map.info.find('ul').append @info
     @info.fadeIn 'slow'
   
-  updateInfo: -> @info.html($(TMPL.characterInfo(@)).html())
+  updateInfo: ->
+    @eventDispatch.trigger 'beforeUpdateInfo'
+    @info.html($(TMPL.characterInfo(@)).html())
+    @eventDispatch.trigger 'afterUpdateInfo'
   
   on: (event, cb) -> @eventDispatch.bind(event, cb)
   trigger: (event, msg) -> @eventDispatch.trigger(event, msg)

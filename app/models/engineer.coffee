@@ -11,10 +11,10 @@ class window.Engineer extends Player
       buttonText: 'turret'
       apCost: 2
       action: =>
-        if @turretCount >= 2
+        if @turretCount >= 1
           @engineeringSpecial.disabled = true
           return
-          
+        
         myX = @x
         myY = @y
         level.map.underlayMatrix.each (x,y) ->
@@ -22,7 +22,7 @@ class window.Engineer extends Player
           if inRange and level.canMoveTo(x, y)
             level.map.underlayMatrix.get(x,y)?.addClass 'healable'
       
-        (new Burstable
+        new Burstable
           type: 'healable'
           activated: (x,y) =>
             if level.canMoveTo(x,y)
@@ -30,11 +30,15 @@ class window.Engineer extends Player
                 x:x, y:y 
                 special: @engineeringSpecial
                 creator: @ 
-        ).showArea()
+        .showArea()
       
         $('body').one 'click', (e) =>
           level.clear()
           level.activeCharacter?.characterSelected()
+    
+    @engineeringSpecial.character.eventDispatch.bind 'afterUpdateInfo', =>
+      if @engineeringSpecial.character.turretCount >= 1
+        @engineeringSpecial.disabled = true
   
   class Engineer.Turret extends Player
     constructor: (opts) ->

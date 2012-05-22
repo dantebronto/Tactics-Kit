@@ -27,9 +27,9 @@ e1 = new Enemy
 
 e2 = new Enemy 
   x: 0, y: 2
-  name: 'Ninja'
-  sprite: '/images/ninja.gif'
-  level: 1
+  name: 'Acid Dragon'
+  sprite: '/images/acidDragon.gif'
+  level: 13
 
 # level 4
 terrain = [ 
