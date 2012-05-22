@@ -9,14 +9,16 @@ class window.Engineer extends Player
     @engineeringSpecial = new Special
       character: @
       buttonText: 'turret'
-      apCost: 4
+      apCost: 2
       action: =>
         if @turretCount >= 2
           @engineeringSpecial.disabled = true
           return
-        
+          
+        myX = @x
+        myY = @y
         level.map.underlayMatrix.each (x,y) ->
-          inRange = _([ Math.abs(p3.x - x), Math.abs(p3.y - y) ]).max() < 3
+          inRange = _([ Math.abs(myX - x), Math.abs(myY - y) ]).max() < 3
           if inRange and level.canMoveTo(x, y)
             level.map.underlayMatrix.get(x,y)?.addClass 'healable'
       
@@ -54,7 +56,7 @@ class window.Engineer extends Player
       @moveTo = opts.moveTo or ->
       @showMovableCells = opts.showMovableCells or ->
       level.add @
-      @creator.subtractAp @special.apCost or 4
+      @creator.subtractAp @special.apCost or 2
       @creator.turretCount += 1
 
       @special.disabled = true if @creator.turretCount >= 2

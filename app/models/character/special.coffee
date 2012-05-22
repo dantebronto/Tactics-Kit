@@ -67,7 +67,7 @@ class window.Special
                     ex.remove()
                     if index == used.length - 1 # last hit
                       level.queue -> 
-                        char.subtractAp(3)
+                        char.subtractAp(2)
                         char.characterSelected()
           onHover: (x,y) ->
             um = level.map.underlayMatrix

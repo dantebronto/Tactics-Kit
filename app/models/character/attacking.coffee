@@ -22,12 +22,12 @@ class window.Attacking
   chebyshevDistance: (x, y) -> _([ Math.abs(@x - x), Math.abs(@y - y) ]).max()
   
   attack: (x, y) ->
-    return if @apLeft < 2
+    return if @apLeft < 1
     @doDamage x, y
   
   doDamage: (x, y, dmg, apToSubtract) ->
     dmg ?= 0
-    apToSubtract ?= 2
+    apToSubtract ?= 1
     if dmg == 0
       _(@strength + @weapon.attack).times => dmg += @rollDice()
       dmg = 'miss' if @didMiss()

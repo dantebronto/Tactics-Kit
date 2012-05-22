@@ -118,7 +118,7 @@ class window.Character
         level.queue =>
           @endTurn() if origX == @x and origY == @y # didn't move, somehow got blocked
     level.queue =>
-      if @apLeft > 1 then @act() else @endTurn()
+      if @apLeft > 0 then @act() else @endTurn()
   
   bindInfoClicked: -> 
     @info.bind 'click', => 

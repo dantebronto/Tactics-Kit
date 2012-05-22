@@ -1,7 +1,7 @@
 class window.Actionable
   
   initAp: ->
-    @ap = @opts.ap or Math.floor(4+@level*0.07)
+    @ap = @opts.ap or Math.floor(2+@level*0.07)
     @apLeft = @ap
     @hasGone = false
   
