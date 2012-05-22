@@ -26,8 +26,8 @@ class Level.Map
       .css(
         height: "#{@height}px"
         width: "#{@width}px"
-        backgroundImage: "url(#{@backgroundImage})"
-      ).fadeIn('slow')
+      ).show() #.fadeIn('slow')
+      
     @info.css('height', "#{@height}px")
   
   createCells: ->

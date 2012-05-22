@@ -15,22 +15,21 @@ p3 = new Engineer
   x: 7, y: 3, name: 'Ace'
   strength: 5
   sprite: '/images/golem.gif'
+  # isBot: true
   level: 1
   weapon: new Weapon
 
 e1 = new Enemy 
   x: 0, y: 1, 
-  name: 'Turtle Man' 
-  sprite: '/images/turtle-man.gif'
+  name: 'Dragon Man' 
+  sprite: '/images/dragonMan.gif'
   level:1
-  ap: 1
 
 e2 = new Enemy 
   x: 0, y: 2
   name: 'Ninja'
   sprite: '/images/ninja.gif'
   level: 1
-  ap: 1
 
 # level 4
 terrain = [ 
@@ -55,16 +54,14 @@ level.queue =>
   p1.addDefaultSpecials()
   p2.addDefaultSpecials()
   
-  $('.cell').css('border', 'none')
-  $('.cell.overlay').css
-    'border-right': 'thin solid gray'
-    'border-bottom': 'thin solid gray'
+  p3.addDefaultSpecials()
+  
+  bord = 'thin solid gray'
+  $('.cell').css('border', 'none') #.find('.overlay').css
+    # 'border-right': bord
+    # 'border-bottom': bord
   
   level.map.mapMatrix.each -> 
-    $(this).css
-      'background-image': 'url("/images/tileset.png")'
-      'background-size': '1600px'
-      'background-position-x': '0px'
-      'background-position-y': '9350px'
+    $(this).css 'background-image': 'url("/images/tiletest.png")'
   
   level.start()

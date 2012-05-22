@@ -77,7 +77,7 @@ class window.Level
     @add player for player in @players if @players.length > 0
     @add enemy  for enemy  in @enemies if @enemies.length > 0
   
-  initAnimationQueue: -> setInterval((=> @nextTick()), @animationInterval)
+  initAnimationQueue: -> setInterval((=> @nextTick() if @anim[0]), @animationInterval)
   
   queue: (delayOrFn=0) ->
     @anim.push delayOrFn if @anim[0] != delayOrFn
@@ -106,7 +106,7 @@ class window.Level
   
   next: -> 
     console.log 'You win!'
-    $('body').fadeOut 5000, -> location.reload true
+    $('body').fadeOut 2000, -> location.reload true
   
   startNextCharacter: ->
     @anim = [] # clear animation queue, not sure if necessary anymore

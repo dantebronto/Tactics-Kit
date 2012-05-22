@@ -106,19 +106,20 @@ class window.Character
   act: ->
     origX = @x
     origY = @y
+    return if level.enemies.length == 0 or level.players.length == 0 # no one to fight
     
     level.queue =>
       target = @findTarget()
-      # return unless target
-      distanceToTarget = @chebyshevDistance target.x, target.y
+      distanceToTarget = if target then @chebyshevDistance(target.x, target.y) else Infinity
       if distanceToTarget <= @weapon.range
         @attack target.x, target.y
       else
-        @moveTo target.x, target.y
+        @moveTo target.x, target.y unless distanceToTarget == Infinity
         level.queue =>
           @endTurn() if origX == @x and origY == @y # didn't move, somehow got blocked
+    
     level.queue =>
-      if @apLeft > 0 then @act() else @endTurn()
+      if @apLeft > 1 then @act() else @endTurn()
   
   bindInfoClicked: -> 
     @info.bind 'click', => 
