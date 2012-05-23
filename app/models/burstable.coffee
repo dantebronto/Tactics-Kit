@@ -6,7 +6,7 @@ class window.Burstable
     
     @type = opts.type or 'attackable'
     @onHover = opts.onHover #or @smallBurstShape
-    @activated = opts.activated or (x,y) -> console.log "activated at #{x},#{y}"
+    @activated = opts.activated or (x,y) -> level.log "activated at #{x},#{y}"
   
   showArea: ->
     level.map.underlayMatrix.each (x, y, elem) =>

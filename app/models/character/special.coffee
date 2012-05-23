@@ -39,7 +39,7 @@ class window.Special
       character: char
       buttonText: buttonText
       action: => 
-        console.log "#{char.name} is guarding"
+        level.log "#{char.name} is guarding"
         char.subtractAp char.apLeft
   
   @bindBomb: (char) ->

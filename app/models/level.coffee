@@ -31,14 +31,11 @@ class window.Level
       @initLogging()
   
   initLogging: ->
-    if console?.log?
-      console.originalLog = console.log
-      previousHeight = 80
-      console.log = (msg...) ->
-        console.originalLog(msg)
-        list = level.console
-        li = $ "<li> #{msg} </li>"
-        list.append(li).scrollTop(previousHeight += (li.height() + 10))
+    previousHeight = 80
+    level.log = (msg...) ->
+      console.log(msg)
+      li = $ "<li> #{msg} </li>"
+      level.console.append(li).scrollTop(previousHeight += (li.height() + 10))
   
   remove: (obj) ->
     @players = _(@players).filter (player) => obj != player
@@ -101,11 +98,11 @@ class window.Level
     @win.resize debounced
   
   gameOver: ->
-    console.log 'You have fallen in battle...'
+    level.log 'You have fallen in battle...'
     $('body').fadeOut 5000, -> location.reload true
   
   next: -> 
-    console.log 'You win!'
+    level.log 'You win!'
     $('body').fadeOut 2000, -> location.reload true
   
   startNextCharacter: ->

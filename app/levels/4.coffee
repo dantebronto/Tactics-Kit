@@ -55,8 +55,8 @@ level.queue =>
   p2.addDefaultSpecials()
   p3.addDefaultSpecials()
   
-  level.map.mapMatrix.each -> 
-    $(this).css 'background-image': 'url("/images/step9.png")'
+  level.map.mapMatrix.each ->
+    $(this).css 'background-image': 'url("/images/step9.png")' # grass.jpg
     
   # level.map.mapMatrix.each -> 
   #   $(this).css

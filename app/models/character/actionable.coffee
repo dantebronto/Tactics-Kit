@@ -18,7 +18,7 @@ class window.Actionable
     @updateInfo()
   
   startTurn: (oneTurnBot=false) ->
-    console.log "It's #{@name}'s turn" unless oneTurnBot
+    level.log "It's #{@name}'s turn" unless oneTurnBot
     @centerMapOnMe()
     if @isBot or oneTurnBot or @isTypeOf 'Enemy'
       @showAttackableCells(true)

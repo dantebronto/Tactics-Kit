@@ -59,6 +59,7 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; overflow: hidden; ma
   margin-bottom: 5px;
   position: relative;
   padding-bottom: 15px;
+  font-size: 0.9em;
 }
 
 #console li {padding:2px;}

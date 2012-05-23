@@ -20,4 +20,4 @@ class window.Experience
     @accuracy = 80+Math.floor @level*0.19
     @strength = @level
     @updateInfo()
-    console.log "Level up! #{@name} is now level #{@level}"
+    level.log "Level up! #{@name} is now level #{@level}"
