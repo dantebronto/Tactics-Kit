@@ -1,11 +1,6 @@
-# p1 = new Player 
-#   x: 7, y: 1, name: 'D00D'
-#   # isBot: true
-#   level: 1
-
 p2 = new Player 
-  x: 7, y: 2, name: 'Lady'
-  sprite: '/images/girl.gif'
+  x: 7, y: 2, name: 'Gorg'
+  sprite: '/images/sprites/monsters/mercenary.gif'
   # isBot: true
   level: 1
   weapon: new Weapon 
@@ -14,7 +9,7 @@ p2 = new Player
 p3 = new Engineer
   x: 7, y: 3, name: 'Ace'
   strength: 5
-  sprite: '/images/golem.gif'
+  sprite: '/images/sprites/player/cyborg.gif'
   # isBot: true
   level: 1
   weapon: new Weapon
@@ -30,6 +25,12 @@ e2 = new Enemy
   name: 'Acid Dragon'
   sprite: '/images/acidDragon.gif'
   level: 13
+
+e3 = new Enemy 
+  x: 0, y: 3, 
+  name: 'Dragon Man' 
+  sprite: '/images/dragonMan.gif'
+  level:1
 
 # level 4
 terrain = [ 
@@ -47,20 +48,15 @@ level = new Level
     height: 250
     selector: '#map'
   players: [p2, p3]
-  enemies: [e1, e2]
+  enemies: [e2, e1, e3]
   animationInterval: 150
   
 level.queue =>
-  # p1.addDefaultSpecials()
   p2.addDefaultSpecials()
-  
   p3.addDefaultSpecials()
   
-  bord = 'thin solid gray'
-  # $('.cell').css('border', 'none')
-  
   level.map.mapMatrix.each -> 
-    $(this).css 'background-image': 'url("/images/tiletest.png")'
+    $(this).css 'background-image': 'url("/images/BrickWall.jpg")'
     
   # level.map.mapMatrix.each -> 
   #   $(this).css
@@ -69,6 +65,5 @@ level.queue =>
   #     'width': '50px'
   #     'height': '50px'
   #   .addClass('sprites tiles-water')
-    
   
   level.start()
