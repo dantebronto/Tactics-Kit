@@ -110,6 +110,7 @@ class window.Character
     
     level.queue =>
       target = @findTarget()
+      
       distanceToTarget = if target then @chebyshevDistance(target.x, target.y) else Infinity
       if distanceToTarget <= @weapon.range
         @attack target.x, target.y
@@ -119,7 +120,7 @@ class window.Character
           @endTurn() if origX == @x and origY == @y # didn't move, somehow got blocked
     
     level.queue =>
-      if @apLeft > 1 then @act() else @endTurn()
+      if @apLeft > 0 then @act() else @endTurn()
   
   bindInfoClicked: -> 
     @info.bind 'click', => 
@@ -159,3 +160,5 @@ class window.Character
     @getElem()
       .css('background', "url(#{@sprite}) no-repeat center")
       .addClass('pointer occupied')
+      
+  specialMove: (chancePct, cb) ->

@@ -1,12 +1,12 @@
-p1 = new Player 
-  x: 7, y: 1, name: 'D00D'
-  isBot: true
-  level: 1
+# p1 = new Player 
+#   x: 7, y: 1, name: 'D00D'
+#   # isBot: true
+#   level: 1
 
 p2 = new Player 
   x: 7, y: 2, name: 'Lady'
   sprite: '/images/girl.gif'
-  isBot: true
+  # isBot: true
   level: 1
   weapon: new Weapon 
     range: 3
@@ -46,20 +46,18 @@ level = new Level
     width: 400
     height: 250
     selector: '#map'
-  players: [p1, p2, p3]
+  players: [p2, p3]
   enemies: [e1, e2]
-  animationInterval: 30
+  animationInterval: 150
   
 level.queue =>
-  p1.addDefaultSpecials()
+  # p1.addDefaultSpecials()
   p2.addDefaultSpecials()
   
   p3.addDefaultSpecials()
   
   bord = 'thin solid gray'
-  $('.cell').css('border', 'none') #.find('.overlay').css
-    # 'border-right': bord
-    # 'border-bottom': bord
+  # $('.cell').css('border', 'none')
   
   level.map.mapMatrix.each -> 
     $(this).css 'background-image': 'url("/images/tiletest.png")'

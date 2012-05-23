@@ -94,7 +94,7 @@ class window.Level
   
   bindWindowResize: ->
     resizeFn = =>
-      @stage.css('height', (@win.height()-80)+'px')
+      @stage.css('height', @win.height()+'px')
       @info.css('height', @win.height()+'px')
     
     debounced = _.debounce(resizeFn, 500)

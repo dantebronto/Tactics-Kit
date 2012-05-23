@@ -77,7 +77,7 @@ class Level.Map
   
   canMoveTo: (x, y) -> @canWalkOn(x, y) and not @occupiedAt(x, y)
   canWalkOn: (x, y) -> @terrainMatrix.get(x, y) <= 10
-  canAttack: (x, y) -> @occupiedAt(x, y)
+  canAttack: (x, y) -> @occupiedAt(x, y) and @enemyMatrix.get(x, y)?.hasClass('occupied')
   
   showCellAs: (type, x, y) -> @underlayMatrix.get(x, y).addClass type
   hideCellAs: (type, x, y) -> @underlayMatrix.get(x, y).removeClass type

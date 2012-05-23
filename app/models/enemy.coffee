@@ -24,3 +24,5 @@ class window.Enemy extends Character
   specialMove: (chancePct, cb) ->
   
   distributeExperience: -> _(level.players).each (player) => player.addExp @exp
+  
+  onLevelUp: ->
