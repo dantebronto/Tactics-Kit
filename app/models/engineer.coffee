@@ -18,10 +18,10 @@ class window.Engineer extends Player
         myX = @x
         myY = @y
         level.map.underlayMatrix.each (x,y) ->
-          inRange = _([ Math.abs(myX - x), Math.abs(myY - y) ]).max() < 3
+          inRange = _([ Math.abs(myX - x), Math.abs(myY - y) ]).max() < 2
           if inRange and level.canMoveTo(x, y)
             level.map.underlayMatrix.get(x,y)?.addClass 'healable'
-      
+        
         new Burstable
           type: 'healable'
           activated: (x,y) =>
@@ -37,8 +37,7 @@ class window.Engineer extends Player
           level.activeCharacter?.characterSelected()
     
     @engineeringSpecial.character.eventDispatch.bind 'afterUpdateInfo', =>
-      if @engineeringSpecial.character.turretCount >= 1
-        @engineeringSpecial.disabled = true
+      @engineeringSpecial.disabled = true if @engineeringSpecial.character.turretCount >= 1
   
   class Engineer.Turret extends Player
     constructor: (opts) ->
