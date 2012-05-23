@@ -36,10 +36,10 @@
     <script id='character-info-template' type='text/template'>
       <li>
         <div class='character-info'>
-          <div class='name'><@= name @></div>
+          <div class='name'> lvl <@= level @> <@= name @></div>
           <div class='stat-bar-holder'>
-            <div class='hp stat-bar' style="width:<@= (hpLeft/hp)*100 @>%"><@= hpLeft @>/<@= hp @> hp</div>
-            <div class='ap stat-bar' style="width:<@= (apLeft/ap)*100 @>%"><@= apLeft @>/<@= ap @> ap</div>
+            <div class='hp stat-bar' style="width:<@= (hpLeft/hp)*100 @>%"><span><@= hpLeft @>/<@= hp @> hp</span></div>
+            <div class='ap stat-bar' style="width:<@= (apLeft/ap)*100 @>%"><span><@= apLeft @>/<@= ap @> ap</span></div>
           </div>
           <div class='sprite'><img src='<@= sprite @>' /></div>
           <@ _.each(specials, function(special){ @> <@= special.button() @> <@ })@>
@@ -58,7 +58,6 @@
       <div id='stage'>
         <div id='map'></div>
       </div>
-      
     </div>
   </body>
 </html>

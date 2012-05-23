@@ -1,33 +1,33 @@
-p2 = new Player 
-  x: 7, y: 2, name: 'Gorg'
+p2 = new Player
+  x: 7, y: 1, name: 'Gorg'
   sprite: '/images/sprites/monsters/mercenary.gif'
   # isBot: true
   level: 1
-  weapon: new Weapon 
+  weapon: new Weapon
     range: 3
 
 p3 = new Engineer
-  x: 7, y: 3, name: 'Ace'
+  x: 7, y: 2, name: 'Ace'
   strength: 5
   sprite: '/images/sprites/player/cyborg.gif'
   # isBot: true
   level: 1
   weapon: new Weapon
 
-e1 = new Enemy 
-  x: 0, y: 1, 
+e1 = new Enemy
+  x: 0, y: 1,
   name: 'Dragon Man' 
   sprite: '/images/dragonMan.gif'
   level:1
 
-e2 = new Enemy 
+e2 = new Enemy
   x: 0, y: 2
   name: 'Acid Dragon'
   sprite: '/images/acidDragon.gif'
   level: 13
 
-e3 = new Enemy 
-  x: 0, y: 3, 
+e3 = new Enemy
+  x: 0, y: 3,
   name: 'Dragon Man' 
   sprite: '/images/dragonMan.gif'
   level:1
@@ -35,9 +35,9 @@ e3 = new Enemy
 # level 4
 terrain = [ 
   [ 10, 10, 10, 10, 10, 10, 10, 10 ],
-  [ 10, 10, 10, 10, 10, 10, 10, 10 ],
-  [ 10, 10, 10, 10, 10, 10, 10, 10 ],
-  [ 10, 10, 10, 10, 10, 10, 10, 10 ],
+  [ 10, 10, 10, 15, 10, 10, 10, 10 ],
+  [ 10, 10, 10, 15, 10, 10, 10, 10 ],
+  [ 10, 10, 10, 15, 10, 10, 10, 10 ],
   [ 10, 10, 10, 10, 10, 10, 10, 10 ],
 ]
 
@@ -57,13 +57,10 @@ level.queue =>
   
   level.map.mapMatrix.each ->
     $(this).css 'background-image': 'url("/images/step9.png")' # grass.jpg
-    
-  # level.map.mapMatrix.each -> 
-  #   $(this).css
-  #     'background-image': '/images/sprites/tiles.png'
-  #     # 'background-size': '50px'
-  #     'width': '50px'
-  #     'height': '50px'
-  #   .addClass('sprites tiles-water')
+  
+  tiles = level.map.itemMatrix.get(3,1)
+  tiles = tiles.add(level.map.itemMatrix.get(3,2))
+  tiles = tiles.add(level.map.itemMatrix.get(3,3))
+  tiles.css('background', 'url(/images/rock1.png) no-repeat center')
   
   level.start()

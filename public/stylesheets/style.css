@@ -23,10 +23,11 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; overflow: hidden; ma
 .healable { background-image: url(/images/healable.png); border: 2px solid blue; margin:-2px;border-radius:3px;}
 .pointer { cursor: pointer; }
 
-.cell.player, .cell.enemy { margin: -10px; padding: 10px; z-index: 1000; }
+.cell.player, .cell.enemy { margin: -8px; padding: 8px; z-index: 1000; }
 
 #info .character-info { display: inline-block; height: auto; width: 180px; font-size: 11px; margin: 0 0 5px; position: relative; padding: 0 2px; padding-bottom: 7px; background-color: gray; border: medium black solid; border-radius: 6px; padding: 3px; overflow:hidden;}
-#info .stat-bar-holder { width: 115px; position:relative; float:right; }
+#info .stat-bar-holder { position:relative; float:right; width: 112px; margin-right: 5px; color:white; font-size: 0.8em; }
+#info .stat-bar-holder span { padding: 1px 0 0 5px; width: 100px; display: block; }
 #info .sprite { width: 50px; height: 50px; top: -5px; position:relative; }
 #info .sprite img { display: block; margin: 0 auto; }
 #info .name { text-align:center; font-weight:bold; }
