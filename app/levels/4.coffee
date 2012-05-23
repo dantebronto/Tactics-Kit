@@ -63,5 +63,14 @@ level.queue =>
   
   level.map.mapMatrix.each -> 
     $(this).css 'background-image': 'url("/images/tiletest.png")'
+    
+  # level.map.mapMatrix.each -> 
+  #   $(this).css
+  #     'background-image': '/images/sprites/tiles.png'
+  #     # 'background-size': '50px'
+  #     'width': '50px'
+  #     'height': '50px'
+  #   .addClass('sprites tiles-water')
+    
   
   level.start()
