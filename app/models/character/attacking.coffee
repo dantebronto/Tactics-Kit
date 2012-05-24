@@ -66,11 +66,11 @@ class window.Attacking
       
       unless dmg == 'miss'
         character?.subtractHp(Number(dmg))
-        level.log "#{@name} attacks #{character?.name} and does #{dmg} damage"
+        level.log "#{@name} <span>&#9876;</span> #{character?.name} for #{dmg}"
         if character?.hpLeft == 0
-          level.log "#{@name} dispatched #{character.name}"
+          level.log "#{@name} <span>&#9760;</span> #{character.name}"
       else
-        level.log "#{@name} attacked #{character?.name} and missed"
+        level.log "#{@name} <span>&#9876;</span> #{character?.name} but missed"
       
       @characterSelected()
       

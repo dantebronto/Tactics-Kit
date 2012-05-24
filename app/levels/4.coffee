@@ -48,14 +48,13 @@ level = new Level
     selector: '#map'
   players: [p2, p3]
   enemies: [e2, e1, e3]
-  # animationInterval: 150
   
 level.queue =>
   p2.addDefaultSpecials()
   p3.addDefaultSpecials()
   
   level.map.mapMatrix.each ->
-    $(this).css 'background-image': 'url("/images/step9.png")' # grass.jpg
+    $(this).css 'background-image': 'url("/images/step9.png")'
   
   im = level.map.itemMatrix
   im.get(3,1).add(im.get(3,2)).add(im.get(3,3)).css('background', 'url(/images/rock1.png) no-repeat center')
