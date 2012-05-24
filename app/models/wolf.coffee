@@ -1,4 +1,4 @@
-class WolfSpecial extends Special
+class WolfSpecial extends RPG.Special
   button: ->
     checked = if @character.autoAttackChecked() then "checked='checked'" else ""
     """
@@ -7,7 +7,7 @@ class WolfSpecial extends Special
     #{super()}
     """
 
-class window.Wolf extends Player
+class RPG.Wolf extends RPG.Player
   constructor: (opts) -> 
     super opts
     @sprite = opts.sprite or '/images/wolf.png'
@@ -21,7 +21,7 @@ class window.Wolf extends Player
       buttonText: 'attack'
       action: => @startTurn true
     
-    Special.bindGuard @, 'stay'
+    RPG.Special.bindGuard @, 'stay'
     @showMovableCells = ->
     @showAttackableCells = ->
   

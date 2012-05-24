@@ -1,15 +1,15 @@
-window.p1 = new Player 
+p1 = new Player 
   x: 13, y: 21, name: 'd00d'
   # isBot: true
   level: 10
 
-window.p2 = new Player 
+p2 = new Player 
   x: 27, y: 4, name: 'lady'
   strength: 20
   sprite: '/images/girl.gif'
   # isBot: true
   level: 10
-  weapon: new Weapon 
+  weapon: new RPG.Weapon 
     range: 3
 
 p3 = new Engineer
@@ -18,31 +18,31 @@ p3 = new Engineer
   level: 5
   sprite: '/images/penguin.gif'
 
-window.e1 = new Enemy
+e1 = new Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
   x: 34, y: 34
   level: 5
 
-window.e2 = new Enemy
+e2 = new Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
   x: 11, y: 29
   level: 5
 
-window.e3 = new Enemy
+e3 = new Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
   x: 12, y: 30
   level: 5
   
-window.e4 = new Enemy
+e4 = new Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
   x: 39, y: 16
   level: 5
   
-window.e5 = new Enemy
+e5 = new Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
   x: 21, y: 35
@@ -91,7 +91,7 @@ terrain = [
   [ 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 ] #37
 ]
 
-window.level = new Level
+level = new RPG.Level
   map:
     terrain: terrain
     width: 2000
@@ -105,7 +105,7 @@ level.queue =>
   p1.addDefaultSpecials()
   p2.addDefaultSpecials()
   p3.addDefaultSpecials()
-  Special.bindBomb(p2)
+  RPG.Special.bindBomb(p2)
 
 level.queue(5).queue => 
   level.map.terrainMatrix.each (x, y) ->

@@ -1,1 +1,1 @@
-class window.Inventory
+class RPG.Inventory

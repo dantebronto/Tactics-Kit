@@ -10,7 +10,7 @@ describe "Level", ->
     myFunc2 = -> 'myFunc2'
     
     beforeEach ->
-      l = new Level
+      l = new RPG.Level
         map: 
           terrain: [  [ 15, 15, ], [ 15, 15, ] ]
         turnFunction: myFunc1

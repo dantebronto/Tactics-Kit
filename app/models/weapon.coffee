@@ -1,4 +1,4 @@
-class window.Weapon
+class RPG.Weapon
   constructor: (opts={}) ->
     @range = opts.range or 1
     @attack = opts.attack or 1

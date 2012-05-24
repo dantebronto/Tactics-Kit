@@ -1,51 +1,51 @@
-p1 = new Player 
+p1 = new RPG.Player 
   x: 2, y: 3, name: 'd00d'
   level: 10
 
-p2 = new Player 
+p2 = new RPG.Player 
   x: 6, y: 4, name: 'lady'
   strength: 20
   sprite: '/images/girl.gif'
   level: 10
-  weapon: new Weapon 
+  weapon: new RPG.Weapon 
     range: 3
 
-p3 = new Wolf
+p3 = new RPG.Wolf
   x:3, y: 7
   name: 'Insanity Wolf'
   level: 2
 
-e1 = new Enemy
+e1 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
   x: 11, y: 1
   level: 5
 
-e2 = new Enemy
+e2 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
   x: 6, y: 7
   level: 5
 
-e3 = new Enemy
+e3 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
   x: 6, y: 6
   level: 5
   
-e4 = new Enemy
+e4 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
   x: 7, y: 6
   level: 5
   
-e5 = new Enemy
+e5 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
   x: 11, y: 6
   level: 5
   
-e6 = new Enemy
+e6 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
   x: 11, y: 5
@@ -64,7 +64,7 @@ terrain = [
   [ 15, 15, 15, 15, 10, 10, 10, 10, 15, 15, 15, 15 ]
 ]
 
-window.level = new Level
+level = new RPG.Level
   map:
     terrain: terrain
     width: 600
@@ -77,7 +77,7 @@ window.level = new Level
 level.queue =>
   p1.addDefaultSpecials()
   p2.addDefaultSpecials()
-  Special.bindBomb(p2)
+  RPG.Special.bindBomb(p2)
   
   level.map.terrainMatrix.each (x, y) ->
     num = Number(this)

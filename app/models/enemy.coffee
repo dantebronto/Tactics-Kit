@@ -1,4 +1,4 @@
-class window.Enemy extends Character
+class RPG.Enemy extends RPG.Character
   constructor: (opts) ->
     super(opts)
   
@@ -22,6 +22,10 @@ class window.Enemy extends Character
     target
   
   specialMove: (chancePct, cb) ->
+    if chancePct < 50
+      level.queue =>
+        console.log("#{@name} is so special!")
+        @subtractAp(1)
   
   distributeExperience: -> _(level.players).each (player) => player.addExp @exp
   

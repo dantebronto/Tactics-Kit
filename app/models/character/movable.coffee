@@ -1,4 +1,4 @@
-class window.Movable
+class RPG.Movable
   
   initMovement: ->
     @x = @opts.x or 0
@@ -7,7 +7,7 @@ class window.Movable
   showMovableCells: ->
     return if @apLeft <= 0
     speed = @apLeft
-    matrix = Level.Matrix.newFilledMatrix level.map.rowCount, level.map.colCount
+    matrix = RPG.Level.Matrix.newFilledMatrix level.map.rowCount, level.map.colCount
     matrix = @findMovableNeighbors(@x, @y, matrix, speed-1)
     matrix.set @x, @y, 0
     matrix.each (x, y) ->

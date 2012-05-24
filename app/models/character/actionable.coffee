@@ -1,4 +1,4 @@
-class window.Actionable
+class RPG.Actionable
   
   initAp: ->
     @ap = @opts.ap or Math.floor(2+@level*0.07)

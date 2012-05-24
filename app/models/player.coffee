@@ -1,8 +1,8 @@
-class window.Player extends Character
+class RPG.Player extends RPG.Character
   
   addDefaultSpecials: ->
-    Special.bindAuto @
-    Special.bindGuard @
+    RPG.Special.bindAuto @
+    RPG.Special.bindGuard @
   
   distributeExperience: -> _(level.enemies).each (enemy) => enemy.addExp @exp
   

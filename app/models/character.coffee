@@ -1,4 +1,4 @@
-class window.Character
+class RPG.Character
   
   @findByPosition: (x, y) ->
     _(level.players.concat level.enemies).select( (char) ->
@@ -10,17 +10,17 @@ class window.Character
       for key, value of mixin::
         @::[key] = value
   
-  Character.mixin Experience
-  Character.mixin LifeForce
-  Character.mixin Actionable
-  Character.mixin Movable
-  Character.mixin Attacking
-  Character.mixin PathFinding
+  Character.mixin RPG.Experience
+  Character.mixin RPG.LifeForce
+  Character.mixin RPG.Actionable
+  Character.mixin RPG.Movable
+  Character.mixin RPG.Attacking
+  Character.mixin RPG.PathFinding
   
   constructor: (@opts={}) ->
     @name = @opts.name or 'Catan'
     @sprite = @opts.sprite or '/images/alien.gif'
-    @inventory = @opts.inventory or new Inventory()
+    @inventory = @opts.inventory or new RPG.Inventory()
     @level = @opts.level or 1
     @isBot = @opts.isBot or false
     @specials = @opts.specials or []
@@ -35,7 +35,7 @@ class window.Character
     @accuracy = @opts.accuracy or 80+Math.floor(@level*0.19)
     @strength = @opts.strength or @level
     
-    @weapon = @opts.weapon or new Weapon()
+    @weapon = @opts.weapon or new RPG.Weapon()
     
     @eventDispatch = $({})
     
@@ -108,6 +108,8 @@ class window.Character
     origX = @x
     origY = @y
     return if level.enemies.length == 0 or level.players.length == 0 # no one to fight
+    
+    @specialMove(Math.random()*100+1)
     
     level.queue =>
       target = @findTarget()

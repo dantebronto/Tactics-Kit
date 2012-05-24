@@ -1,4 +1,4 @@
-class window.Experience
+class RPG.Experience
   
   initExperience: ->
     @exp = @opts.exp or Math.floor(@hp*1.3)

@@ -1,4 +1,4 @@
-class window.Burstable
+class RPG.Burstable
   
   constructor: (opts={}) ->
     # you determine what you want to do here

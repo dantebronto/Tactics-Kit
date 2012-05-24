@@ -1,9 +1,9 @@
-class window.Level
+class RPG.Level
   constructor: (opts={}) ->
     @turnFunction = opts.turnFunction or ->
     @endFunction = opts.endFunction or ->
-    @map = new Level.Map opts.map # pass in the terrain map
-    @inventory = opts.inventory or new Inventory()
+    @map = new RPG.Level.Map opts.map # pass in the terrain map
+    @inventory = opts.inventory or new RPG.Inventory()
     @players = opts.players or []
     @enemies = opts.enemies or []
     @eventDispatch = $({})
@@ -12,7 +12,7 @@ class window.Level
     @turnStart = opts.turnStart or ->
     
     @anim = [] # animation queue
-    @animationInterval = opts.animationInterval or 250
+    @animationInterval = opts.animationInterval or 50
     @load = @queue
     @start = @startNextCharacter
     

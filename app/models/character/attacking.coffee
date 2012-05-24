@@ -1,4 +1,4 @@
-class window.Attacking
+class RPG.Attacking
   
   initAttacking: ->
   
@@ -6,7 +6,7 @@ class window.Attacking
     level.clear() if preview
     return if @apLeft <= 0
     speed = @apLeft
-    matrix = Level.Matrix.newFilledMatrix level.map.rowCount, level.map.colCount, 0
+    matrix = RPG.Level.Matrix.newFilledMatrix level.map.rowCount, level.map.colCount, 0
     matrix = @findAttackableNeighbors(@x, @y, matrix, @weapon.range, preview)
     matrix.set @x, @y, 0
     matrix.each (x, y) -> level.showCellAs('attackable', x, y) if Number(this) == 1
@@ -57,7 +57,7 @@ class window.Attacking
       @subtractAp apToSubtract
       
       level.map.statMatrix.get(x, y).append(hits).show()
-      character = Character.findByPosition(x, y)
+      character = RPG.Character.findByPosition(x, y)
       
       offset = (50 - hits.width())/2
       hits.css

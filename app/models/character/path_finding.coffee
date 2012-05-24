@@ -22,7 +22,7 @@ class AStar
   
   constructor: ->
     tm = level.map.terrainMatrix
-    matrix = Level.Matrix.newFilledMatrix(tm.rowCount, tm.colCount)
+    matrix = RPG.Level.Matrix.newFilledMatrix(tm.rowCount, tm.colCount)
     matrix.each (x, y) ->
       cell =
         x: x, y: y,
@@ -123,7 +123,7 @@ class AStar
   # Manhattan distance
   heuristic: (pos0, pos1) -> Math.abs(pos1.x-pos0.x) + Math.abs(pos1.y-pos0.y)
 
-class window.PathFinding
+class RPG.PathFinding
   
   findShortestPathTo: (x, y, ignoreBlockers=false) ->
     new AStar(@).search { x: @x, y: @y }, { x: x, y: y }, ignoreBlockers

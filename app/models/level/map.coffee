@@ -1,8 +1,8 @@
-class Level.Map
+class RPG.Level.Map
   constructor: (opts={}) ->
     @width = opts.width or 410
     @height = opts.height or 816
-    @terrainMatrix = new Level.Matrix opts.terrain
+    @terrainMatrix = new RPG.Level.Matrix opts.terrain
     
     throw "Error: You must provide a terrain matrix" unless @terrainMatrix
     
@@ -32,7 +32,7 @@ class Level.Map
   
   createCells: ->
     for cellType in @cellTypes
-      @["#{cellType}Matrix"] = Level.Matrix.newFilledMatrix(@rowCount, @colCount)
+      @["#{cellType}Matrix"] = RPG.Level.Matrix.newFilledMatrix(@rowCount, @colCount)
     
     mapCells = []
     @terrainMatrix.each (x, y) => mapCells.push @calculateCells(x, y)
@@ -101,7 +101,7 @@ class Level.Map
     
     if classes.include('impassable') or classes.include('passable') and !classes.include('attackable') 
       @clear()
-      if char = Character.findByPosition(x, y)
+      if char = RPG.Character.findByPosition(x, y)
         if char.isTypeOf 'Enemy'
           char.centerMapOnMe()
         else
@@ -112,7 +112,7 @@ class Level.Map
       level.activeCharacter?.attack(x, y)
     
     if @playerMatrix.get(x, y).hasClass('occupied') and not classes.include('attackable')
-      Character.findByPosition(x, y)?.characterSelected()
+      RPG.Character.findByPosition(x, y)?.characterSelected()
     
     level.activeCharacter?.moveTo(x, y) if classes.include('movable')
     

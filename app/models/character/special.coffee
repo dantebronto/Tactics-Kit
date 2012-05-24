@@ -1,4 +1,4 @@
-class window.Special
+class RPG.Special
   
   constructor: (opts={}) ->
     @apCost = opts.apCost or 2
@@ -48,7 +48,7 @@ class window.Special
       character: char
       buttonText: 'bomb'
       action: =>
-        (new Burstable
+        (new RPG.Burstable
           activated: (x,y) =>
             used = []
             level.map.elem.find('span.attackable').each (el) ->

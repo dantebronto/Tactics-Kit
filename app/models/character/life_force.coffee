@@ -1,4 +1,4 @@
-class window.LifeForce
+class RPG.LifeForce
   
   initHp: ->
     @hp = @opts.hp or Math.floor(50.1+@level*7.65)

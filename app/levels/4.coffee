@@ -1,32 +1,32 @@
-p2 = new Player
+p2 = new RPG.Player
   x: 7, y: 1, name: 'Gorg'
   sprite: '/images/sprites/monsters/mercenary.gif'
   # isBot: true
   level: 1
-  weapon: new Weapon
+  weapon: new RPG.Weapon
     range: 3
 
-p3 = new Engineer
+p3 = new RPG.Engineer
   x: 7, y: 2, name: 'Ace'
   strength: 5
   sprite: '/images/sprites/player/cyborg.gif'
   # isBot: true
   level: 1
-  weapon: new Weapon
+  weapon: new RPG.Weapon
 
-e1 = new Enemy
+e1 = new RPG.Enemy
   x: 0, y: 1,
   name: 'Dragon Man' 
   sprite: '/images/dragonMan.gif'
   level:1
 
-e2 = new Enemy
+e2 = new RPG.Enemy
   x: 0, y: 2
   name: 'Acid Dragon'
   sprite: '/images/acidDragon.gif'
   level: 13
 
-e3 = new Enemy
+e3 = new RPG.Enemy
   x: 0, y: 3,
   name: 'Dragon Man' 
   sprite: '/images/dragonMan.gif'
@@ -40,7 +40,7 @@ terrain = [
   [ 10, 10, 10, 10, 10, 10, 10, 10 ],
 ]
 
-level = new Level
+level = new RPG.Level
   map:
     terrain: terrain
     width: 400

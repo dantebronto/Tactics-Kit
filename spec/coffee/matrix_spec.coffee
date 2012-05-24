@@ -16,7 +16,7 @@ describe "Matrix", ->
   describe "when passing an array", ->
     matrix = null
     beforeEach -> 
-      matrix = new Level.Matrix([[1,2], [3,4], [5,6]])
+      matrix = new RPG.Level.Matrix([[1,2], [3,4], [5,6]])
   
     it "should be in the level module", ->
       expect(Level.Matrix).toBeDefined()

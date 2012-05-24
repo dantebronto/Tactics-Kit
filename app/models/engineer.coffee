@@ -1,4 +1,4 @@
-class window.Engineer extends Player
+class RPG.Engineer extends RPG.Player
   
   constructor: (opts) ->
     super opts
@@ -6,7 +6,7 @@ class window.Engineer extends Player
   
   addedToLevel: ->
     super()
-    @engineeringSpecial = new Special
+    @engineeringSpecial = new RPG.Special
       character: @
       buttonText: 'turret'
       apCost: 2
@@ -22,7 +22,7 @@ class window.Engineer extends Player
           if inRange and level.canMoveTo(x, y)
             level.map.underlayMatrix.get(x,y)?.addClass 'healable'
         
-        new Burstable
+        new RPG.Burstable
           type: 'healable'
           activated: (x,y) =>
             if level.canMoveTo(x,y)
@@ -39,27 +39,27 @@ class window.Engineer extends Player
     @engineeringSpecial.character.eventDispatch.bind 'afterUpdateInfo', =>
       @engineeringSpecial.disabled = true if @engineeringSpecial.character.turretCount >= 1
   
-  class Engineer.Turret extends Player
-    constructor: (opts) ->
-      super opts
-      @special = opts.special
-      @creator = opts.creator
-      @exp = opts.exp or 0
-      @name = opts.name or 'Turret'
-      @ap = opts.ap or 2
-      @apLeft = @ap
-      @sprite = opts.sprite or '/images/turret.png'
-      @isBot = opts.isBot or true
-      @weapon = opts.weapon or new Weapon(range: 3)
-      @onDeath = opts.onDeath or =>
-        @creator.turretCount -= 1
-        @creator.turretCount = 0 if @creator.turretCount < 0
-        @special.disabled = false if @creator.turretCount < 2
-      
-      @moveTo = opts.moveTo or ->
-      @showMovableCells = opts.showMovableCells or ->
-      level.add @
-      @creator.subtractAp @special.apCost or 2
-      @creator.turretCount += 1
+class RPG.Engineer.Turret extends RPG.Player
+  constructor: (opts) ->
+    super opts
+    @special = opts.special
+    @creator = opts.creator
+    @exp = opts.exp or 0
+    @name = opts.name or 'Turret'
+    @ap = opts.ap or 2
+    @apLeft = @ap
+    @sprite = opts.sprite or '/images/turret.png'
+    @isBot = opts.isBot or true
+    @weapon = opts.weapon or new RPG.Weapon(range: 3)
+    @onDeath = opts.onDeath or =>
+      @creator.turretCount -= 1
+      @creator.turretCount = 0 if @creator.turretCount < 0
+      @special.disabled = false if @creator.turretCount < 2
+    
+    @moveTo = opts.moveTo or ->
+    @showMovableCells = opts.showMovableCells or ->
+    level.add @
+    @creator.subtractAp @special.apCost or 2
+    @creator.turretCount += 1
 
-      @special.disabled = true if @creator.turretCount >= 2
+    @special.disabled = true if @creator.turretCount >= 2

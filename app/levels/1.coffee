@@ -1,23 +1,23 @@
-p1 = new Player 
+p1 = new RPG.Player 
   x: 3, y: 1, name: 'D00D'
   # isBot: true
   level: 1
 
-p2 = new Player 
+p2 = new RPG.Player 
   x: 4, y: 1, name: 'Lady'
   sprite: '/images/girl.gif'
   # isBot: true
   level: 1
-  weapon: new Weapon 
+  weapon: new RPG.Weapon 
     range: 3
 
-e1 = new Enemy 
+e1 = new RPG.Enemy 
   x: 4, y: 8, 
   name: 'Turtle Man' 
   sprite: '/images/turtle-man.gif'
   level:1
 
-e2 = new Enemy 
+e2 = new RPG.Enemy 
   x: 3, y: 8
   name: 'Ninja'
   sprite: '/images/ninja.gif'
@@ -37,7 +37,7 @@ terrain = [
   [ 15, 15, 15, 15, 15, 15, 15, 15 ]
 ]
 
-level = new Level
+level = new RPG.Level
   map:
     terrain: terrain
     width: 400

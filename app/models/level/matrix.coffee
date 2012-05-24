@@ -1,4 +1,4 @@
-class Level.Matrix
+class RPG.Level.Matrix
   
   $.fn.getMatrixCoords = ->
     id = if @attr('id') then @attr('id') else @parent().attr('id')
@@ -17,7 +17,7 @@ class Level.Matrix
       for y in [0..colCount-1]
         row[y] = value
       ara.push(row)
-    new Level.Matrix(ara)
+    new RPG.Level.Matrix(ara)
   
   constructor: (@raw) -> # @raw is a 2D array
     @rowCount = @raw.length
