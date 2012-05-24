@@ -13,8 +13,12 @@ class window.Player extends Character
   findTarget: ->
     sorted = _(level.enemies).sortBy((enemy) -> enemy.hpLeft).reverse()
     target = sorted[0] # weakest enemy
+    closest = { distance: 999, enemy: target }
     for enemy in sorted
-      target = enemy if @chebyshevDistance(enemy.x, enemy.y) <= @weapon.range
+      cdistance = @chebyshevDistance(enemy.x, enemy.y)
+      if cdistance <= @weapon.range or cdistance < closest.distance
+        closest = { distance: cdistance, enemy: enemy }
+    target = closest.enemy
     target
   
   # specialMove: (chancePct, cb) ->

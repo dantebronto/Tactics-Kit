@@ -33,7 +33,7 @@ class AStar
       matrix.set x, y, cell
     @grid = matrix
 
-  search: (start, end) ->
+  search: (start, end, ignoreBlockers) ->
     start = @grid.get start.x, start.y
     end = @grid.get end.x, end.y
     
@@ -67,9 +67,12 @@ class AStar
       for neighbor in @getNeighbors(currentNode)
         
         # not a valid node to process, skip to next neighbor
-        if ( closedList.findGraphNode(neighbor) or (level.map.terrainMatrix.get(neighbor.x, neighbor.y) == 15) or !level.canMoveTo(neighbor.x, neighbor.y) and not @equals(neighbor.pos, end.pos) )
-          continue
         
+        cantMoveThere = if ignoreBlockers then false else !level.canMoveTo(neighbor.x, neighbor.y)
+        
+        if ( closedList.findGraphNode(neighbor) or cantMoveThere and not @equals(neighbor.pos, end.pos) )
+          continue
+      
         # g score is the shortest distance from start to current node, we need to check if
         gScore = currentNode.g + 1 # 1 is the distance from a node to it's neighbor
         gScoreIsBest = false
@@ -101,8 +104,8 @@ class AStar
     y = node.y
 
     surrounds = [ 
-      [ x, y-1 ], [ x+1, y-1 ], [ x+1, y ], [ x+1, y+1 ],
-      [ x, y+1 ], [ x-1, y+1 ], [ x-1, y ], [ x-1, y-1 ] 
+      [ x+1, y ], [ x-1, y ], [ x, y-1 ], [ x+1, y-1 ], [ x+1, y+1 ],
+      [ x, y+1 ], [ x-1, y+1 ], [ x-1, y-1 ] 
     ]
     
     for i in [0..7]
@@ -122,7 +125,7 @@ class AStar
 
 class window.PathFinding
   
-  findShortestPathTo: (x, y) ->
-    new AStar(@).search { x: @x, y: @y }, { x: x, y: y }
+  findShortestPathTo: (x, y, ignoreBlockers=false) ->
+    new AStar(@).search { x: @x, y: @y }, { x: x, y: y }, ignoreBlockers
   
   initPathFinding: ->

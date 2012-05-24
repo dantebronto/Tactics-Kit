@@ -40,6 +40,7 @@ class window.Movable
   
   moveTo: (x, y, ignoreBlockers=false) ->
     results = @findShortestPathTo(x, y, ignoreBlockers)
+    results = @findShortestPathTo(x, y, true) if results.length == 0
     
     # remove the last position if can't move to it
     lastPos = results[results.length-1]?.pos
