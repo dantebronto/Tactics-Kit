@@ -12,7 +12,7 @@ class RPG.Level
     @turnStart = opts.turnStart or ->
     
     @anim = [] # animation queue
-    @animationInterval = opts.animationInterval or 50
+    @animationInterval = opts.animationInterval or 250
     @load = @queue
     @start = @startNextCharacter
     
@@ -28,7 +28,26 @@ class RPG.Level
       @bindWindowResize()
       @win.trigger 'resize'
       @initAnimationQueue()
+      @initAnimationSlider()
       @initLogging()
+  
+  initAnimationSlider: ->
+    slider = $('#slider')
+    
+    refreshSlider = =>
+      @animationInterval = 525 - Number(slider.slider('value'))
+      @initAnimationQueue()
+    
+    slider.slider
+      orientation: "horizontal",
+      min: 25
+      max: 500,
+      value: 250,
+      slide: refreshSlider,
+      change: refreshSlider
+      
+    # console.log slider.slider('value')
+
   
   initLogging: ->
     previousHeight = 80
@@ -74,7 +93,9 @@ class RPG.Level
     @add player for player in @players if @players.length > 0
     @add enemy  for enemy  in @enemies if @enemies.length > 0
   
-  initAnimationQueue: -> setInterval((=> @nextTick() if @anim[0]), @animationInterval)
+  initAnimationQueue: -> 
+    clearInterval @previousInterval if @previousInterval
+    @previousInterval = setInterval((=> @nextTick() if @anim[0]), @animationInterval)
   
   queue: (delayOrFn=0) ->
     @anim.push delayOrFn if @anim[0] != delayOrFn
