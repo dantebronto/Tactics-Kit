@@ -20,7 +20,9 @@ class window.Actionable
   startTurn: (oneTurnBot=false) ->
     level.log "It's #{@name}'s turn" unless oneTurnBot
     @centerMapOnMe()
+    
     if @isBot or oneTurnBot or @isTypeOf 'Enemy'
+      @characterSelected()
       @showAttackableCells(true)
       level.queue(2).queue => level.clear(); @characterSelected()
     else

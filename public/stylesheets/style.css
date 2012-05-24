@@ -16,14 +16,15 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; overflow: hidden; ma
 #info { float:left; width: 210px; height: 100%; overflow: auto; padding:3px;}
 .cell { background-color:transparent; width: 50px; height: 50px; display:inline; float:left; text-align:center; position: relative; }
 
-.attackable { background-image: url(/images/attackable.png) !important; cursor: pointer; border: 2px solid red; margin:-2px;border-radius:3px;}
-.movable { background-image: url(/images/movable.png); cursor: pointer; border: 2px solid green; margin:-2px;border-radius:3px;}
+.attackable { background-image: url(/images/attackable.png) !important; cursor: pointer; }
+.attackable:hover { border: 1px solid black; margin: -2px; }
+.movable { background-image: url(/images/movable.png); cursor: pointer;  } /*border: 2px solid green; margin:-2px;border-radius:3px;*/
+.movable:hover { border: 1px solid black; margin: -2px; }
+.healable { background-image: url(/images/healable.png); }
+.healable:hover { border: 1px solid black; margin: -2px; }
 .passable { background-image: url(/images/passable.png); }
 .impassable { background-image: url(/images/impassable.png); }
-.healable { background-image: url(/images/healable.png); border: 2px solid blue; margin:-2px;border-radius:3px;}
 .pointer { cursor: pointer; }
-
-.cell.player, .cell.enemy { margin: -8px; padding: 8px; z-index: 1000; }
 
 #info .character-info { display: inline-block; height: auto; width: 180px; font-size: 11px; margin: 0 0 5px; position: relative; padding: 0 2px; padding-bottom: 7px; background-color: gray; border: medium black solid; border-radius: 6px; padding: 3px; overflow:hidden;}
 #info .stat-bar-holder { position:relative; float:right; width: 112px; margin-right: 5px; color:white; font-size: 0.8em; }
@@ -64,6 +65,7 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; overflow: hidden; ma
 }
 
 #console li {padding:2px;}
-img.turn-indicator {  position:absolute; top: -25px; width:30px; height:30px;  left:10px; opacity:0.7; }
+img.turn-indicator {  position:absolute; top: -25px; width:30px; height:30px;  left:10px; opacity:0.7; pointer-events:none; }
 
 button { border-radius: 1px; }
+.oversized {margin: -8px;padding: 8px;z-index: 1002;}

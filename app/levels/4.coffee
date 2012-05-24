@@ -32,7 +32,6 @@ e3 = new Enemy
   sprite: '/images/dragonMan.gif'
   level:1
 
-# level 4
 terrain = [ 
   [ 10, 10, 10, 10, 10, 10, 10, 10 ],
   [ 10, 10, 10, 15, 10, 10, 10, 10 ],
@@ -49,7 +48,7 @@ level = new Level
     selector: '#map'
   players: [p2, p3]
   enemies: [e2, e1, e3]
-  animationInterval: 150
+  # animationInterval: 150
   
 level.queue =>
   p2.addDefaultSpecials()
@@ -58,9 +57,7 @@ level.queue =>
   level.map.mapMatrix.each ->
     $(this).css 'background-image': 'url("/images/step9.png")' # grass.jpg
   
-  tiles = level.map.itemMatrix.get(3,1)
-  tiles = tiles.add(level.map.itemMatrix.get(3,2))
-  tiles = tiles.add(level.map.itemMatrix.get(3,3))
-  tiles.css('background', 'url(/images/rock1.png) no-repeat center')
+  im = level.map.itemMatrix
+  im.get(3,1).add(im.get(3,2)).add(im.get(3,3)).css('background', 'url(/images/rock1.png) no-repeat center')
   
   level.start()

@@ -65,6 +65,7 @@ class window.Character
     @spriteImage.load =>
       @spriteImageWidth = @spriteImage.width()
       @spriteImageHeight = @spriteImage.height()
+      @show()
   
   addedToLevel: ->
     @drawInfo()
@@ -154,11 +155,12 @@ class window.Character
   hide: ->
     @getElem()
       .css('background', 'transparent')
-      .removeClass('pointer occupied')
+      .removeClass('pointer occupied oversized')
   
   show: ->
     @getElem()
       .css('background', "url(#{@sprite}) no-repeat center")
-      .addClass('pointer occupied')
+      .addClass('pointer occupied')    
+    @getElem().addClass 'oversized' if @spriteImageWidth > 50 or @spriteImageHeight > 50
       
   specialMove: (chancePct, cb) ->

@@ -12,7 +12,7 @@ class window.Level
     @turnStart = opts.turnStart or ->
     
     @anim = [] # animation queue
-    @animationInterval = opts.animationInterval or 250
+    @animationInterval = opts.animationInterval or 350
     @load = @queue
     @start = @startNextCharacter
     

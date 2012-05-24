@@ -79,4 +79,11 @@ level.queue =>
   p1.addDefaultSpecials()
   p2.addDefaultSpecials()
   Special.bindBomb(p2)
+  
+  level.map.terrainMatrix.each (x, y) ->
+    num = Number(this)
+    level.map.mapMatrix.get(x, y).css('background', 'url(/images/grass.jpg) no-repeat center')
+    if num == 15
+      level.map.itemMatrix.get(x, y).css('background', 'url(/images/shrub.png) no-repeat center')
+  
   level.start()
