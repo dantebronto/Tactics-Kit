@@ -67,8 +67,8 @@ terrain = [
 window.level = new Level
   map:
     terrain: terrain
-    width: 612
-    height: 458
+    width: 600
+    height: 450
     backgroundImage: '/images/valley.jpg'
     selector: '#map'
   players: [p1, p2, p3]
