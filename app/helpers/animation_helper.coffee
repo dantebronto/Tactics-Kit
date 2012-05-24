@@ -14,3 +14,5 @@ class AnimationHelper
     });
   };
   `
+
+new AnimationHelper()

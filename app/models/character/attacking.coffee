@@ -25,17 +25,17 @@ class RPG.Attacking
     return if @apLeft < 1
     @doDamage x, y
   
-  doDamage: (x, y, dmg, apToSubtract) ->
+  doDamage: (x, y, dmg, apToSubtract, groupDamage) ->
     dmg ?= 0
     apToSubtract ?= 1
     if dmg == 0
       _(@strength + @weapon.attack).times => dmg += @rollDice()
       dmg = 'miss' if @didMiss()
     dmg = @beforeDoDamage(dmg)
-    @animateDamage(x, y, dmg, apToSubtract)
+    @animateDamage(x, y, dmg, apToSubtract, groupDamage)
     @afterDoDamage(dmg)
   
-  animateDamage: (x, y, dmg, apToSubtract) ->
+  animateDamage: (x, y, dmg, apToSubtract, groupDamage=false) ->
     hits = if dmg.length is 1 or dmg is 'miss'
       $ "<h6>#{dmg}</h6>"
     else if dmg.length is 2
@@ -74,8 +74,6 @@ class RPG.Attacking
       
       @characterSelected()
       
-      # shakeTime = if dmg == 'miss' then 0 else 180
-      
       img = $('<img src="/images/burst.png" width="50" height="50" />')
       oo = level.map.overlayMatrix.get(@x,@y).offset()
       targoo = level.map.overlayMatrix.get(x,y).offset()
@@ -85,7 +83,8 @@ class RPG.Attacking
           img.hide()
           hits.show()
           setTimeout((-> hits.remove()), level.animationInterval*4)
-    level.queue(5)
+          
+    level.queue(5) unless groupDamage
   
   didMiss: ->
     missPercent = Math.floor((Math.random()*100+1))

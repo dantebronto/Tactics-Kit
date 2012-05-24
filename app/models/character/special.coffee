@@ -44,7 +44,7 @@ class RPG.Special
   
   @bindBomb: (char) ->
     new Special
-      apCost: 3
+      apCost: 2
       character: char
       buttonText: 'bomb'
       action: =>
@@ -53,7 +53,7 @@ class RPG.Special
             used = []
             level.map.elem.find('span.attackable').each (el) ->
               [elx, ely] = $(@).getMatrixCoords()
-              used.push {x:elx, y:ely} if Character.findByPosition(elx, ely)
+              used.push {x:elx, y:ely} if RPG.Character.findByPosition(elx, ely)
             
             if used.length > 0
               level.queue =>
@@ -62,7 +62,7 @@ class RPG.Special
                   ex.css { width: '0px', height: '0px', position: 'absolute', left: 25, top: 25 }
                   level.map.statMatrix.get(point.x, point.y).prepend(ex)
                   ex.animate({ width: '+=50', height: '+=50', left: 0, top: 0 }, 50, ->
-                    char.doDamage(point.x, point.y, 0, 0)
+                    char.doDamage(point.x, point.y, 0, 0, true)
                   ).shake(3,3,200).fadeOut 200, ->
                     ex.remove()
                     if index == used.length - 1 # last hit
