@@ -48,7 +48,7 @@ e5 = new RPG.Enemy
 e6 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck'
-  x: 11, y: 5
+  x: 4, y: 8
   level: 5
   
 # level 1

@@ -68,11 +68,11 @@ class AStar
         
         # not a valid node to process, skip to next neighbor
         
-        cantMoveThere = if ignoreBlockers then false else !level.canMoveTo(neighbor.x, neighbor.y)
+        cantMoveThere = if ignoreBlockers then false else !level.canWalkOn(neighbor.x, neighbor.y)
         
         if ( closedList.findGraphNode(neighbor) or cantMoveThere and not @equals(neighbor.pos, end.pos) )
           continue
-      
+        
         # g score is the shortest distance from start to current node, we need to check if
         gScore = currentNode.g + 1 # 1 is the distance from a node to it's neighbor
         gScoreIsBest = false
