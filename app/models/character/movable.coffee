@@ -61,8 +61,6 @@ class window.Movable
         @y = res.pos.y
         @characterSelected()
         @show()
-        if lastPos == res.pos
-          cb() if cb?
+        cb() if cb? if lastPos == res.pos
       ).queue(2)
-    
     results
