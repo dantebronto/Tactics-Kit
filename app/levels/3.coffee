@@ -94,8 +94,8 @@ terrain = [
 window.level = new Level
   map:
     terrain: terrain
-    width: 2040
-    height: 1938
+    width: 2000
+    height: 1900
     backgroundImage: '/images/moathouse.jpg'
     selector: '#map'
   players: [p1, p2, p3]
@@ -109,4 +109,10 @@ level.queue =>
   Special.bindBomb(p2)
 
 level.queue(5).queue => 
+  level.map.terrainMatrix.each (x, y) ->
+    num = Number(this)
+    level.map.mapMatrix.get(x, y).css('background', 'url(/images/grass.jpg) no-repeat center')
+    if num == 15
+      level.map.itemMatrix.get(x, y).css('background', 'url(/images/shrub.png) no-repeat center')
+  
   level.start()

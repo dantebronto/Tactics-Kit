@@ -12,7 +12,7 @@ table {border-collapse: collapse;border-spacing: 0;}
 
 body { padding: 15px; font-family: arial; font-size: 0.8em; overflow: hidden; margin:0; padding:0; }
 
-#map { border: thick solid #eee; border-radius: 5px; float:left; margin: 20px 20px;}
+#map { border: thick solid #eee; border-radius: 5px; float:left; margin: 20px;}
 #info { float:left; width: 210px; height: 100%; overflow: auto; padding:3px;}
 .cell { background-color:transparent; width: 50px; height: 50px; display:inline; float:left; text-align:center; position: relative; }
 
