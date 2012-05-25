@@ -12,7 +12,7 @@ class RPG.Level
     @turnStart = opts.turnStart or ->
     
     @anim = [] # animation queue
-    @animationInterval = opts.animationInterval or 250
+    @animationInterval = opts.animationInterval or 50
     @load = @queue
     @start = @startNextCharacter
     
@@ -42,17 +42,14 @@ class RPG.Level
       orientation: "horizontal",
       min: 25
       max: 500,
-      value: 250,
+      value: 525 - @animationInterval,
       slide: refreshSlider,
       change: refreshSlider
-      
-    # console.log slider.slider('value')
-
   
   initLogging: ->
     previousHeight = 80
     level.log = (msg...) ->
-      console.log(msg)
+      # console.log(msg)
       li = $ "<li> #{msg} </li>"
       level.console.append(li).scrollTop(previousHeight += (li.height() + 10))
   
@@ -70,7 +67,7 @@ class RPG.Level
   # TODO: have level mixin map functions?
   add: (obj) -> 
     @players.push(obj) if obj.isTypeOf 'Player'
-    @map.add obj # TODO: assign ids, add to Qs
+    @map.add obj
   getElem: (obj) -> @map.getElem obj
   canMoveTo: (x, y) -> @map.canMoveTo(x, y)
   canWalkOn: (x, y) -> @map.canWalkOn(x, y)

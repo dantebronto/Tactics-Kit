@@ -38,29 +38,58 @@ class RPG.Movable
         matrix = @findMovableNeighbors(x, y, matrix, speed-1) if speed > 0
     matrix
   
-  moveTo: (x, y, ignoreBlockers=false) ->
-    results = @findShortestPathTo(x, y, ignoreBlockers)
-    results = @findShortestPathTo(x, y, true) if results.length == 0
+  moveTo: (x, y) ->
+    results = @findShortestPathTo(x, y)
     
     # remove the last position if can't move to it
     lastPos = results[results.length-1]?.pos
     results.pop() if lastPos and !level.canMoveTo(lastPos.x, lastPos.y)
-    
-    lastPos = results[results.length-1]?.pos
     blocked = false
     
-    _(results[0..@apLeft]).each (res) =>
-      level.queue(=>
-        blocked = true unless level.canMoveTo(res.x, res.y)
-        return if @apLeft <= 0 or blocked
-        @subtractAp 1
-        @getElem().unbind 'click'
-        @updateInfo()
-        @hide()
-        @x = res.pos.x
-        @y = res.pos.y
-        @characterSelected()
-        @show()
-        cb() if cb? if lastPos == res.pos
-      ).queue(2)
+    res = results[0]
+    
+    level.queue(=>
+      blocked = true unless level.canMoveTo(res.x, res.y)
+      
+      if blocked
+        surrounds = [ 
+          [ @x, @y-1 ], [ @x+1, @y-1 ], [ @x+1, @y ], [ @x+1, @y+1 ],
+          [ @x, @y+1 ], [ @x-1, @y+1 ], [ @x-1, @y ], [ @x-1, @y-1 ] 
+        ]
+        shortestPath = undefined
+        for cell in surrounds
+          if level.canMoveTo(cell[0], cell[1])
+            proposedPath = new RPG.AStar().search { x: cell[0], y: cell[1] }, { x: x, y: y }
+            if level.canMoveTo(proposedPath[0].x, proposedPath[0].y)
+              shortestPath ?= proposedPath
+              shortestPath = proposedPath if proposedPath.length < shortestPath.length
+        
+        if shortestPath?[0]?
+          res.pos.x = shortestPath[0].x
+          res.pos.y = shortestPath[0].y
+          blocked = false
+        
+        # closestDist = undefined
+        # if nextPos = results[1]
+        #   for cell in surrounds
+        #     if level.canMoveTo(cell[0], cell[1])
+        #       dist = _([ Math.abs(cell[0] - nextPos.x), Math.abs(cell[1] - nextPos.y) ]).max()
+        #       closestDist ?= dist
+        #       if dist < closestDist
+        #         closestDist = dist
+        #         res.pos.x = cell[0]
+        #         res.pos.y = cell[1]
+        #         blocked = false
+      
+      return if @apLeft <= 0 or blocked
+      @subtractAp 1
+      @getElem().unbind 'click'
+      @updateInfo()
+      @hide()
+      @x = res.pos.x
+      @y = res.pos.y
+      @characterSelected()
+      @show()
+      cb() if cb? if lastPos == res.pos
+    ).queue(2)
     results

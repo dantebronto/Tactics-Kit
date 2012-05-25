@@ -1,5 +1,5 @@
 p1 = new RPG.Player 
-  x: 2, y: 3, name: 'd00d'
+  x: 3, y: 6, name: 'd00d'
   level: 10
 
 p2 = new RPG.Player 
@@ -17,39 +17,45 @@ p3 = new RPG.Wolf
 
 e1 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
-  name: 'Robo Duck'
+  name: 'Robo Duck 1'
   x: 11, y: 1
   level: 5
+  ap: 4
 
 e2 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
-  name: 'Robo Duck'
+  name: 'Robo Duck 2'
   x: 6, y: 7
   level: 5
+  ap: 4
 
 e3 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
-  name: 'Robo Duck'
+  name: 'Robo Duck 3'
   x: 6, y: 6
   level: 5
+  ap: 4
   
 e4 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
-  name: 'Robo Duck'
+  name: 'Robo Duck 4'
   x: 7, y: 6
   level: 5
+  ap: 4
   
 e5 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
-  name: 'Robo Duck'
+  name: 'Robo Duck 5'
   x: 11, y: 6
   level: 5
+  ap: 4
   
 e6 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
-  name: 'Robo Duck'
+  name: 'Robo Duck 6'
   x: 4, y: 8
   level: 5
+  ap: 4
   
 # level 1
 terrain = [ 

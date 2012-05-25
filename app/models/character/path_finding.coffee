@@ -15,7 +15,7 @@ Array.prototype.findGraphNode = function(obj) {
 };
 `
 
-class AStar
+class RPG.AStar
   
   equals: (pos1, pos2) ->
     pos1.x == pos2.x and pos1.y == pos2.y
@@ -33,7 +33,7 @@ class AStar
       matrix.set x, y, cell
     @grid = matrix
 
-  search: (start, end, ignoreBlockers) ->
+  search: (start, end) ->
     start = @grid.get start.x, start.y
     end = @grid.get end.x, end.y
     
@@ -67,10 +67,7 @@ class AStar
       for neighbor in @getNeighbors(currentNode)
         
         # not a valid node to process, skip to next neighbor
-        
-        cantMoveThere = if ignoreBlockers then false else !level.canWalkOn(neighbor.x, neighbor.y)
-        
-        if ( closedList.findGraphNode(neighbor) or cantMoveThere and not @equals(neighbor.pos, end.pos) )
+        if ( closedList.findGraphNode(neighbor) or !level.canWalkOn(neighbor.x, neighbor.y) and not @equals(neighbor.pos, end.pos) )
           continue
         
         # g score is the shortest distance from start to current node, we need to check if
@@ -125,7 +122,7 @@ class AStar
 
 class RPG.PathFinding
   
-  findShortestPathTo: (x, y, ignoreBlockers=false) ->
-    new AStar(@).search { x: @x, y: @y }, { x: x, y: y }, ignoreBlockers
+  findShortestPathTo: (x, y) ->
+    new RPG.AStar().search { x: @x, y: @y }, { x: x, y: y }
   
   initPathFinding: ->

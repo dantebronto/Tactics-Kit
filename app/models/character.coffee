@@ -61,11 +61,13 @@ class RPG.Character
     _(retval).include(klazzString)
   
   initSprite: ->
-    @spriteImage = @info.find('img')
+    @spriteImage = @info.find('img').clone()
     @spriteImage.load =>
-      @spriteImageWidth = @spriteImage.width()
-      @spriteImageHeight = @spriteImage.height()
-      @show()
+      @spriteImageWidth = @spriteImage[0].width
+      @spriteImageHeight = @spriteImage[0].height
+    
+    # have to bust the cache to reliably get sprite dimensions
+    @spriteImage.attr('src', @spriteImage.attr('src') + '?' + Math.random())
   
   addedToLevel: ->
     @drawInfo()

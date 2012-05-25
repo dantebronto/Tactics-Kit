@@ -7,6 +7,7 @@ class RPG.Player extends RPG.Character
   distributeExperience: -> _(level.enemies).each (enemy) => enemy.addExp @exp
   
   startTurn: (oneTurnBot=false)->
+    return @endTurn()
     super(oneTurnBot)
     level.queue(=> @characterSelected()).queue(=> @act()) if @isBot or oneTurnBot
   
