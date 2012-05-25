@@ -20,42 +20,42 @@ e1 = new RPG.Enemy
   name: 'Robo Duck 1'
   x: 11, y: 1
   level: 5
-  ap: 4
+  ap: 2
 
 e2 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck 2'
   x: 6, y: 7
   level: 5
-  ap: 4
+  ap: 2
 
 e3 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck 3'
   x: 6, y: 6
   level: 5
-  ap: 4
+  ap: 2
   
 e4 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck 4'
   x: 7, y: 6
   level: 5
-  ap: 4
+  ap: 2
   
 e5 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck 5'
   x: 11, y: 6
   level: 5
-  ap: 4
+  ap: 2
   
 e6 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck 6'
   x: 4, y: 8
   level: 5
-  ap: 4
+  ap: 2
   
 # level 1
 terrain = [ 
