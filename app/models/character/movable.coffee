@@ -68,18 +68,6 @@ class RPG.Movable
           res.pos.x = shortestPath[0].x
           res.pos.y = shortestPath[0].y
           blocked = false
-        
-        # closestDist = undefined
-        # if nextPos = results[1]
-        #   for cell in surrounds
-        #     if level.canMoveTo(cell[0], cell[1])
-        #       dist = _([ Math.abs(cell[0] - nextPos.x), Math.abs(cell[1] - nextPos.y) ]).max()
-        #       closestDist ?= dist
-        #       if dist < closestDist
-        #         closestDist = dist
-        #         res.pos.x = cell[0]
-        #         res.pos.y = cell[1]
-        #         blocked = false
       
       return if @apLeft <= 0 or blocked
       @subtractAp 1
