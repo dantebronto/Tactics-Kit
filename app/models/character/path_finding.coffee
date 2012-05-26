@@ -33,7 +33,7 @@ class RPG.AStar
       matrix.set x, y, cell
     @grid = matrix
 
-  search: (start, end) ->
+  search: (start, end, considerCharacters) ->
     start = @grid.get start.x, start.y
     end = @grid.get end.x, end.y
     
@@ -65,9 +65,13 @@ class RPG.AStar
       closedList.push currentNode
       
       for neighbor in @getNeighbors(currentNode)
+        secondTerm = if considerCharacters
+          !level.canMoveTo(neighbor.x, neighbor.y) 
+        else 
+          !level.canWalkOn(neighbor.x, neighbor.y)
         
         # not a valid node to process, skip to next neighbor
-        if ( closedList.findGraphNode(neighbor) or !level.canWalkOn(neighbor.x, neighbor.y) and not @equals(neighbor.pos, end.pos) )
+        if ( closedList.findGraphNode(neighbor) or secondTerm and not @equals(neighbor.pos, end.pos) )
           continue
         
         # g score is the shortest distance from start to current node, we need to check if
@@ -122,7 +126,7 @@ class RPG.AStar
 
 class RPG.PathFinding
   
-  findShortestPathTo: (x, y) ->
-    new RPG.AStar().search { x: @x, y: @y }, { x: x, y: y }
+  findShortestPathTo: (x, y, considerCharacters=false) ->
+    new RPG.AStar().search { x: @x, y: @y }, { x: x, y: y }, considerCharacters
   
   initPathFinding: ->

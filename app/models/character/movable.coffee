@@ -40,66 +40,49 @@ class RPG.Movable
   
   moveTo: (x, y) ->
     results = @findShortestPathTo(x, y)
-    originalPath = results
     
-    # remove the last position if can't move to it
     lastPos = results[results.length-1]?.pos
-    results.pop() if lastPos and !level.canMoveTo(lastPos.x, lastPos.y)
+    results.pop() unless level.canMoveTo(lastPos.x, lastPos.y)
     blocked = false
     
     res = results[0]
     
-    level.queue(=>
-      blocked = true unless level.canMoveTo(res.x, res.y)
-      
-      # if blocked
-      #   surrounds = [ 
-      #     [ @x, @y-1 ], [ @x+1, @y-1 ], [ @x+1, @y ], [ @x+1, @y+1 ],
-      #     [ @x, @y+1 ], [ @x-1, @y+1 ], [ @x-1, @y ], [ @x-1, @y-1 ] 
-      #   ]
-      #   shortestPath = undefined
-      #   for cell in surrounds
-      #     if level.canMoveTo(cell[0], cell[1])
-      #       proposedPath = new RPG.AStar().search { x: cell[0], y: cell[1] }, { x: x, y: y }
-      #       
-      #       if level.canMoveTo(proposedPath[0].x, proposedPath[0].y)
-      #         shortestPath ?= proposedPath
-      #         shortestPath = proposedPath if proposedPath.length < shortestPath.length
-      #   
-      #   if shortestPath?[0]?
-      #     console.log originalPath.length, shortestPath.length
-      #     # firstStep = shortestPath[0]
-      #     
-      #     # currentDistToTarget = _([ Math.abs(firstStep.x - lastPos.x), Math.abs(firstStep.y - lastPos.y) ]).max()
-      #     # proposedDistToTarget = _([ Math.abs(@x - lastPos.x), Math.abs(@y - lastPos.y) ]).max()
-      #     
-      #     # unless currentDistToTarget == proposedDistToTarget
-      #     # unless @apLeft == @ap
-      #     res.pos.x = shortestPath[0].x
-      #     res.pos.y = shortestPath[0].y
-      #     blocked = false
+    level.queue =>
+      if !level.canMoveTo(res.x, res.y)
+        blocked = true
+        
+        # # is there a way around other characters?
+        # proposedPath = @findShortestPathTo(x, y, true)
+        # lastStep = proposedPath[proposedPath.length-1]
+        # proposedPath.pop() if lastStep and !level.canMoveTo(lastStep.x, lastStep.y)
+        # if firstStep = proposedPath[0]
+        #   if level.canMoveTo(firstStep.x, firstStep.y)
+        #     res.x = firstStep.x if firstStep.x
+        #     res.y = firstStep.y if firstStep.y
+        #     blocked = false
+        # else
+        
+        for step in results.reverse()
+          proposedPath = @findShortestPathTo(step.x, step.y, true)
+          lastStep = proposedPath[proposedPath.length-1]
+          proposedPath.pop() if lastStep and !level.canMoveTo(lastStep.x, lastStep.y)
           
-        # closestDist = undefined
-        # if nextPos = results[1]
-        #   for cell in surrounds
-        #     if level.canMoveTo(cell[0], cell[1])
-        #       dist = _([ Math.abs(cell[0] - nextPos.x), Math.abs(cell[1] - nextPos.y) ]).max()
-        #       closestDist ?= dist
-        #       if dist < closestDist
-        #         closestDist = dist
-        #         res.pos.x = cell[0]
-        #         res.pos.y = cell[1]
-        #         blocked = false
-      
+          if firstStep = proposedPath[0]
+            if level.canMoveTo(firstStep.x, firstStep.y)
+              res.x = firstStep.x
+              res.y = firstStep.y
+              blocked = false
+              break
+        
       return if @apLeft <= 0 or blocked
       @subtractAp 1
       @getElem().unbind 'click'
       @updateInfo()
       @hide()
-      @x = res.pos.x
-      @y = res.pos.y
+      @x = res.x
+      @y = res.y
       @characterSelected()
       @show()
       cb() if cb? if lastPos == res.pos
-    ).queue(2)
+    .queue(2)
     results

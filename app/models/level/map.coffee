@@ -58,8 +58,9 @@ class RPG.Level.Map
   cellFromTemplate: (x, y, type) ->
     clone = @cellTemplate.clone()
     clone
-     .addClass(type)
-     .attr 'id', "#{type}-cell-#{x}-#{y}"
+      .addClass(type)
+      .attr('title', "#{x}, #{y}")
+      .attr 'id', "#{type}-cell-#{x}-#{y}"
   
   add: (obj) ->
     obj.show() if obj.show
