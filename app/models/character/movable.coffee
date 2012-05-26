@@ -52,27 +52,26 @@ class RPG.Movable
         blocked = true
         
         # # is there a way around other characters?
-        # proposedPath = @findShortestPathTo(x, y, true)
-        # lastStep = proposedPath[proposedPath.length-1]
-        # proposedPath.pop() if lastStep and !level.canMoveTo(lastStep.x, lastStep.y)
-        # if firstStep = proposedPath[0]
-        #   if level.canMoveTo(firstStep.x, firstStep.y)
-        #     res.x = firstStep.x if firstStep.x
-        #     res.y = firstStep.y if firstStep.y
-        #     blocked = false
-        # else
-        
-        for step in results.reverse()
-          proposedPath = @findShortestPathTo(step.x, step.y, true)
-          lastStep = proposedPath[proposedPath.length-1]
-          proposedPath.pop() if lastStep and !level.canMoveTo(lastStep.x, lastStep.y)
+        proposedPath = @findShortestPathTo(x, y, true)
+        lastStep = proposedPath[proposedPath.length-1]
+        proposedPath.pop() if lastStep and !level.canMoveTo(lastStep.x, lastStep.y)
+        if firstStep = proposedPath[0]
+          if level.canMoveTo(firstStep.x, firstStep.y)
+            res.x = firstStep.x if firstStep.x
+            res.y = firstStep.y if firstStep.y
+            blocked = false
+        else        
+          for step in results.reverse()
+            proposedPath = @findShortestPathTo(step.x, step.y, true)
+            lastStep = proposedPath[proposedPath.length-1]
+            proposedPath.pop() if lastStep and !level.canMoveTo(lastStep.x, lastStep.y)
           
-          if firstStep = proposedPath[0]
-            if level.canMoveTo(firstStep.x, firstStep.y)
-              res.x = firstStep.x
-              res.y = firstStep.y
-              blocked = false
-              break
+            if firstStep = proposedPath[0]
+              if level.canMoveTo(firstStep.x, firstStep.y)
+                res.x = firstStep.x
+                res.y = firstStep.y
+                blocked = false
+                break
         
       return if @apLeft <= 0 or blocked
       @subtractAp 1
