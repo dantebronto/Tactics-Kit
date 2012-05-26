@@ -41,17 +41,18 @@ class RPG.Movable
   moveTo: (x, y) ->
     results = @findShortestPathTo(x, y)
     
-    lastPos = results[results.length-1]?.pos
-    results.pop() unless level.canMoveTo(lastPos.x, lastPos.y)
+    lastPos = results[results.length-1]
+    results.pop() if lastPos and not level.canMoveTo(lastPos.x, lastPos.y)
     blocked = false
     
     res = results[0]
+    return unless res
     
     level.queue =>
       if !level.canMoveTo(res.x, res.y)
         blocked = true
         
-        # # is there a way around other characters?
+        # is there a way around other characters?
         proposedPath = @findShortestPathTo(x, y, true)
         lastStep = proposedPath[proposedPath.length-1]
         proposedPath.pop() if lastStep and !level.canMoveTo(lastStep.x, lastStep.y)
@@ -82,6 +83,6 @@ class RPG.Movable
       @y = res.y
       @characterSelected()
       @show()
-      cb() if cb? if lastPos == res.pos
+      @moveTo(x, y) unless @x == x and @y == y
     .queue(2)
     results
