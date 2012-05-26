@@ -1,30 +1,32 @@
 class RPG.Medic extends RPG.Player
   
   performHealing: (x, y) ->
-    healedAmt = Math.round(0.125 * @hp)
-    hits = @createHits(healedAmt)
-    hits.addClass('healing')
-    level.map.statMatrix.get(x, y).append(hits).show()
-    offset = (50 - hits.width())/2
-    hits.css
-      position: 'absolute' 
-      left: "#{offset}px"
+    level.queue =>
+      healedAmt = Math.round(0.125 * @hp)
+      hits = @createHits(healedAmt)
+      hits.addClass('healing')
+      level.map.statMatrix.get(x, y).append(hits).show()
+      offset = (50 - hits.width())/2
+      hits.css
+        position: 'absolute' 
+        left: "#{offset}px"
     
-    return unless target = RPG.Character.findByPosition(x, y)
-    @subtractAp 1
-    target.addHp(Number(healedAmt))
-    target.updateInfo()
-    level.log "#{@name} <span>&#43;</span> #{if target == @ then 'self' else target.name} for #{healedAmt}"
+      return unless target = RPG.Character.findByPosition(x, y)
+      @subtractAp 1
+      target.addHp(Number(healedAmt))
+      target.updateInfo()
+      level.log "#{@name} <span>&#43;</span> #{if target == @ then 'self' else target.name} for #{healedAmt}"
     
-    img = $('<img src="/images/burst.png" width="50" height="50" />')
-    oo = level.map.overlayMatrix.get(@x,@y).offset()
-    targoo = level.map.overlayMatrix.get(x,y).offset()
-    img.appendTo(level.map.elem)
-    img.css({position: 'absolute', top: oo.top, left: oo.left, width:50, height:50 }).
-      animate { top: targoo.top, left: targoo.left }, level.animationInterval, 'swing', ->
-        img.hide()
-        hits.show()
-        setTimeout((-> hits.remove()), level.animationInterval*4)
+      img = $('<img src="/images/burst.png" width="50" height="50" />')
+      oo = level.map.overlayMatrix.get(@x,@y).offset()
+      targoo = level.map.overlayMatrix.get(x,y).offset()
+      img.appendTo(level.map.elem)
+      img.css({position: 'absolute', top: oo.top, left: oo.left, width:50, height:50 }).
+        animate { top: targoo.top, left: targoo.left }, level.animationInterval, 'swing', ->
+          img.hide()
+          hits.show()
+          setTimeout((-> hits.remove()), level.animationInterval*4)
+    level.queue(5)
   
   act: ->
     return if level.enemies.length == 0 or level.players.length == 0 # no one to fight
