@@ -19,7 +19,7 @@ class RPG.Attacking
       matrix.set(x, y, 1) if (preview and inRange) or (inRange and attackable)
     matrix
   
-  chebyshevDistance: (x, y) -> _([ Math.abs(@x - x), Math.abs(@y - y) ]).max()
+  chebyshevDistance: (x, y, x2=@x, y2=@y) -> _([ Math.abs(x - x2), Math.abs(y - y2) ]).max()
   
   attack: (x, y) ->
     return if @apLeft < 1

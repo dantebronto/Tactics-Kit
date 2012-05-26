@@ -113,7 +113,9 @@ class RPG.Character
     
     @specialMove(Math.random()*100+1)
     
+    # default action: attack if in range, otherwise move to target
     level.queue =>
+      return if @apLeft <= 0
       target = @findTarget()
       
       distanceToTarget = if target then @chebyshevDistance(target.x, target.y) else Infinity

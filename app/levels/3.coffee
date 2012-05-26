@@ -1,10 +1,10 @@
 p1 = new RPG.Player 
-  x: 10, y: 10, name: 'd00d'
+  x: 10, y: 10, name: 'Fighter'
   # isBot: true
   level: 10
 
 p2 = new RPG.Player 
-  x: 11, y: 11, name: 'lady'
+  x: 11, y: 11, name: 'Ranger'
   strength: 20
   sprite: '/images/girl.gif'
   # isBot: true
@@ -14,9 +14,15 @@ p2 = new RPG.Player
 
 p3 = new RPG.Engineer
   x: 12, y: 12
-  name: 'Ace'
+  name: 'Engineer'
   level: 5
   sprite: '/images/penguin.gif'
+
+e1 = new RPG.Enemy
+  x: 8, y:5
+  name: 'foo'
+  level: 5
+  sprite: '/images/dragonMan.gif'
 
 # level 1
 terrain = [                                                                            
@@ -68,13 +74,13 @@ level = new RPG.Level
     height: 1900
     selector: '#map'
   players: [p1, p2, p3]
-  # enemies: [e1, e2, e3, e4, e5]
+  enemies: [e1] #[e1, e2, e3, e4, e5]
 
 level.queue =>
   p1.addDefaultSpecials()
+  RPG.Special.bindBomb(p1)
   p2.addDefaultSpecials()
   p3.addDefaultSpecials()
-  RPG.Special.bindBomb(p2)
 
 level.queue(5).queue => 
   level.map.terrainMatrix.each (x, y) ->
