@@ -57,8 +57,8 @@ class RPG.Movable
         proposedPath.pop() if lastStep and !level.canMoveTo(lastStep.x, lastStep.y)
         if firstStep = proposedPath[0]
           if level.canMoveTo(firstStep.x, firstStep.y)
-            res.x = firstStep.x if firstStep.x
-            res.y = firstStep.y if firstStep.y
+            res.x = firstStep.x
+            res.y = firstStep.y
             blocked = false
         else        
           for step in results.reverse()
