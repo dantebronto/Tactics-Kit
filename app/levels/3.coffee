@@ -4,9 +4,9 @@ p1 = new RPG.Player
   level: 10
 
 p2 = new RPG.Player 
-  x: 11, y: 11, name: 'Ranger'
+  x: 11, y: 11, name: 'Gunner'
   strength: 20
-  sprite: '/images/girl.gif'
+  sprite: '/images/sprites/monsters/mercenary.gif'
   # isBot: true
   level: 10
   weapon: new RPG.Weapon 
@@ -16,7 +16,7 @@ p3 = new RPG.Engineer
   x: 12, y: 12
   name: 'Engineer'
   level: 5
-  sprite: '/images/penguin.gif'
+  sprite: '/images/sprites/player/cyborg.gif'
 
 e1 = new RPG.Enemy
   x: 8, y:5

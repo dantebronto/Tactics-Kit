@@ -2,12 +2,6 @@ class RPG.Enemy extends RPG.Character
   constructor: (opts) ->
     super(opts)
   
-  addedToLevel: ->
-    @drawInfo()
-    @initSprite()
-    @bindInfoClicked()
-    @trigger 'create'
-  
   bindInfoClicked: -> @info.bind 'click', => @centerMapOnMe()
   
   startTurn: ->

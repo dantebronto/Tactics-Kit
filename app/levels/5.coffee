@@ -1,3 +1,9 @@
+p1 = new RPG.Medic
+  x: 7, y: 3, name: 'Medic'
+  sprite: '/images/sprites/beings/medicalRobot.gif'
+  isBot: true
+  level: 1
+
 p2 = new RPG.Player
   x: 7, y: 1, name: 'Gunner'
   sprite: '/images/sprites/monsters/mercenary.gif'
@@ -26,7 +32,7 @@ e2 = new RPG.Enemy
   x: 0, y: 2
   name: 'Acid Dragon'
   sprite: '/images/acidDragon.gif'
-  level: 13
+  level: 1
 
 e3 = new RPG.Enemy
   x: 0, y: 3,
@@ -50,10 +56,11 @@ level = new RPG.Level
     width: 400
     height: 250
     selector: '#map'
-  players: [p2, p3]
+  players: [p1, p2, p3]
   enemies: [e2, e1, e3]
   
 level.queue =>
+  p1.addDefaultSpecials()
   p2.addDefaultSpecials()
   p3.addDefaultSpecials()
   

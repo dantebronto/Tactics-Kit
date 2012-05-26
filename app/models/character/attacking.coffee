@@ -35,8 +35,8 @@ class RPG.Attacking
     @animateDamage(x, y, dmg, apToSubtract, groupDamage)
     @afterDoDamage(dmg)
   
-  animateDamage: (x, y, dmg, apToSubtract, groupDamage=false) ->
-    hits = if dmg.length is 1 or dmg is 'miss'
+  createHits: (dmg) ->
+    if dmg.length is 1 or dmg is 'miss'
       $ "<h6>#{dmg}</h6>"
     else if dmg.length is 2
      $ "<h5>#{dmg}</h5>"
@@ -50,6 +50,9 @@ class RPG.Attacking
        $ "<h3>#{dmg}</h3>"
      else
        $ "<h4>#{dmg}</h4>"
+  
+  animateDamage: (x, y, dmg, apToSubtract, groupDamage=false) ->
+    hits = @createHits(dmg)
     
     level.queue => 
       return if @apLeft <= 0

@@ -65,9 +65,7 @@ class RPG.Level
     obj.hide() if obj.hide
   
   # TODO: have level mixin map functions?
-  add: (obj) -> 
-    @players.push(obj) if obj.isTypeOf 'Player'
-    @map.add obj
+  add: (obj) -> @map.add obj
   getElem: (obj) -> @map.getElem obj
   canMoveTo: (x, y) -> @map.canMoveTo(x, y)
   canWalkOn: (x, y) -> @map.canWalkOn(x, y)

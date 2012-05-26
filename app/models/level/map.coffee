@@ -63,8 +63,8 @@ class RPG.Level.Map
       .attr 'id', "#{type}-cell-#{x}-#{y}"
   
   add: (obj) ->
-    obj.show() if obj.show
     obj.addedToLevel() if obj.addedToLevel
+    level.queue -> obj.show()
   
   getElem: (obj) ->
     if obj.isTypeOf 'Player'

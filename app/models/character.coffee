@@ -65,6 +65,7 @@ class RPG.Character
     @spriteImage.load =>
       @spriteImageWidth = @spriteImage[0].width
       @spriteImageHeight = @spriteImage[0].height
+      @show() # may need to re-draw some characters
     
     # have to bust the cache to reliably get sprite dimensions
     @spriteImage.attr('src', @spriteImage.attr('src') + '?' + Math.random())
