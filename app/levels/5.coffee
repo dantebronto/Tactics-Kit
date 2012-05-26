@@ -25,8 +25,6 @@ e1 = new RPG.Enemy
   name: 'Dragon Man' 
   sprite: '/images/dragonMan.gif'
   level:1
-  weapon: new RPG.Weapon 
-    range: 2
 
 e2 = new RPG.Enemy
   x: 0, y: 2
@@ -39,8 +37,6 @@ e3 = new RPG.Enemy
   name: 'Dragon Man' 
   sprite: '/images/dragonMan.gif'
   level:1
-  weapon: new RPG.Weapon 
-    range: 2
 
 terrain = [ 
   [ 10, 10, 10, 10, 10, 10, 10, 10 ],

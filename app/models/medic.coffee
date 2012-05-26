@@ -27,8 +27,8 @@ class RPG.Medic extends RPG.Player
         setTimeout((-> hits.remove()), level.animationInterval*4)
   
   act: ->
-    return if @apLeft <= 0
-    if level.turnNum == 1
+    return if level.enemies.length == 0 or level.players.length == 0 # no one to fight
+    if @apLeft <= 0 or level.turnNum == 1
       @endTurn()
       return
     
@@ -53,8 +53,8 @@ class RPG.Medic extends RPG.Player
           level.queue =>
             @endTurn() if origX == @x and origY == @y # didn't move, somehow got blocked
       
-      level.queue =>
-        if @apLeft > 0 then @act() else @endTurn()
+    level.queue =>
+      if @apLeft > 0 then @act() else @endTurn()
   
   addedToLevel: ->
     super()
