@@ -17,6 +17,7 @@ class RPG.LifeForce
   
   die: ->
     @trigger 'die'
+    @spriteImage.css 'pointer-events', 'none'
     @onDeath()
     @info.fadeOut 'slow'
     @animateDeath()

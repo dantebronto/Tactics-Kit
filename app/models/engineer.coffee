@@ -24,22 +24,19 @@ class RPG.Engineer extends RPG.Player
           if inRange and level.canMoveTo(x, y)
             level.map.underlayMatrix.get(x,y)?.addClass 'healable'
         
-        @createTurret()
-      
+        new RPG.Burstable
+          type: 'healable'
+          activated: (x,y) =>
+            if level.canMoveTo(x,y)
+              new Engineer.Turret
+                x:x, y:y 
+                special: @engineeringSpecial
+                creator: @ 
+        .showArea()
+        
         $('body').one 'click', (e) =>
           level.clear()
           level.activeCharacter?.characterSelected()
-  
-  createTurret: ->
-    new RPG.Burstable
-      type: 'healable'
-      activated: (x,y) =>
-        if level.canMoveTo(x,y)
-          new Engineer.Turret
-            x:x, y:y 
-            special: @engineeringSpecial
-            creator: @ 
-    .showArea()
   
   specialMove: =>
     char = @engineeringSpecial.character
@@ -55,7 +52,6 @@ class RPG.Engineer extends RPG.Player
         return unless target = @findTarget()
         matrix = RPG.Level.Matrix.newFilledMatrix level.map.rowCount, level.map.colCount, 0
         matrix = @findMovableNeighbors(@x, @y, matrix, 0)
-        matrix.debug()
         bestPlacement = undefined
         closestDistance = Infinity
         matrix.each (x, y, val) =>
@@ -68,8 +64,7 @@ class RPG.Engineer extends RPG.Player
           new Engineer.Turret
             x:bestPlacement[0], y:bestPlacement[1]
             special: @engineeringSpecial
-            creator: @ 
-          
+            creator: @
 
 class RPG.Engineer.Turret extends RPG.Player
   constructor: (opts) ->
