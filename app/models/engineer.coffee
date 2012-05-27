@@ -50,8 +50,7 @@ class RPG.Engineer extends RPG.Player
         shouldBuildTurret = true if val == 1
       if shouldBuildTurret # should still build?
         return unless target = @findTarget()
-        matrix = RPG.Level.Matrix.newFilledMatrix level.map.rowCount, level.map.colCount, 0
-        matrix = @findMovableNeighbors(@x, @y, matrix, 0)
+        matrix = @findMovableNeighbors(@x, @y, 0)
         bestPlacement = undefined
         closestDistance = Infinity
         matrix.each (x, y, val) =>
@@ -75,6 +74,10 @@ class RPG.Engineer.Turret extends RPG.Player
     @name = opts.name or 'Turret'
     @ap = opts.ap or 2
     @apLeft = @ap
+    
+    spawnLevel = if @creator.level == 1 then 1 else @creator.level - 1
+    @level = opts.level or spawnLevel
+    
     @sprite = opts.sprite or '/images/turret.png'
     @isBot = opts.isBot or true
     @weapon = opts.weapon or new RPG.Weapon(range: 3)

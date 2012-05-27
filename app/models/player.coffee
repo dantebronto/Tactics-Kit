@@ -20,6 +20,10 @@ class RPG.Player extends RPG.Character
       if cdistance <= @weapon.range or cdistance < closest.distance
         closest = { distance: cdistance, enemy: enemy }
     target = closest.enemy
+    
+    killFirsts = _(level.enemies).filter (e) -> e.isTypeOf 'Medic' or e.isTypeOf 'Spawner'
+    target = killFirsts[0] if killFirsts[0]
+    
     target
   
   # specialMove: (chancePct, cb) ->

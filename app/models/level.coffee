@@ -12,7 +12,7 @@ class RPG.Level
     @turnStart = opts.turnStart or ->
     
     @anim = [] # animation queue
-    @animationInterval = opts.animationInterval or 50
+    @animationInterval = opts.animationInterval or 25
     @load = @queue
     @start = @startNextCharacter
     
@@ -65,7 +65,15 @@ class RPG.Level
     obj.hide() if obj.hide
   
   # TODO: have level mixin map functions?
-  add: (obj) -> @map.add obj
+  add: (obj) ->
+    arrayToAddTo = if obj.isTypeOf 'Player'
+      @players
+    else if obj.isTypeOf 'Enemy'
+      @enemies
+    else
+      []
+    arrayToAddTo.push(obj) unless _(arrayToAddTo).include(obj)
+    @map.add obj
   getElem: (obj) -> @map.getElem obj
   canMoveTo: (x, y) -> @map.canMoveTo(x, y)
   canWalkOn: (x, y) -> @map.canWalkOn(x, y)

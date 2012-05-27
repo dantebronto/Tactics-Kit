@@ -64,7 +64,6 @@ class RPG.Level.Map
   
   add: (obj) ->
     obj.addedToLevel() if obj.addedToLevel
-    level.queue -> obj.show()
   
   getElem: (obj) ->
     if obj.isTypeOf 'Player'

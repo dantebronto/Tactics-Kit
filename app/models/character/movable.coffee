@@ -7,8 +7,7 @@ class RPG.Movable
   showMovableCells: ->
     return if @apLeft <= 0
     speed = @apLeft
-    matrix = RPG.Level.Matrix.newFilledMatrix level.map.rowCount, level.map.colCount
-    matrix = @findMovableNeighbors(@x, @y, matrix, speed-1)
+    matrix = @findMovableNeighbors(@x, @y, speed-1)
     matrix.set @x, @y, 0
     matrix.each (x, y) ->
       if Number(this) == 1
@@ -18,7 +17,11 @@ class RPG.Movable
         level.showCellAs(type, x, y)
         matrix
   
-  findMovableNeighbors: (x, y, matrix, speed) ->
+  findMovableNeighbors: (x, y, speed, matrix) ->
+    
+    unless matrix
+      matrix = RPG.Level.Matrix.newFilledMatrix level.map.rowCount, level.map.colCount, 0
+    
     surrounds = [ 
       [ x, y-1 ], [ x+1, y-1 ], [ x+1, y ], [ x+1, y+1 ],
       [ x, y+1 ], [ x-1, y+1 ], [ x-1, y ], [ x-1, y-1 ] 
@@ -35,7 +38,7 @@ class RPG.Movable
       
       if level.canMoveTo(x, y)
         matrix.set(x, y, 1) unless matrix.get(x, y) is 1
-        matrix = @findMovableNeighbors(x, y, matrix, speed-1) if speed > 0
+        matrix = @findMovableNeighbors(x, y, speed-1, matrix) if speed > 0
     matrix
   
   moveTo: (x, y) ->
