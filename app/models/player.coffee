@@ -14,6 +14,7 @@ class RPG.Player extends RPG.Character
   findTarget: ->
     sorted = _(level.enemies).sortBy((enemy) -> enemy.hpLeft).reverse()
     target = sorted[0] # weakest enemy
+    
     closest = { distance: 999, enemy: target }
     for enemy in sorted
       cdistance = @chebyshevDistance(enemy.x, enemy.y)
@@ -21,7 +22,9 @@ class RPG.Player extends RPG.Character
         closest = { distance: cdistance, enemy: enemy }
     target = closest.enemy
     
-    killFirsts = _(level.enemies).filter (e) -> e.isTypeOf 'Medic' or e.isTypeOf 'Spawner'
+    killFirsts = _(level.enemies).filter (e) -> e.isTypeOf('Medic') or e.isTypeOf('Spawner')
+    if killFirsts.length > 0
+      killFirsts = _(killFirsts).sortBy (e) => @chebyshevDistance(e.x, e.y)
     target = killFirsts[0] if killFirsts[0]
     
     target

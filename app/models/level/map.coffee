@@ -14,6 +14,8 @@ class RPG.Level.Map
     @cellTypes = opts.cellTypes or ['map', 'underlay', 'item', 'enemy', 'player', 'stat', 'overlay']
     
     $ =>
+      @wrapper = $ '#wrapper'
+      @template = @wrapper.html()
       @info = $ opts.infoSelector or '#info'
       @elem = $ opts.selector or '#map'
       @setStyles()

@@ -1,101 +1,74 @@
-p1 = new RPG.Player 
-  x: 8, y: 1, name: 'Fighter'
-  # isBot: true
-  level: 10
-
-p2 = new RPG.Player 
-  x: 9, y: 1, name: 'Gunner'
-  strength: 20
-  sprite: '/images/sprites/monsters/mercenary.gif'
-  # isBot: true
-  level: 10
-  weapon: new RPG.Weapon 
-    range: 3
-
-p3 = new RPG.Engineer
-  x: 10, y: 1
-  name: 'Engineer'
-  level: 5
-  # isBot: true
-  sprite: '/images/sprites/player/cyborg.gif'
-
-p4 = new RPG.Medic
-  x: 11, y: 1, name: 'Medic'
+p1 = new RPG.Medic
+  x: 7, y: 2, name: 'Medic'
   sprite: '/images/sprites/beings/medicalRobot.gif'
   # isBot: true
-  level: 5
+  level: 1
 
-e1 = new RPG.Spawner
-  x: 9, y: 19
-  name: 'Spawner'
-  level: 4
-  sprite: '/images/sprites/player/druid.gif'
+p2 = new RPG.Player
+  x: 7, y: 1, name: 'Soldier'
+  sprite: '/images/sprites/player/paladin.gif'
+  isBot: true
 
-e2 = new RPG.Spawner
-  x: 8, y: 8
-  name: 'Spawner'
-  level: 4
-  sprite: '/images/sprites/player/druid.gif'
+p3 = new RPG.Player
+  x: 6, y: 2, name: 'Soldier'
+  sprite: '/images/sprites/player/paladin.gif'
+  isBot: true
 
-e3 = new RPG.Spawner
-  x: 2, y: 2
-  name: 'Spawner'
-  level: 4
-  sprite: '/images/sprites/player/druid.gif'
+p4 = new RPG.Player
+  x: 7, y: 3, name: 'Soldier'
+  sprite: '/images/sprites/player/paladin.gif'
+  isBot: true
 
-e4 = new RPG.Spawner
-  x: 17, y: 2
-  name: 'Spawner'
-  level: 4
-  sprite: '/images/sprites/player/druid.gif'
+e1 = new RPG.Enemy
+  x: 0, y: 1
+  name: 'Ninja'
+  sprite: '/images/ninja.gif'
+  level: 1
 
-# level 1
-terrain = [                                                                            
-  #  0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19
-  [ 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15] # 0
-  [ 15, 10, 10, 10, 10, 10, 10, 15, 10, 10, 10, 10, 15, 10, 10, 10, 10, 10, 10, 15] # 1
-  [ 15, 10, 10, 10, 10, 10, 10, 15, 10, 10, 10, 10, 15, 10, 10, 10, 10, 10, 10, 15] # 2
-  [ 15, 10, 10, 10, 10, 10, 10, 15, 10, 10, 10, 10, 15, 10, 10, 10, 10, 10, 10, 15] # 3
-  [ 15, 10, 10, 10, 10, 10, 10, 15, 15, 10, 10, 15, 15, 10, 10, 10, 10, 10, 10, 15] # 4
-  [ 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 15] # 5
-  [ 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 15] # 6
-  [ 15, 15, 15, 15, 15, 15, 10, 15, 15, 15, 15, 15, 10, 15, 15, 15, 15, 15, 15, 15] #15
-  [ 15, 10, 10, 10, 10, 10, 10, 15, 10, 10, 10, 15, 10, 10, 10, 10, 10, 10, 10, 15] #16
-  [ 15, 10, 10, 10, 10, 10, 10, 15, 10, 10, 10, 15, 10, 10, 10, 10, 10, 10, 10, 15] #20
-  [ 15, 10, 10, 10, 10, 10, 10, 15, 10, 15, 15, 15, 15, 10, 10, 10, 10, 10, 10, 15] #24
-  [ 15, 10, 10, 10, 10, 10, 10, 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 15] #25
-  [ 15, 10, 10, 10, 10, 10, 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 15] #26
-  [ 15, 10, 10, 10, 10, 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 15] #27
-  [ 15, 15, 15, 15, 10, 15, 15, 15, 15, 10, 15, 15, 15, 15, 10, 15, 15, 15, 15, 15] #28
-  [ 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 15] #29
-  [ 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 15] #30
-  [ 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 15] #31
-  [ 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 15] #32
-  [ 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 15] #36
-  [ 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15] #37
+e2 = new RPG.Enemy
+  x: 0, y: 2
+  name: 'Ninja'
+  sprite: '/images/ninja.gif'
+  level: 1
+
+e3 = new RPG.Enemy
+  x: 1, y: 2
+  name: 'Ninja'
+  sprite: '/images/ninja.gif'
+  level: 2
+
+e4 = new RPG.Enemy
+  x: 0, y: 3
+  name: 'Ninja'
+  sprite: '/images/ninja.gif'
+  level: 2
+
+terrain = [ 
+  [ 10, 10, 10, 10, 10, 10, 10, 10 ],
+  [ 10, 10, 10, 10, 10, 10, 10, 10 ],
+  [ 10, 10, 10, 10, 10, 10, 10, 10 ],
+  [ 10, 10, 10, 10, 10, 10, 10, 10 ],
+  [ 10, 10, 10, 10, 10, 10, 10, 10 ],
 ]
 
 level = new RPG.Level
   map:
     terrain: terrain
-    width: 1000
-    height: 1050
+    width: 400
+    height: 250
     selector: '#map'
-  players: [p1, p2, p3, p4]
+  number: 3
+  players: [p2, p3, p4, p1]
   enemies: [e1, e2, e3, e4]
-
+  
 level.queue =>
   p1.addDefaultSpecials()
-  RPG.Special.bindBomb(p1)
-  p2.addDefaultSpecials()
-  p3.addDefaultSpecials()
-  p4.addDefaultSpecials()
-
-level.queue(5).queue => 
-  level.map.terrainMatrix.each (x, y) ->
-    num = Number(this)
-    level.map.mapMatrix.get(x, y).css('background', 'url(/images/grass.jpg) no-repeat center')
-    if num == 15
-      level.map.itemMatrix.get(x, y).css('background', 'url(/images/shrub.png) no-repeat center')
   
-  level.start()
+  level.map.mapMatrix.each ->
+    $(this).css 'background-image': 'url("/images/step9.png")'
+  
+  level.showDialog "
+    <h1>Level 3 - Meet the Medic</h1>
+    <p>In this level, your soldiers will auto-fight. You'll need to use the medic to keep them healed up. You can heal once per action point.</p>
+    <p>If you tell a medic to auto-fight, he will most likely move to the weakest character and attempt to heal them.</p>
+  ", -> level.start()

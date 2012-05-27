@@ -1,5 +1,6 @@
 class RPG.Level
   constructor: (opts={}) ->
+    @number = opts.number or 1
     @turnFunction = opts.turnFunction or ->
     @endFunction = opts.endFunction or ->
     @map = new RPG.Level.Map opts.map # pass in the terrain map
@@ -12,7 +13,7 @@ class RPG.Level
     @turnStart = opts.turnStart or ->
     
     @anim = [] # animation queue
-    @animationInterval = opts.animationInterval or 25
+    @animationInterval = opts.animationInterval or 250
     @load = @queue
     @start = @startNextCharacter
     
@@ -22,6 +23,7 @@ class RPG.Level
     $ =>
       @initCharacters()
       @win = $ window
+      @dialog = $ '#dialog'
       @stage = $ '#stage'
       @info = $ '#info'
       @console = $ '#console'
@@ -122,12 +124,20 @@ class RPG.Level
     @win.resize debounced
   
   gameOver: ->
-    level.log 'You have fallen in battle...'
-    $('body').fadeOut 5000, -> location.reload true
-  
-  next: -> 
+    level.log 'You have fallen in battle'
+    @showDialog 'You have fallen in battle', =>
+      $('body').fadeOut 2000, =>
+        level.map.wrapper.html(level.map.template)
+        $.getScript "/javascripts/levels/#{@number}.js", =>
+          $('body').fadeIn 2000  
+  next: ->
     level.log 'You win!'
-    $('body').fadeOut 2000, -> location.reload true
+    @showDialog 'You win!', =>
+      $('body').fadeOut 2000, =>
+        level.map.wrapper.html(level.map.template)
+        $.getScript "/javascripts/levels/#{@number+1}.js", =>
+          $.cookie('lastLevel', @number+1)
+          $('body').fadeIn 2000
   
   startNextCharacter: ->
     @anim = [] # clear animation queue, not sure if necessary anymore
@@ -145,3 +155,11 @@ class RPG.Level
     _(@players.concat(@enemies)).each (char) ->
       char.hasGone = false
       char.addAp char.ap
+      
+  showDialog: (msg, closeFunction=->) ->
+    @dialog.html msg
+    $('#dialog').dialog
+      modal: true
+      close: closeFunction
+      buttons:
+        Done: -> $( this ).dialog( "close" )

@@ -1,7 +1,7 @@
 p2 = new RPG.Player
   x: 7, y: 1, name: 'Gunner'
   sprite: '/images/sprites/monsters/mercenary.gif'
-  isBot: true
+  # isBot: true
   level: 1
   weapon: new RPG.Weapon
     range: 3
@@ -10,7 +10,7 @@ p3 = new RPG.Engineer
   x: 7, y: 2, name: 'Engineer'
   strength: 5
   sprite: '/images/sprites/player/cyborg.gif'
-  isBot: true
+  # isBot: true
   level: 2
   weapon: new RPG.Weapon
 
@@ -50,6 +50,7 @@ level = new RPG.Level
     width: 400
     height: 250
     selector: '#map'
+  number: 4
   players: [p2, p3]
   enemies: [e2, e1, e3]
   
@@ -62,5 +63,12 @@ level.queue =>
   
   im = level.map.itemMatrix
   im.get(3,1).add(im.get(3,2)).add(im.get(3,3)).css('background', 'url(/images/rock1.png) no-repeat center')
+  
+  level.showDialog "
+    <h1>Level 4 - Engineering</h1>
+    <p>The engineer can place turrets. A turret is pretty much like an ally that can't move, but will auto-fire if something moves within it's three square range.</p>
+    <p>Right now, you can only build one turret at a time. Turrets can not be removed. You can only build a new one when the other one dies, so choose your placement wisely.</p>
+    <p>Pro-tip: try to stay away from the dragon, he will destroy you.</p>
+  "
   
   level.start()

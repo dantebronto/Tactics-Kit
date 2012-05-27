@@ -59,3 +59,10 @@ button { border-radius: 1px; }
 .oversized {margin: -8px;padding: 8px;z-index: 1002;}
 #slider { margin: 10px; width: 170px; }
 #slider-label { margin: 10px; padding-bottom: 10px;}
+
+#dialog p { padding-top:5px; }
+#dialog h1 { font-size: 1.2em;padding-bottom: 7px; }
+
+/* tiles */
+.cell.grass { background: url(/images/grass.jpg) no-repeat center; }
+.cell.shrub { background: url(/images/shrub.png) no-repeat center; }
