@@ -39,9 +39,9 @@ class RPG.Engineer extends RPG.Player
           level.activeCharacter?.characterSelected()
   
   specialMove: =>
-    char = @engineeringSpecial.character
+    chard = @engineeringSpecial.character
     matrix = RPG.Level.Matrix.newFilledMatrix level.map.rowCount, level.map.colCount, 0
-    matrix = char.findAttackableNeighbors(char.x, char.y, matrix, 3)
+    matrix = chard.findAttackableNeighbors(chard.x, chard.y, matrix, 3)
     shouldBuildTurret = @turretCount < 1
     
     if shouldBuildTurret

@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require_relative 'script_manager'
 
 class MyApp < Sinatra::Base
   require 'barista'
@@ -7,13 +8,8 @@ class MyApp < Sinatra::Base
   
   set :views, 'app/views'
   
-  get '/' do
-    @level = 1
-    erb :main
-  end
-  
-  get '/levels/:level/?' do
-    @level = params[:level] || 1
+  get '*' do
+    # @level = 1
     erb :main
   end
   
