@@ -13,7 +13,7 @@ class RPG.Level
     @turnStart = opts.turnStart or ->
     
     @anim = [] # animation queue
-    @animationInterval = opts.animationInterval or 250
+    @animationInterval = opts.animationInterval or 200
     @load = @queue
     @start = @startNextCharacter
     
@@ -37,14 +37,14 @@ class RPG.Level
     slider = $('#slider')
     
     refreshSlider = =>
-      @animationInterval = 525 - Number(slider.slider('value'))
+      @animationInterval = 315 - Number(slider.slider('value'))
       @initAnimationQueue()
     
     slider.slider
       orientation: "horizontal",
-      min: 25
-      max: 500,
-      value: 525 - @animationInterval,
+      min: 15
+      max: 300,
+      value: 315 - @animationInterval,
       slide: refreshSlider,
       change: refreshSlider
   

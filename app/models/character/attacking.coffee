@@ -59,7 +59,10 @@ class RPG.Attacking
       
       @subtractAp apToSubtract
       
-      level.map.statMatrix.get(x, y).append(hits).show()
+      statEl = level.map.statMatrix.get(x, y)
+      lastHit = statEl.find('h1, h2, h3, h4, h5, h6')
+      lastHit.remove() if lastHit.length > 0
+      statEl.append(hits).show()
       character = RPG.Character.findByPosition(x, y)
       
       offset = (50 - hits.width())/2
@@ -86,7 +89,7 @@ class RPG.Attacking
           img.hide()
           hits.show()
           setTimeout((-> hits.remove()), level.animationInterval*4)
-          
+    
     level.queue(5) unless groupDamage
   
   didMiss: ->

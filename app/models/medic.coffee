@@ -2,6 +2,8 @@ class RPG.Medic extends RPG.Player
   
   performHealing: (x, y) ->
     level.queue =>
+      return unless target = RPG.Character.findByPosition(x, y)
+      
       healedAmt = Math.round(0.125 * @hp)
       hits = @createHits(healedAmt)
       hits.addClass('healing')
@@ -11,7 +13,6 @@ class RPG.Medic extends RPG.Player
         position: 'absolute' 
         left: "#{offset}px"
     
-      return unless target = RPG.Character.findByPosition(x, y)
       @subtractAp 1
       target.addHp(Number(healedAmt))
       target.updateInfo()

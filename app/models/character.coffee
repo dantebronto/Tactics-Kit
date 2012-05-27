@@ -143,7 +143,16 @@ class RPG.Character
     @info.hide()
     level.map.info.find('ul').append @info
     @info.fadeIn 'slow'
-  
+    @info.on 'mouseover', =>
+      level.map.elem.find('img.turn-indicator').remove()
+      arrow = $ "<img class='turn-indicator' src='/images/arrow.png' />"
+      level.map.overlayMatrix.get(@x, @y).prepend arrow
+    @info.on 'mouseout', =>
+      level.map.elem.find('img.turn-indicator').remove()
+      arrow = $ "<img class='turn-indicator' src='/images/arrow.png' />"
+      if ac = level.activeCharacter
+        level.map.overlayMatrix.get(ac.x, ac.y).prepend arrow
+      
   updateInfo: ->
     @eventDispatch.trigger 'beforeUpdateInfo'
     @info.html($(TMPL.characterInfo(@)).html())
