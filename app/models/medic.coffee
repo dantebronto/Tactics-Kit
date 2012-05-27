@@ -30,7 +30,7 @@ class RPG.Medic extends RPG.Player
   
   act: ->
     return if level.enemies.length == 0 or level.players.length == 0 # no one to fight
-    if @apLeft <= 0 or level.turnNum == 1
+    if @apLeft <= 0
       @endTurn()
       return
     

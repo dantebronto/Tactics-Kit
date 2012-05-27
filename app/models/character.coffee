@@ -97,35 +97,36 @@ class RPG.Character
     mapWidth = level.stage.width()
     
     # TODO: figure out ranges to check
-    # if myTop < 0
-    # level.stage.scrollTop(mapScrollTop+myTop-(mapHeight/2))
-    # else if myTop >= (mapScrollTop + mapHeight - 40)
-    level.stage.scrollTop(mapScrollTop+myTop-(mapHeight/2))
+    if myTop < 0
+      level.stage.scrollTop(mapScrollTop+myTop-(mapHeight/2))
+    else if myTop >= (mapScrollTop + mapHeight - 40)
+      level.stage.scrollTop(mapScrollTop+myTop-(mapHeight/2))
     
-    # if myLeft < 120
-    # level.stage.scrollLeft(mapScrollLeft+myLeft-(mapWidth/2))
-    # else if myLeft >= (mapScrollLeft + mapWidth)
-    level.stage.scrollLeft(mapScrollLeft+myLeft-(mapWidth/2))
+    if myLeft < 120
+      level.stage.scrollLeft(mapScrollLeft+myLeft-(mapWidth/2))
+    else if myLeft >= (mapScrollLeft + mapWidth)
+      level.stage.scrollLeft(mapScrollLeft+myLeft-(mapWidth/2))
     
   act: ->
     origX = @x
     origY = @y
     return if level.enemies.length == 0 or level.players.length == 0 # no one to fight
     
-    @specialMove(Math.random()*100+1)
+    didMove = @specialMove(Math.random()*100+1)
     
-    # default action: attack if in range, otherwise move to target
-    level.queue =>
-      return if @apLeft <= 0
-      target = @findTarget()
+    unless didMove
+      # default action: attack if in range, otherwise move to target
+      level.queue =>
+        return if @apLeft <= 0
+        target = @findTarget()
       
-      distanceToTarget = if target then @chebyshevDistance(target.x, target.y) else Infinity
-      if distanceToTarget <= @weapon.range
-        @attack target.x, target.y
-      else
-        @moveTo target.x, target.y unless distanceToTarget == Infinity
-        level.queue =>
-          @endTurn() if origX == @x and origY == @y # didn't move, somehow got blocked
+        distanceToTarget = if target then @chebyshevDistance(target.x, target.y) else Infinity
+        if distanceToTarget <= @weapon.range
+          @attack target.x, target.y
+        else
+          @moveTo target.x, target.y unless distanceToTarget == Infinity
+          level.queue =>
+            @endTurn() if origX == @x and origY == @y # didn't move, somehow got blocked
     
     level.queue =>
       if @apLeft > 0 then @act() else @endTurn()
@@ -170,4 +171,4 @@ class RPG.Character
       .addClass('pointer occupied')    
     @getElem().addClass 'oversized' if @spriteImageWidth > 50 or @spriteImageHeight > 50
       
-  specialMove: (chancePct, cb) ->
+  specialMove: (chancePct, cb) -> false

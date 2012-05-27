@@ -1,7 +1,7 @@
 class RPG.Actionable
   
   initAp: ->
-    @ap = @opts.ap or Math.floor(2+@level*0.07)
+    @ap = @opts.ap or 2
     @apLeft = @ap
     @hasGone = false
   

@@ -64,6 +64,8 @@ class RPG.Engineer extends RPG.Player
             x:bestPlacement[0], y:bestPlacement[1]
             special: @engineeringSpecial
             creator: @
+          return true
+    false
 
 class RPG.Engineer.Turret extends RPG.Player
   constructor: (opts) ->
