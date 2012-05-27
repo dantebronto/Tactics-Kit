@@ -95,7 +95,6 @@ class RPG.Level.Map
   bindClicked: -> @elem.bind 'click', (e) => @handleMapClicked(e)
   
   handleMapClicked: (e) ->
-    return if level.anim.length > 0
     [x, y] = $(e.target).getMatrixCoords()
     
     underlayCell = @underlayMatrix.get(x, y)
