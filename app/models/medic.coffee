@@ -27,6 +27,7 @@ class RPG.Medic extends RPG.Player
           img.hide()
           hits.show()
           setTimeout((-> hits.remove()), level.animationInterval*4)
+    
     level.queue(5)
   
   act: ->
@@ -50,7 +51,7 @@ class RPG.Medic extends RPG.Player
         @performHealing target.x, target.y
       else
         if distanceToTarget == Infinity
-          RPG.Player::act.apply(@)
+          RPG.Player::act.apply(@) # can't call super here for some reason?
         else
           @moveTo target.x, target.y          
           level.queue =>
@@ -70,7 +71,7 @@ class RPG.Medic extends RPG.Player
   actionClicked: ->
     myX = @x
     myY = @y
-    level.clear()
+    # level.clear()
     level.map.underlayMatrix.each (x,y) ->
       inRange = _([ Math.abs(myX - x), Math.abs(myY - y) ]).max() < 2
       if inRange
@@ -82,11 +83,6 @@ class RPG.Medic extends RPG.Player
         if level.map.underlayMatrix.get(x, y)?.hasClass 'healable'
           level.queue => 
             @performHealing(x, y)
-            level.queue => 
-               @actionClicked() if @apLeft > 0
-            
-    burstable.showArea()
+            @actionClicked() if @apLeft > 0
     
-    $('body').one 'click', (e) =>
-      level.clear()
-      level.activeCharacter?.characterSelected()
+    burstable.showArea()

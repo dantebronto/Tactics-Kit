@@ -13,7 +13,7 @@ class RPG.Level
     @turnStart = opts.turnStart or ->
     
     @anim = [] # animation queue
-    @animationInterval = opts.animationInterval or 200
+    @animationInterval = opts.animationInterval or 150
     @load = @queue
     @start = @startNextCharacter
     

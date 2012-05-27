@@ -100,7 +100,7 @@ class RPG.Level.Map
     underlayCell = @underlayMatrix.get(x, y)
     classes = _(underlayCell.attr('class').split(' '))
     
-    if classes.include('impassable') or classes.include('passable') and !classes.include('attackable') 
+    if classes.include('impassable') or classes.include('passable') and !(classes.include('attackable') or classes.include('healable'))
       @clear()
       if char = RPG.Character.findByPosition(x, y)
         if char.isTypeOf 'Enemy'
@@ -112,7 +112,7 @@ class RPG.Level.Map
     if classes.include('attackable') and @canAttack(x, y)
       level.activeCharacter?.attack(x, y)
     
-    if @playerMatrix.get(x, y).hasClass('occupied') and not classes.include('attackable')
+    if @playerMatrix.get(x, y).hasClass('occupied') and not classes.include('attackable') and not classes.include('healable')
       RPG.Character.findByPosition(x, y)?.characterSelected()
     
     level.activeCharacter?.moveTo(x, y) if classes.include('movable')

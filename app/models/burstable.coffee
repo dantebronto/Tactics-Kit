@@ -23,8 +23,6 @@ class RPG.Burstable
         elem.on 'mouseout', -> level.clear()
     
     $('body').one 'click', (e) =>
-      level.clear()
-      level.activeCharacter?.characterSelected()
       level.map.underlayMatrix.each (x, y, elem) =>
         elem.unbind('mouseover').unbind('mouseout')
         elem.unbind 'click'
