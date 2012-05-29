@@ -2,6 +2,7 @@ class RPG.Medic extends RPG.Player
   
   performHealing: (x, y) ->
     level.queue =>
+      return if @apLeft <= 0
       return unless target = RPG.Character.findByPosition(x, y)
       
       healedAmt = Math.round(0.125 * @hp)
@@ -69,6 +70,7 @@ class RPG.Medic extends RPG.Player
       action: => @actionClicked()
   
   actionClicked: ->
+    return if @apLeft <= 0
     myX = @x
     myY = @y
     # level.clear()
@@ -84,5 +86,5 @@ class RPG.Medic extends RPG.Player
           level.queue => 
             @performHealing(x, y)
             @actionClicked() if @apLeft > 0
-    
     burstable.showArea()
+    

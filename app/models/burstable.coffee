@@ -10,6 +10,7 @@ class RPG.Burstable
   
   showArea: ->
     level.map.underlayMatrix.each (x, y, elem) =>
+      elem.unbind 'click'
       elem.one 'click', (e) =>
         targ = $ e.target
         if targ.hasClass('overlay')
@@ -21,7 +22,7 @@ class RPG.Burstable
       if @onHover
         elem.on 'mouseover', => @onHover(x, y)
         elem.on 'mouseout', -> level.clear()
-    
+
     $('body').one 'click', (e) =>
       level.map.underlayMatrix.each (x, y, elem) =>
         elem.unbind('mouseover').unbind('mouseout')
