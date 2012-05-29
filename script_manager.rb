@@ -1,4 +1,13 @@
 class ScriptManager
+  
+  def self.minified_scripts
+    all_scripts[2..-1]
+  end
+  
+  def self.unminified_scripts
+    all_scripts[0..1]
+  end
+  
   def self.all_scripts
     [
       '/javascripts/jquery.min.js',

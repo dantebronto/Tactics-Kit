@@ -65,7 +65,7 @@ class RPG.Character
     @spriteImage.load =>
       @spriteImageWidth = @spriteImage[0].width
       @spriteImageHeight = @spriteImage[0].height
-      @show() # may need to re-draw some characters
+      $ => @show() # may need to re-draw some characters
     
     # have to bust the cache to reliably get sprite dimensions
     @spriteImage.attr('src', @spriteImage.attr('src') + '?' + Math.random())
@@ -86,8 +86,10 @@ class RPG.Character
     @showAttackableCells(secondary)
   
   centerMapOnMe: ->
+    el = @getElem()
+    return unless el
     mapLeft = level.stage.position().left
-    myOffset = @getElem().offset()
+    myOffset = el.offset()
     myLeft = myOffset.left
     myTop = myOffset.top
     
@@ -175,9 +177,9 @@ class RPG.Character
       .removeClass('pointer occupied oversized')
   
   show: ->
-    @getElem()
-      .css('background', "url(#{@sprite}) no-repeat center")
-      .addClass('pointer occupied')    
-    @getElem().addClass 'oversized' if @spriteImageWidth > 50 or @spriteImageHeight > 50
+    el = @getElem()
+    if el?
+      el.css('background', "url(#{@sprite}) no-repeat center").addClass('pointer occupied')    
+      el.addClass 'oversized' if @spriteImageWidth > 50 or @spriteImageHeight > 50
       
   specialMove: (chancePct, cb) -> false

@@ -69,9 +69,9 @@ class RPG.Level.Map
   
   getElem: (obj) ->
     if obj.isTypeOf 'Player'
-      return @playerMatrix.get(obj.x, obj.y)
+      @playerMatrix.get(obj.x, obj.y)
     else if obj.isTypeOf 'Enemy'
-      return @enemyMatrix.get(obj.x, obj.y)
+      @enemyMatrix.get(obj.x, obj.y)
   
   occupiedAt: (x, y) ->
     @playerMatrix.get(x, y)?.hasClass('occupied') or

@@ -1,7 +1,8 @@
 if RPG.Level? then do ->
   try
-    pathParts = _(window.location.pathname.split('/')).reject (x) -> x.length == 0
-    level = Number(pathParts[pathParts.length-1])
+    ara = window.location.search.split("=")
+    level = ara[ara.length-1]
+    level = 1 if level == ''
   catch ex
     console.log ex
   
