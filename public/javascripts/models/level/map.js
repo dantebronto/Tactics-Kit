@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 21:10:34 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 21:18:09 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/models/level/map.coffee
  */
 

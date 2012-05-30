@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Tue, 29 May 2012 21:55:09 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 21:20:54 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/models/character/attacking.coffee
  */
 
@@ -20,7 +20,11 @@
       matrix = this.findAttackableNeighbors(this.x, this.y, matrix, this.weapon.range, preview);
       matrix.set(this.x, this.y, 0);
       matrix.each(function(x, y) {
-        if (Number(this) === 1) return level.showCellAs('attackable', x, y);
+        if (Number(this) === 1) {
+          return level.showCellAs('attackable', x, y);
+        } else if (preview) {
+          return level.showCellAs('impassable', x, y);
+        }
       });
       return matrix;
     };

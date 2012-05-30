@@ -10,6 +10,9 @@ del {text-decoration: line-through;}
 table {border-collapse: collapse;border-spacing: 0;}
 /* end resets */
 
+/* disallow highlight of text */
+* { -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+
 body { padding: 15px; font-family: arial; font-size: 0.8em; overflow: hidden; margin:0; padding:0; }
 
 #map { border: thick solid #eee; border-radius: 5px; float:left; margin: 20px;}

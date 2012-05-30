@@ -9,7 +9,11 @@ class RPG.Attacking
     matrix = RPG.Level.Matrix.newFilledMatrix level.map.rowCount, level.map.colCount, 0
     matrix = @findAttackableNeighbors(@x, @y, matrix, @weapon.range, preview)
     matrix.set @x, @y, 0
-    matrix.each (x, y) -> level.showCellAs('attackable', x, y) if Number(this) == 1
+    matrix.each (x, y) -> 
+      if Number(this) == 1
+        level.showCellAs('attackable', x, y)
+      else if preview
+        level.showCellAs('impassable', x, y)
     matrix
   
   findAttackableNeighbors: (x, y, matrix, range, preview=false) ->
