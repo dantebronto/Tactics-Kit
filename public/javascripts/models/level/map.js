@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 20:17:09 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 21:10:34 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/models/level/map.coffee
  */
 
@@ -145,7 +145,7 @@
     };
 
     Map.prototype.handleMapClicked = function(e) {
-      var char, classes, underlayCell, x, y, _ref, _ref2, _ref3, _ref4, _ref5;
+      var chard, classes, underlayCell, x, y, _ref, _ref2, _ref3, _ref4, _ref5;
       if ((_ref = level.activeCharacter) != null ? _ref.isTypeOf('Enemy') : void 0) {
         return;
       }
@@ -154,11 +154,15 @@
       classes = _(underlayCell.attr('class').split(' '));
       if (classes.include('impassable') || classes.include('passable') && !(classes.include('attackable') || classes.include('healable'))) {
         this.clear();
-        if (char = RPG.Character.findByPosition(x, y)) {
-          if (char.isTypeOf('Enemy')) {
-            char.centerMapOnMe();
+        if (chard = RPG.Character.findByPosition(x, y)) {
+          if (chard.isTypeOf('Enemy')) {
+            chard.centerMapOnMe();
           } else {
-            char.characterSelected(true);
+            if (chard === level.activeCharacter) {
+              chard.characterSelected(true);
+            } else {
+              chard.characterSelected();
+            }
           }
         }
         return;

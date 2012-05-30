@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 20:15:34 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 21:07:47 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/models/character.coffee
  */
 

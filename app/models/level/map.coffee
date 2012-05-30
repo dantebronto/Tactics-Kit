@@ -104,11 +104,14 @@ class RPG.Level.Map
     
     if classes.include('impassable') or classes.include('passable') and !(classes.include('attackable') or classes.include('healable'))
       @clear()
-      if char = RPG.Character.findByPosition(x, y)
-        if char.isTypeOf 'Enemy'
-          char.centerMapOnMe()
+      if chard = RPG.Character.findByPosition(x, y)
+        if chard.isTypeOf 'Enemy'
+          chard.centerMapOnMe()
         else
-          char.characterSelected(true)
+          if chard == level.activeCharacter
+            chard.characterSelected(true)
+          else
+            chard.characterSelected()
       return
     
     if classes.include('attackable') and @canAttack(x, y)
