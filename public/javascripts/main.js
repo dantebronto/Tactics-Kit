@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 21:31:39 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 21:32:59 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/main.coffee
  */
 
@@ -15,7 +15,6 @@
       } catch (ex) {
         console.log(ex);
       }
-      console.log(level);
       return $.getScript("/javascripts/levels/" + level + ".js");
     })();
   }
