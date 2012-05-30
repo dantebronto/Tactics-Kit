@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 01:06:11 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 21:27:12 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/levels/2.coffee
  */
 
@@ -36,6 +36,7 @@
     y: 7,
     name: 'Insanity Wolf',
     strength: 7,
+    accuracy: 70,
     level: 1
   });
 

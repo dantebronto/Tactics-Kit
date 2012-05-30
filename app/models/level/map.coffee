@@ -108,10 +108,7 @@ class RPG.Level.Map
         if chard.isTypeOf 'Enemy'
           chard.centerMapOnMe()
         else
-          if chard == level.activeCharacter
-            chard.characterSelected(true)
-          else
-            chard.characterSelected()
+          if chard == level.activeCharacter then chard.characterSelected(true) else chard.characterSelected()
       return
     
     if classes.include('attackable') and @canAttack(x, y)

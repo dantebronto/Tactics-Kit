@@ -22,6 +22,7 @@ p3 = new RPG.Wolf
   name: 'Insanity Wolf'
   # isBot: true
   strength: 7
+  accuracy: 70
   level: 1
 
 e1 = new RPG.Enemy
