@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 21:07:47 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 21:15:12 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/models/character.coffee
  */
 
@@ -258,7 +258,7 @@
         if (this.spriteImageWidth > 50 || this.spriteImageHeight > 50) {
           el.addClass('oversized');
         }
-        return el.append('<div class="hp small"></div><div class="ap small"></div>');
+        return el.append("<div class='hp small' style='width:" + ((this.hpLeft / this.hp) * 100) + "%'></div>                 <div class='ap small' style='width:" + ((this.apLeft / this.ap) * 100) + "%'></div>");
       }
     };
 

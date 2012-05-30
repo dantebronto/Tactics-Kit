@@ -183,6 +183,7 @@ class RPG.Character
     if el = @getElem()
       el.css('background', "url(#{@sprite}) no-repeat center").addClass('pointer occupied')
       el.addClass 'oversized' if @spriteImageWidth > 50 or @spriteImageHeight > 50
-      el.append('<div class="hp small"></div><div class="ap small"></div>')
+      el.append("<div class='hp small' style='width:#{(@hpLeft/@hp)*100}%'></div>
+                 <div class='ap small' style='width:#{(@apLeft/@ap)*100}%'></div>")
   
   specialMove: (chancePct, cb) -> false
