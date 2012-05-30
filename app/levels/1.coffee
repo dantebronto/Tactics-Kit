@@ -1,14 +1,19 @@
 p1 = new RPG.Player 
   x: 3, y: 1, name: 'Soldier'
   sprite: '/images/sprites/player/paladin.gif'
+  strength: 3
   # isBot: true
   level: 1
+  hp: 75
+  weapon: new RPG.Weapon
+    attack: 1
 
 p2 = new RPG.Player 
   x: 4, y: 1, name: 'Gunner'
   sprite: '/images/sprites/monsters/mercenary.gif'
   # isBot: true
   level: 1
+  accuracy: 90
   weapon: new RPG.Weapon 
     range: 3
 

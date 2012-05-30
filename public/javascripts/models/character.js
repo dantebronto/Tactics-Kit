@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Tue, 29 May 2012 21:55:08 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 20:15:34 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/models/character.coffee
  */
 
@@ -216,8 +216,13 @@
     };
 
     Character.prototype.updateInfo = function() {
+      var el;
       this.eventDispatch.trigger('beforeUpdateInfo');
       this.info.html($(TMPL.characterInfo(this)).html());
+      if (el = this.getElem()) {
+        el.find('.hp').css('width', "" + ((this.hpLeft / this.hp) * 100) + "%");
+        el.find('.ap').css('width', "" + ((this.apLeft / this.ap) * 100) + "%");
+      }
       return this.eventDispatch.trigger('afterUpdateInfo');
     };
 
@@ -240,17 +245,20 @@
     };
 
     Character.prototype.hide = function() {
-      return this.getElem().css('background', 'transparent').removeClass('pointer occupied oversized');
+      var el;
+      el = this.getElem();
+      el.css('background', 'transparent').removeClass('pointer occupied oversized');
+      return el.find('.small').remove();
     };
 
     Character.prototype.show = function() {
       var el;
-      el = this.getElem();
-      if (el != null) {
+      if (el = this.getElem()) {
         el.css('background', "url(" + this.sprite + ") no-repeat center").addClass('pointer occupied');
         if (this.spriteImageWidth > 50 || this.spriteImageHeight > 50) {
-          return el.addClass('oversized');
+          el.addClass('oversized');
         }
+        return el.append('<div class="hp small"></div><div class="ap small"></div>');
       }
     };
 

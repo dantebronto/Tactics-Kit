@@ -7,10 +7,10 @@ class MyApp < Sinatra::Base
   Barista.configure { |c| c.root = 'app' }
   
   set :views, 'app/views'
+  set :public_folder, 'public'
   
-  get '*' do
-    # @level = 1
-    erb :main
+  get '/' do
+    erb :main # just the layout for now
   end
   
   run! if app_file == $0

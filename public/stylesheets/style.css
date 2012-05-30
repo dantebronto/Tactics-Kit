@@ -33,8 +33,10 @@ body { padding: 15px; font-family: arial; font-size: 0.8em; overflow: hidden; ma
 #info .sprite img { display: block; margin: 0 auto; }
 #info .name { text-align:center; font-weight:bold; }
 #info .stat-bar { display: block; height: 12px; position: absolute; z-index: 1; left: 0; border-radius: 5px;}
-#info .hp { background: none repeat scroll 0 0 red; top: 5px; }
-#info .ap { background: none repeat scroll 0 0 blue; top: 20px; }
+.hp { background: none repeat scroll 0 0 red; top: 5px; }
+.ap { background: none repeat scroll 0 0 blue; top: 20px; }
+.hp.small { top: 44px; left: 3px; width:44px; height: 3px; position: absolute; }
+.ap.small { top: 47px; left: 3px; width:44px; height: 3px; position: absolute; }
 
 #stage { overflow:auto; }
 

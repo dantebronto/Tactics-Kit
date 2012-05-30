@@ -95,6 +95,8 @@ class RPG.Level.Map
   bindClicked: -> @elem.bind 'click', (e) => @handleMapClicked(e)
   
   handleMapClicked: (e) ->
+    return if level.activeCharacter?.isTypeOf('Enemy')
+    
     [x, y] = $(e.target).getMatrixCoords()
     
     underlayCell = @underlayMatrix.get(x, y)

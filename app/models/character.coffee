@@ -154,10 +154,13 @@ class RPG.Character
       arrow = $ "<img class='turn-indicator' src='/images/arrow.png' />"
       if ac = level.activeCharacter
         level.map.overlayMatrix.get(ac.x, ac.y).prepend arrow
-      
+  
   updateInfo: ->
     @eventDispatch.trigger 'beforeUpdateInfo'
     @info.html($(TMPL.characterInfo(@)).html())
+    if el = @getElem()
+      el.find('.hp').css('width', "#{(@hpLeft/@hp)*100}%")
+      el.find('.ap').css('width', "#{(@apLeft/@ap)*100}%")
     @eventDispatch.trigger 'afterUpdateInfo'
   
   on: (event, cb) -> @eventDispatch.bind(event, cb)
@@ -172,14 +175,14 @@ class RPG.Character
   remove: -> @hide()
   
   hide: ->
-    @getElem()
-      .css('background', 'transparent')
-      .removeClass('pointer occupied oversized')
+    el = @getElem()
+    el.css('background', 'transparent').removeClass('pointer occupied oversized')
+    el.find('.small').remove()
   
   show: ->
-    el = @getElem()
-    if el?
-      el.css('background', "url(#{@sprite}) no-repeat center").addClass('pointer occupied')    
+    if el = @getElem()
+      el.css('background', "url(#{@sprite}) no-repeat center").addClass('pointer occupied')
       el.addClass 'oversized' if @spriteImageWidth > 50 or @spriteImageHeight > 50
-      
+      el.append('<div class="hp small"></div><div class="ap small"></div>')
+  
   specialMove: (chancePct, cb) -> false

@@ -1,14 +1,19 @@
 p1 = new RPG.Player 
   x: 3, y: 6, name: 'Soldier'
   sprite: '/images/sprites/player/paladin.gif'
-  level: 1
+  strength: 3
   # isBot: true
+  level: 1
+  hp: 75
+  weapon: new RPG.Weapon
+    attack: 1
 
 p2 = new RPG.Player 
   x: 6, y: 4, name: 'Gunner'
   sprite: '/images/sprites/monsters/mercenary.gif'
-  level: 1
   # isBot: true
+  level: 1
+  accuracy: 90
   weapon: new RPG.Weapon 
     range: 3
 
@@ -16,19 +21,20 @@ p3 = new RPG.Wolf
   x:3, y: 7
   name: 'Insanity Wolf'
   # isBot: true
+  strength: 7
   level: 1
 
 e1 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck 1'
   x: 11, y: 1
-  level: 1
+  level: 2
 
 e2 = new RPG.Enemy
   sprite: '/images/penguin2.gif'
   name: 'Robo Duck 2'
   x: 6, y: 7
-  level: 1
+  level: 2
 
 e3 = new RPG.Enemy
   sprite: '/images/penguin2.gif'

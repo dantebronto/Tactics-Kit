@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Tue, 29 May 2012 21:55:07 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 20:17:09 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/models/level/map.coffee
  */
 
@@ -145,8 +145,11 @@
     };
 
     Map.prototype.handleMapClicked = function(e) {
-      var char, classes, underlayCell, x, y, _ref, _ref2, _ref3, _ref4;
-      _ref = $(e.target).getMatrixCoords(), x = _ref[0], y = _ref[1];
+      var char, classes, underlayCell, x, y, _ref, _ref2, _ref3, _ref4, _ref5;
+      if ((_ref = level.activeCharacter) != null ? _ref.isTypeOf('Enemy') : void 0) {
+        return;
+      }
+      _ref2 = $(e.target).getMatrixCoords(), x = _ref2[0], y = _ref2[1];
       underlayCell = this.underlayMatrix.get(x, y);
       classes = _(underlayCell.attr('class').split(' '));
       if (classes.include('impassable') || classes.include('passable') && !(classes.include('attackable') || classes.include('healable'))) {
@@ -161,15 +164,15 @@
         return;
       }
       if (classes.include('attackable') && this.canAttack(x, y)) {
-        if ((_ref2 = level.activeCharacter) != null) _ref2.attack(x, y);
+        if ((_ref3 = level.activeCharacter) != null) _ref3.attack(x, y);
       }
       if (this.playerMatrix.get(x, y).hasClass('occupied') && !classes.include('attackable') && !classes.include('healable')) {
-        if ((_ref3 = RPG.Character.findByPosition(x, y)) != null) {
-          _ref3.characterSelected();
+        if ((_ref4 = RPG.Character.findByPosition(x, y)) != null) {
+          _ref4.characterSelected();
         }
       }
       if (classes.include('movable')) {
-        return (_ref4 = level.activeCharacter) != null ? _ref4.moveTo(x, y) : void 0;
+        return (_ref5 = level.activeCharacter) != null ? _ref5.moveTo(x, y) : void 0;
       }
     };
 

@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Tue, 29 May 2012 21:55:09 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 00:57:26 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/models/character/experience.coffee
  */
 
@@ -27,8 +27,8 @@
       this.level += 1;
       this.hp = Math.floor(50.1 + this.level * 7.65);
       this.expNext = this.hp * 10;
-      this.accuracy = 80 + Math.floor(this.level * 0.19);
-      this.strength = this.level;
+      this.accuracy += Math.random();
+      this.strength += 1;
       this.updateInfo();
       return level.log("Level up! " + this.name + " is now level " + this.level);
     };

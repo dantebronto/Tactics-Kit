@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Tue, 29 May 2012 21:55:05 GMT from
+/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 01:06:11 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/levels/2.coffee
  */
 
@@ -11,7 +11,12 @@
     y: 6,
     name: 'Soldier',
     sprite: '/images/sprites/player/paladin.gif',
-    level: 1
+    strength: 3,
+    level: 1,
+    hp: 75,
+    weapon: new RPG.Weapon({
+      attack: 1
+    })
   });
 
   p2 = new RPG.Player({
@@ -20,6 +25,7 @@
     name: 'Gunner',
     sprite: '/images/sprites/monsters/mercenary.gif',
     level: 1,
+    accuracy: 90,
     weapon: new RPG.Weapon({
       range: 3
     })
@@ -29,6 +35,7 @@
     x: 3,
     y: 7,
     name: 'Insanity Wolf',
+    strength: 7,
     level: 1
   });
 
@@ -37,7 +44,7 @@
     name: 'Robo Duck 1',
     x: 11,
     y: 1,
-    level: 1
+    level: 2
   });
 
   e2 = new RPG.Enemy({
@@ -45,7 +52,7 @@
     name: 'Robo Duck 2',
     x: 6,
     y: 7,
-    level: 1
+    level: 2
   });
 
   e3 = new RPG.Enemy({
