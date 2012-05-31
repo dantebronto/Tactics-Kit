@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 21:15:12 GMT from
+/* DO NOT MODIFY. This file was compiled Thu, 31 May 2012 19:51:32 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/models/character.coffee
  */
 
@@ -248,17 +248,24 @@
       var el;
       el = this.getElem();
       el.css('background', 'transparent').removeClass('pointer occupied oversized');
-      return el.find('.small').remove();
+      el.find('.small').remove();
+      return el.unbind('hover');
     };
 
     Character.prototype.show = function() {
-      var el;
+      var el,
+        _this = this;
       if (el = this.getElem()) {
         el.css('background', "url(" + this.sprite + ") no-repeat center").addClass('pointer occupied');
         if (this.spriteImageWidth > 50 || this.spriteImageHeight > 50) {
           el.addClass('oversized');
         }
-        return el.append("<div class='hp small' style='width:" + ((this.hpLeft / this.hp) * 100) + "%'></div>                 <div class='ap small' style='width:" + ((this.apLeft / this.ap) * 100) + "%'></div>");
+        el.append("<div class='hp small' style='width:" + ((this.hpLeft / this.hp) * 100) + "%'></div>                 <div class='ap small' style='width:" + ((this.apLeft / this.ap) * 100) + "%'></div>");
+        return el.hover((function() {
+          return _this.info.find('.character-info').css('background-color', '#CCC');
+        }), function() {
+          return _this.info.find('.character-info').css('background-color', '#808080');
+        });
       }
     };
 

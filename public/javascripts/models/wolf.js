@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Tue, 29 May 2012 21:55:06 GMT from
+/* DO NOT MODIFY. This file was compiled Thu, 31 May 2012 02:08:40 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/models/wolf.coffee
  */
 
@@ -48,6 +48,15 @@
       RPG.Special.bindGuard(this, 'stay');
       this.showMovableCells = function() {};
       return this.showAttackableCells = function() {};
+    };
+
+    Wolf.prototype.findTarget = function() {
+      var sorted,
+        _this = this;
+      sorted = _(level.enemies).sortBy(function(enemy) {
+        return _this.chebyshevDistance(enemy.x, enemy.y);
+      });
+      return sorted[0];
     };
 
     Wolf.prototype.autoAttackChecked = function() {

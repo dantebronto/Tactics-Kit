@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Tue, 29 May 2012 21:55:08 GMT from
+/* DO NOT MODIFY. This file was compiled Thu, 31 May 2012 02:03:23 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/models/character/special.coffee
  */
 
@@ -42,44 +42,48 @@
       return "<button class='" + this.buttonText + "' " + disabled + " type='button'>" + this.buttonText + "</button>";
     };
 
-    Special.bindAuto = function(char, buttonText) {
+    Special.bindAuto = function(chard, buttonText) {
       var _this = this;
       if (buttonText == null) buttonText = 'auto';
-      if (char.isBot) return;
+      if (chard.isBot) return;
       return new Special({
-        character: char,
+        character: chard,
         buttonText: buttonText,
         action: function() {
-          return char.startTurn(true);
+          return chard.startTurn(true);
         }
       });
     };
 
-    Special.bindGuard = function(char, buttonText) {
+    Special.bindGuard = function(chard, buttonText) {
       var _this = this;
       if (buttonText == null) buttonText = 'guard';
-      if (char.isBot) return;
+      if (chard.isBot) return;
       return new Special({
         apCost: 1,
-        character: char,
+        character: chard,
         buttonText: buttonText,
         action: function() {
-          level.log("" + char.name + " is guarding");
-          return char.subtractAp(char.apLeft);
+          level.log("" + chard.name + " is guarding");
+          return chard.subtractAp(chard.apLeft);
         }
       });
     };
 
-    Special.bindBomb = function(char) {
+    Special.bindBomb = function(chard) {
       var _this = this;
       return new Special({
         apCost: 2,
-        character: char,
+        character: chard,
         buttonText: 'bomb',
         action: function() {
           return (new RPG.Burstable({
             activated: function(x, y) {
               var used;
+              if (!(chard.apLeft > 0)) {
+                level.clear();
+                return;
+              }
               used = [];
               level.map.elem.find('span.attackable').each(function(el) {
                 var elx, ely, _ref;
@@ -110,13 +114,13 @@
                       left: 0,
                       top: 0
                     }, 50, function() {
-                      return char.doDamage(point.x, point.y, 0, 0, true);
+                      return chard.doDamage(point.x, point.y, 0, 0, true);
                     }).shake(3, 3, 200).fadeOut(200, function() {
                       ex.remove();
                       if (index === used.length - 1) {
                         return level.queue(function() {
-                          char.subtractAp(2);
-                          return char.characterSelected();
+                          chard.subtractAp(2);
+                          return chard.characterSelected();
                         });
                       }
                     });

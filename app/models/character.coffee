@@ -178,6 +178,7 @@ class RPG.Character
     el = @getElem()
     el.css('background', 'transparent').removeClass('pointer occupied oversized')
     el.find('.small').remove()
+    el.unbind 'hover'
   
   show: ->
     if el = @getElem()
@@ -185,5 +186,6 @@ class RPG.Character
       el.addClass 'oversized' if @spriteImageWidth > 50 or @spriteImageHeight > 50
       el.append("<div class='hp small' style='width:#{(@hpLeft/@hp)*100}%'></div>
                  <div class='ap small' style='width:#{(@apLeft/@ap)*100}%'></div>")
+      el.hover((=> @info.find('.character-info').css('background-color', '#CCC')), => @info.find('.character-info').css('background-color', '#808080'))
   
   specialMove: (chancePct, cb) -> false

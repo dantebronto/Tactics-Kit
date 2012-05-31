@@ -25,31 +25,34 @@ class RPG.Special
   
   # just some default/basic special moves listed below
   
-  @bindAuto: (char, buttonText='auto') ->
-    return if char.isBot
+  @bindAuto: (chard, buttonText='auto') ->
+    return if chard.isBot
     new Special
-      character: char
+      character: chard
       buttonText: buttonText
-      action: => char.startTurn true
+      action: => chard.startTurn true
   
-  @bindGuard: (char, buttonText='guard') ->
-    return if char.isBot
+  @bindGuard: (chard, buttonText='guard') ->
+    return if chard.isBot
     new Special
       apCost: 1
-      character: char
+      character: chard
       buttonText: buttonText
       action: => 
-        level.log "#{char.name} is guarding"
-        char.subtractAp char.apLeft
+        level.log "#{chard.name} is guarding"
+        chard.subtractAp chard.apLeft
   
-  @bindBomb: (char) ->
+  @bindBomb: (chard) ->
     new Special
       apCost: 2
-      character: char
+      character: chard
       buttonText: 'bomb'
       action: =>
         (new RPG.Burstable
           activated: (x,y) =>
+            unless chard.apLeft > 0
+              level.clear()
+              return 
             used = []
             level.map.elem.find('span.attackable').each (el) ->
               [elx, ely] = $(@).getMatrixCoords()
@@ -62,13 +65,13 @@ class RPG.Special
                   ex.css { width: '0px', height: '0px', position: 'absolute', left: 25, top: 25 }
                   level.map.statMatrix.get(point.x, point.y).prepend(ex)
                   ex.animate({ width: '+=50', height: '+=50', left: 0, top: 0 }, 50, ->
-                    char.doDamage(point.x, point.y, 0, 0, true)
+                    chard.doDamage(point.x, point.y, 0, 0, true)
                   ).shake(3,3,200).fadeOut 200, ->
                     ex.remove()
                     if index == used.length - 1 # last hit
                       level.queue -> 
-                        char.subtractAp(2)
-                        char.characterSelected()
+                        chard.subtractAp(2)
+                        chard.characterSelected()
           onHover: (x,y) ->
             um = level.map.underlayMatrix
             for cell in [ um.get(x, y), um.get(x-1,y), um.get(x+1, y), um.get(x, y+1), um.get(x, y-1) ]
