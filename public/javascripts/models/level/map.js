@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Wed, 30 May 2012 21:25:13 GMT from
+/* DO NOT MODIFY. This file was compiled Thu, 31 May 2012 21:10:18 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/models/level/map.coffee
  */
 
@@ -80,7 +80,7 @@
     Map.prototype.cellFromTemplate = function(x, y, type) {
       var clone;
       clone = this.cellTemplate.clone();
-      return clone.addClass(type).attr('title', "" + x + ", " + y).attr('id', "" + type + "-cell-" + x + "-" + y);
+      return clone.addClass(type).attr('id', "" + type + "-cell-" + x + "-" + y);
     };
 
     Map.prototype.add = function(obj) {

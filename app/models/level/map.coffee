@@ -61,7 +61,7 @@ class RPG.Level.Map
     clone = @cellTemplate.clone()
     clone
       .addClass(type)
-      .attr('title', "#{x}, #{y}")
+      # .attr('title', "#{x}, #{y}")
       .attr 'id', "#{type}-cell-#{x}-#{y}"
   
   add: (obj) ->
