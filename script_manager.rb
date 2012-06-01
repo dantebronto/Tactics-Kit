@@ -36,6 +36,7 @@ class ScriptManager
       '/javascripts/models/medic.js',
       '/javascripts/models/spawner.js',
       '/javascripts/models/wolf.js',
+      '/javascripts/helpers/targeting_helper.js',
       '/javascripts/helpers/animation_helper.js',
       '/javascripts/main.js'
     ]

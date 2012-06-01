@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Thu, 31 May 2012 02:08:40 GMT from
+/* DO NOT MODIFY. This file was compiled Fri, 01 Jun 2012 13:30:16 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/models/wolf.coffee
  */
 
@@ -51,12 +51,7 @@
     };
 
     Wolf.prototype.findTarget = function() {
-      var sorted,
-        _this = this;
-      sorted = _(level.enemies).sortBy(function(enemy) {
-        return _this.chebyshevDistance(enemy.x, enemy.y);
-      });
-      return sorted[0];
+      return RPG.TargetingHelper.closest(this);
     };
 
     Wolf.prototype.autoAttackChecked = function() {

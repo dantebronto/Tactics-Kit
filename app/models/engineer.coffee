@@ -95,3 +95,5 @@ class RPG.Engineer.Turret extends RPG.Player
     @creator.turretCount += 1
     
     @special.disabled = true if @creator.turretCount >= 2
+    
+    findTarget: -> RPG.TargetingHelper.closest(@)

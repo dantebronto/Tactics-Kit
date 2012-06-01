@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Tue, 29 May 2012 21:55:07 GMT from
+/* DO NOT MODIFY. This file was compiled Fri, 01 Jun 2012 13:30:16 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/models/engineer.coffee
  */
 
@@ -144,6 +144,11 @@
       this.creator.subtractAp(this.special.apCost || 2);
       this.creator.turretCount += 1;
       if (this.creator.turretCount >= 2) this.special.disabled = true;
+      ({
+        findTarget: function() {
+          return RPG.TargetingHelper.closest(this);
+        }
+      });
     }
 
     return Turret;

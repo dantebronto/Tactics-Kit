@@ -25,9 +25,7 @@ class RPG.Wolf extends RPG.Player
     @showMovableCells = ->
     @showAttackableCells = ->
   
-  findTarget: ->
-    sorted = _(level.enemies).sortBy (enemy) => @chebyshevDistance(enemy.x, enemy.y)
-    sorted[0]
+  findTarget: -> RPG.TargetingHelper.closest(@)
   
   autoAttackChecked: -> @info.find('input.auto-attack').is(':checked')
   startTurn: -> if @autoAttackChecked() then super(true) else super
