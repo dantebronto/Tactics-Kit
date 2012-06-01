@@ -2,6 +2,7 @@ p1 = new RPG.Player
   x: 8, y: 1, name: 'Soldier'
   sprite: '/images/sprites/player/paladin.gif'
   level: 5
+  stregnth: 8
   # isBot: true
 
 p2 = new RPG.Player 
@@ -9,6 +10,7 @@ p2 = new RPG.Player
   sprite: '/images/sprites/monsters/mercenary.gif'
   # isBot: true
   level: 5
+  accuracy: 90
   weapon: new RPG.Weapon 
     range: 3
 
@@ -28,6 +30,8 @@ p4 = new RPG.Medic
 p5 = new RPG.Wolf
   x:10, y: 2
   name: 'Insanity Wolf'
+  strength: 12
+  accuracy: 70
   # isBot: true
   level: 5
 

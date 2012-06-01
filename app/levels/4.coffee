@@ -3,6 +3,7 @@ p2 = new RPG.Player
   sprite: '/images/sprites/monsters/mercenary.gif'
   # isBot: true
   level: 1
+  accuracy: 90
   weapon: new RPG.Weapon
     range: 3
 
