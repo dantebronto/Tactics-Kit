@@ -14,7 +14,7 @@ class RPG.Experience
   onLevelUp: ->
     @level += 1
     @hp = Math.floor 50.1+@level*7.65
-    @expNext = @hp*10
+    @expNext = @exp + @hp*10
     @accuracy += Math.random()
     @strength += 1
     @updateInfo()
