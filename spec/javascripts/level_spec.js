@@ -1,13 +1,14 @@
 (function() {
+
   describe("Level", function() {
     it("should be global", function() {
-      return expect(window.Level).toEqual(Level);
+      return expect(RPG.Level).toEqual(RPG.Level);
     });
     it("should have a matrix implementation", function() {
-      return expect(Level.Matrix).toBeDefined();
+      return expect(RPG.Level.Matrix).toBeDefined();
     });
     it("should have a map implementation", function() {
-      return expect(Level.Map).toBeDefined();
+      return expect(RPG.Level.Map).toBeDefined();
     });
     return describe("constructor", function() {
       var l, myFunc1, myFunc2;
@@ -19,7 +20,7 @@
         return 'myFunc2';
       };
       beforeEach(function() {
-        return l = new Level({
+        return l = new RPG.Level({
           map: {
             terrain: [[15, 15], [15, 15]]
           },
@@ -31,7 +32,7 @@
         return expect(l.map).toBeDefined();
       });
       it("should have a map that is of class Map", function() {
-        return expect(l.map.__proto__).toEqual(Level.Map.prototype);
+        return expect(l.map.__proto__).toEqual(RPG.Level.Map.prototype);
       });
       it("should allow you to set a fn to fire every turn", function() {
         return expect(l.turnFunction).toEqual(myFunc1);
@@ -41,4 +42,5 @@
       });
     });
   });
+
 }).call(this);

@@ -1,18 +1,19 @@
 (function() {
+
   describe("Matrix", function() {
     describe("creating a new initialized array", function() {
       it("should set all values of a new array to the provided value", function() {
-        return expect(Level.Matrix.newFilledMatrix(2, 3, 6).raw).toEqual([[6, 6, 6], [6, 6, 6]]);
+        return expect(RPG.Level.Matrix.newFilledMatrix(2, 3, 6).raw).toEqual([[6, 6, 6], [6, 6, 6]]);
       });
       it("should set the correct dimensions", function() {
         var matrix;
-        matrix = Level.Matrix.newFilledMatrix(1, 3);
+        matrix = RPG.Level.Matrix.newFilledMatrix(1, 3);
         expect(matrix.rowCount).toEqual(1);
         return expect(matrix.colCount).toEqual(3);
       });
       return it("should default the value to zero", function() {
         var matrix;
-        matrix = Level.Matrix.newFilledMatrix(1, 3);
+        matrix = RPG.Level.Matrix.newFilledMatrix(1, 3);
         return expect(matrix.get(0, 0)).toEqual(0);
       });
     });
@@ -20,10 +21,10 @@
       var matrix;
       matrix = null;
       beforeEach(function() {
-        return matrix = new Level.Matrix([[1, 2], [3, 4], [5, 6]]);
+        return matrix = new RPG.Level.Matrix([[1, 2], [3, 4], [5, 6]]);
       });
       it("should be in the level module", function() {
-        return expect(Level.Matrix).toBeDefined();
+        return expect(RPG.Level.Matrix).toBeDefined();
       });
       it("should accept a 2D array and call it raw", function() {
         return expect(matrix.raw[0]).toEqual([1, 2]);
@@ -62,4 +63,5 @@
       return it("should ");
     });
   });
+
 }).call(this);

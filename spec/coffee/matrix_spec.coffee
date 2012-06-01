@@ -2,15 +2,15 @@ describe "Matrix", ->
 
   describe "creating a new initialized array", ->
     it "should set all values of a new array to the provided value", ->
-      expect(Level.Matrix.newFilledMatrix(2,3,6).raw).toEqual([[6,6,6], [6,6,6]])
+      expect(RPG.Level.Matrix.newFilledMatrix(2,3,6).raw).toEqual([[6,6,6], [6,6,6]])
       
     it "should set the correct dimensions", ->
-      matrix = Level.Matrix.newFilledMatrix(1,3)
+      matrix = RPG.Level.Matrix.newFilledMatrix(1,3)
       expect(matrix.rowCount).toEqual(1)
       expect(matrix.colCount).toEqual(3)
       
     it "should default the value to zero", ->
-      matrix = Level.Matrix.newFilledMatrix(1,3)
+      matrix = RPG.Level.Matrix.newFilledMatrix(1,3)
       expect(matrix.get(0,0)).toEqual(0)
 
   describe "when passing an array", ->
@@ -19,7 +19,7 @@ describe "Matrix", ->
       matrix = new RPG.Level.Matrix([[1,2], [3,4], [5,6]])
   
     it "should be in the level module", ->
-      expect(Level.Matrix).toBeDefined()
+      expect(RPG.Level.Matrix).toBeDefined()
   
     it "should accept a 2D array and call it raw", ->
       expect(matrix.raw[0]).toEqual([1,2])
