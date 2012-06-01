@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Tue, 29 May 2012 21:55:05 GMT from
+/* DO NOT MODIFY. This file was compiled Fri, 01 Jun 2012 14:36:15 GMT from
  * /Users/kellenpresley/source/tactics-engine/app/levels/4.coffee
  */
 
@@ -12,6 +12,7 @@
     name: 'Gunner',
     sprite: '/images/sprites/monsters/mercenary.gif',
     level: 1,
+    accuracy: 90,
     weapon: new RPG.Weapon({
       range: 3
     })

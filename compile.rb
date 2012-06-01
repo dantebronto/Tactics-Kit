@@ -12,6 +12,6 @@ compile_command = "cat "
 ScriptManager.minified_scripts.each do |script|
   compile_command += "public#{script} "
 end
-compile_command += " | uglify/UglifyJS/bin/uglifyjs -nmf >> public/javascripts/game.min.js"
+compile_command += " | uglify/UglifyJS/bin/uglifyjs -nm >> public/javascripts/game.min.js"
 
 `#{compile_command}`

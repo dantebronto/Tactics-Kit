@@ -1,7 +1,3 @@
-/* DO NOT MODIFY. This file was compiled Thu, 31 May 2012 01:59:39 GMT from
- * /Users/kellenpresley/source/tactics-engine/app/levels/5.coffee
- */
-
 (function() {
   var e1, e2, e3, e4, level, p1, p2, p3, p4, p5, terrain,
     _this = this;
@@ -11,7 +7,8 @@
     y: 1,
     name: 'Soldier',
     sprite: '/images/sprites/player/paladin.gif',
-    level: 5
+    level: 5,
+    stregnth: 8
   });
 
   p2 = new RPG.Player({
@@ -20,6 +17,7 @@
     name: 'Gunner',
     sprite: '/images/sprites/monsters/mercenary.gif',
     level: 5,
+    accuracy: 90,
     weapon: new RPG.Weapon({
       range: 3
     })
@@ -45,6 +43,8 @@
     x: 10,
     y: 2,
     name: 'Insanity Wolf',
+    strength: 12,
+    accuracy: 70,
     level: 5
   });
 
