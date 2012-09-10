@@ -1,6 +1,6 @@
-h1. rpgQuery: A tactical RPG written in jQuery
+h1. Tacktics Kit: A tactical RPG
 
-rpgQuery is a proof of concept game using only jQuery and HTML5 localStorage to save progress. For ease of use, it also uses Sinatra's built-in web server.
+Tacktics Kit is a proof of concept game using only jQuery and HTML. For ease of use, it also uses Sinatra's built-in web server.
 
 h1. Screenshots
 
@@ -10,22 +10,11 @@ h1. Screenshots
 
 h1. Setup
 
-p. First clone the project. If you have Ruby and Sinatra installed you should be able to run:
-<pre>ruby app.rb</pre>
+p. First clone the project. Then use bundler to install the necessary dependencies:
 
-p. You may need to require rubygems if using Ruby 1.8.x
-<pre>ruby -rubygems app.rb</pre>
+<pre>bundle install</pre>
+
+p. Then you should be able to run:
+<pre>ruby server.rb</pre>
 
 p. From here you can simply hit http://localhost:4567/ to begin playing. Enjoy!
-
-
-
-h1. Ad Ranking Engine
-
-p. Upvote or downvote of ads.
-
-p. User user preferences to build a demographic profile. 
-
-p. Deliver highly targeted ads and potentially gather, process, and resell user data
-
-p. Need to figure out ad revenue numbers and calculate average and recurring revenue per user
